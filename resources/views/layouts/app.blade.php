@@ -16,7 +16,10 @@
 </head>
 
 <body>
-
+    {{-- @php
+        $brands = getAllActiveBrand();
+    @endphp --}}
+    {{-- {{ formatNumber(12345.6789) }} --}}
   @include('layouts.header')
   @yield('content')
   @include('layouts.footer')

@@ -1,8 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+// use App\Helper\Helpers;
 
+use App\Models\BannerImage;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -11,8 +16,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($brandslug = null)
     {
-        return view('home');
+        if ($brandslug) {
+            $brand = Brand::where('slug', $brandslug)->first();
+        } else {
+            $brand = Brand::where('main_brand', 1)->first();
+        }
+        $brand_id = $brand->id;
+        session(['active-brand' => $brand->id]);
+
+        //get banner
+        $banner = BannerImage::All();
+
+        return view('home', compact('brand_id', 'banner'));
     }
 }

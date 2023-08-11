@@ -4,12 +4,25 @@
         <div class="container-fluid">
           <div class="nav nav-tabs nav-fill me-auto my-2 my-lg-0" id="nav-tab" role="tablist"
             style="border: none !important">
-            <a class="nav-item nav-link brand-link brand-active" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-              role="tab" aria-controls="nav-home" aria-selected="true">Brand 1</a>
-            <a class="nav-item nav-link brand-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-              role="tab" aria-controls="nav-profile" aria-selected="false">Brand 2</a>
-            <a class="nav-item nav-link brand-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
-              role="tab" aria-controls="nav-contact" aria-selected="false">Brand 3</a>
+
+            @php
+                $brands = getAllActiveBrand();
+            @endphp
+
+            @foreach ($brands as $index => $item)
+                @php
+                    if(session('active-brand') === $item->id){
+                        $active_brand = 'brand-active';
+                    } else {
+                        $active_brand = '';
+                    }
+                @endphp
+                <a class="nav-item nav-link brand-link {{$active_brand}}"
+                    id="nav-home-tab" data-toggle="tab" href="{{route('home',['brandslug' => $item->slug])}}"
+                    role="tab" aria-controls="nav-home" aria-selected="true">{{$item->brand_name}}
+                </a>
+            @endforeach
+
           </div>
           <button class="btn d-none d-lg-block" type="button" id="languageDropdown" data-bs-toggle="modal"
             data-bs-target="#languageModal">
@@ -99,15 +112,17 @@
             </div>
             <div class="offcanvas-body flex-column flex-sm-row ">
               <ul class="navbar-nav mx-auto mobile-navbar-nav">
-                <li class="nav-item ">
-                  <a class="nav-link category-link" href="#">Category 1</a>
-                </li>
-                <li class="nav-item ">
-                  <a class="nav-link category-link" href="#">Category 2</a>
-                </li>
-                <li class="nav-item ">
-                  <a class="nav-link category-link" href="#">Category 3 </a>
-                </li>
+                @php
+                $categories = getAllCategoriesByBrand();
+                @endphp
+
+                @foreach ($categories as $index => $item)
+                    <li class="nav-item ">
+                        <a class="nav-link category-link" href="#">{{ strtoupper($item->category_name) }}</a>
+                    </li>
+                @endforeach
+
+
               </ul>
             </div>
           </div>
