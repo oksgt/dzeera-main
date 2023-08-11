@@ -16,4 +16,5 @@
       </div> --}}
     </div>
   </div>
+  {{env('APP_URL_ADMIN')}}
 @endsection
