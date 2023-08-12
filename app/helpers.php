@@ -31,6 +31,6 @@ function formatNumber($number)
 }
 
 function imageDir(){
-    return env('APP_URL_ADMIN');
+    return 'https://admin.dzeera.com/';
 }
 
