@@ -5,7 +5,7 @@
     <div class="carousel-inner">
         @foreach ($banner as $index => $item)
             <div class="carousel-item @if ($index === 0) active @endif">
-            <img src="{{ env('APP_URL_ADMIN').'banner/'.$item->file_name}}" class="d-block w-100" alt="{{$item->file_name}}">
+            <img src="{{ imageDir().'banner/'.$item->file_name}}" class="d-block w-100" alt="{{$item->file_name}}">
           </div>
         @endforeach
       {{-- <div class="carousel-item active">
@@ -16,5 +16,4 @@
       </div> --}}
     </div>
   </div>
-  {{env('APP_URL_ADMIN')}}
 @endsection

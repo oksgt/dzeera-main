@@ -30,3 +30,7 @@ function formatNumber($number)
     return number_format($number, 2);
 }
 
+function imageDir(){
+    return env('APP_URL_ADMIN');
+}
+
