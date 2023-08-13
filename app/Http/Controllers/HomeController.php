@@ -29,6 +29,8 @@ class HomeController extends Controller
         //get banner
         $banner = BannerImage::All();
 
+        //get new arrival
+
         return view('home', compact('brand_id', 'banner'));
     }
 }

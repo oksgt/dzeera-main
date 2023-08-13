@@ -26,10 +26,7 @@
         <div class="col-sm">
           <h5>Payment Method</h5>
           <ul class="payment-method-list">
-            <li><a class="link-secondary" href="#"><i class="fa fa-cc-visa link-secondary"></i> Visa</a></li>
-            <li><a class="link-secondary" href="#"><i class="fa fa-cc-mastercard link-secondary"></i> Mastercard</a></li>
-            <li><a class="link-secondary" href="#"><i class="fa fa-cc-paypal link-secondary"></i> PayPal</a></li>
-            <li><a class="link-secondary" href="#"><i class="fa fa-cc-amazon-pay link-secondary"></i> Amazon Pay</a></li>
+            <li><a class="link-secondary" href="#">Bank Transfer</li>
           </ul>
         </div>
         <div class="col-sm">
