@@ -2,6 +2,7 @@
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\SocialMedia;
 
 if (! function_exists('formatCurrency')) {
     function formatCurrency($amount)
@@ -34,3 +35,6 @@ function imageDir(){
     return 'https://admin.dzeera.com/';
 }
 
+function getSocialMedia(){
+    return SocialMedia::where('brand_id', session('active-brand'))->get();
+}

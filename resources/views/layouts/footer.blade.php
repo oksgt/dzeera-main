@@ -11,10 +11,16 @@
         <div class="col-sm">
           <h5>Social Media</h5>
           <ul class="social-media-list">
-            <li><a class="link-secondary" href="#" ><i class="fa fa-facebook link-secondary"></i> Facebook</a></li>
-            <li><a class="link-secondary" href="#"><i class="fa fa-twitter link-secondary"></i> Twitter</a></li>
+            @php
+                $SocialMedia = getSocialMedia();
+            @endphp
+            @foreach ($SocialMedia as $index => $item)
+                <li><a target="_blank" class="link-secondary" href="{!! $item->url !!}" ><i class="{{$item->icon}} link-secondary"></i> {{$item->social_media}}</a></li>
+            @endforeach
+
+            {{-- <li><a class="link-secondary" href="#"><i class="fa fa-twitter link-secondary"></i> Twitter</a></li>
             <li><a class="link-secondary" href="#"><i class="fa fa-instagram link-secondary"></i> Instagram</a></li>
-            <li><a class="link-secondary" href="#"><i class="fa fa-youtube link-secondary"></i> YouTube</a></li>
+            <li><a class="link-secondary" href="#"><i class="fa fa-youtube link-secondary"></i> YouTube</a></li> --}}
           </ul>
         </div>
         <div class="col-sm">
