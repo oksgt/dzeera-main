@@ -26,7 +26,7 @@
         <div class="col-sm">
           <h5>Payment Method</h5>
           <ul class="payment-method-list">
-            <li><a class="link-secondary" href="#">Bank Transfer</li>
+            <li><a class="link-secondary" href="#">Bank Transfer</a></li>
           </ul>
         </div>
         <div class="col-sm">
