@@ -7,6 +7,7 @@ use App\Models\BannerImage;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -30,7 +31,10 @@ class HomeController extends Controller
         $banner = BannerImage::All();
 
         //get new arrival
+        $newArrivals = getNewArrivals();
 
-        return view('home', compact('brand_id', 'banner'));
+        // dd($newArrivals);
+
+        return view('home', compact('brand_id', 'banner', 'newArrivals'));
     }
 }

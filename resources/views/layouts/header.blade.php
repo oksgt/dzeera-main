@@ -48,7 +48,7 @@
             <div class="ms-auto d-none d-lg-block p-0">
               <button class="btn btn-lg btn-circle btn-outline-transparent"><i class="fa fa-search"></i></button>
               <button class="btn btn-lg btn-circle btn-outline-transparent position-relative">
-                <i class="fa fa-heart-o"></i>
+                <i class="fa fa-heart"></i>
                 <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">5</span>
               </button>
               <button class="btn btn-lg btn-circle btn-outline-transparent position-relative">
@@ -79,7 +79,7 @@
             <div class="mx-auto">
               <button class="btn btn-circle btn-outline-transparent"><i class="fa fa-search"></i></button>
               <button class="btn btn-lg btn-circle btn-outline-transparent position-relative">
-                <i class="fa fa-heart-o"></i>
+                <i class="fa fa-heart"></i>
                 <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">5</span>
               </button>
               <button class="btn btn-lg btn-circle btn-outline-transparent position-relative">

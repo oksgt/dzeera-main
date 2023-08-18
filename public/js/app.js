@@ -44,7 +44,7 @@ if (isMobile) {
 
 
 var splide = new Splide('#slide_new_arrivals', {
-    type: 'loop',
+    type: 'slide',
     perPage: slide_new_arrivals_item,
     rewind: true,
 });
@@ -59,7 +59,7 @@ var splide = new Splide('#slide_category', {
 splide.mount();
 
 var splide = new Splide('#slide_category_1', {
-    type: 'loop',
+    type: 'slide',
     perPage: slide_category_1,
     rewind: true,
 });
@@ -67,7 +67,7 @@ var splide = new Splide('#slide_category_1', {
 splide.mount();
 
 var splide = new Splide('#slide_category_2', {
-    type: 'loop',
+    type: 'slide',
     perPage: slide_category_2,
     rewind: true,
 });
@@ -75,7 +75,7 @@ var splide = new Splide('#slide_category_2', {
 splide.mount();
 
 var splide = new Splide('#slide_category_3', {
-    type: 'loop',
+    type: 'slide',
     perPage: slide_category_3,
     rewind: true,
 });
