@@ -149,3 +149,12 @@ function getProductByCategoryIndex($category_id){
     }
     return $data_obj;
 }
+
+
+function getVids(){
+    $data = DB::select("
+    select* from video_embeds ve where is_active = 1
+    and brand_id  = ?
+    ", [session('active-brand')]);
+    return $data;
+}

@@ -106,9 +106,10 @@
     @php
         $highlighted_product = getHighlightedProduct();
         $highlighted_categories = getHighlightedCategories();
+        $videos = getVids();
     @endphp
 
-    @if ($highlighted_product && $highlighted_product[0])
+    @if ($highlighted_product && isset($highlighted_product[0]))
         @php
             $image = $highlighted_product[0]->file_name == null || $highlighted_product[0]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[0]->file_name;
         @endphp
@@ -131,7 +132,7 @@
         </div>
     @endif
 
-    @if ($highlighted_categories && $highlighted_categories[0])
+    @if ($highlighted_categories && isset($highlighted_categories[0]))
         <section id="special" class="">
             <div class="container mt-3">
                 <div class="title text-center py-3">
@@ -359,6 +360,28 @@
         </section>
     @endif
 
+    @if ($highlighted_product && isset($highlighted_product[2]))
+        @php
+            $image = $highlighted_product[2]->file_name == null || $highlighted_product[2]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[2]->file_name;
+        @endphp
+
+        <div class="container mt-4">
+            <div class="row col">
+                <div class="card mb-3 border-0">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     @if ($highlighted_categories && isset($highlighted_categories[2]))
         <section id="special" class="">
@@ -462,5 +485,17 @@
         </section>
     @endif
 
+    @if ($videos)
+        @foreach ($videos as $item)
+            <div class="container">
+                <div class="row mt-3  p-1">
+                <div class="text-center my-5 ratio ratio-16x9">
+                    <iframe src="{!! $item->url !!}" allowfullscreen>
+                    </iframe>
+                </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
 
 @endsection
