@@ -49,7 +49,7 @@
                                                         </a>
                                                         <a href="#"
                                                             class="float-right btn mt-1 btn-outline-transparent "
-                                                            style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
+                                                            style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                         </a>
                                                     </div>
                                                 </div>
@@ -64,8 +64,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <a href="#" class="d-block btn mt-1 btn-outline-transparent "
-                        style="width: 100% !important; border: 1px solid inherit !important; max-width: 100px !important;">View
-                        All</a>
+                        style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                 </div>
             </div>
         </div>
@@ -227,8 +226,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <a href="#" class="d-block btn mt-1 btn-outline-transparent "
-                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 100px !important;">View
-                            All</a>
+                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                     </div>
                 </div>
             </div>
@@ -353,7 +351,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <a href="#" class="d-block btn mt-1 btn-outline-transparent "
-                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 100px !important;">View All</a>
+                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                     </div>
                 </div>
             </div>
@@ -478,7 +476,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <a href="#" class="d-block btn mt-1 btn-outline-transparent "
-                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 100px !important;">View All</a>
+                            style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                     </div>
                 </div>
             </div>

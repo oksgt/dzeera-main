@@ -26,7 +26,7 @@
           </div>
           <button class="btn d-none d-lg-block" type="button" id="languageDropdown" data-bs-toggle="modal"
             data-bs-target="#languageModal">
-            <img src="asset_sample/img/ina-flag.png" alt="Language" width="20" height="20" class="me-2">
+            <img src="asset_sample/img/{{ __('general.flag') }}-flag.png" alt="Language" width="20" height="20" class="me-2">
           </button>
           <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block"><i
               class="fa fa-user-o"></i></button>
@@ -97,12 +97,13 @@
               <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  <img src="asset_sample/img/ina-flag.png" alt="Language" width="20" height="20" class="me-2"> Indonesia
+                  <img src="asset_sample/img/{{ __('general.flag') }}-flag.png" alt="{{ __('general.language') }}" width="20" height="20" class="me-2">
+                  {{ strtoupper(Lang::locale()) == 'ID' ? "Indonesia" : "English" }}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                  <li><a class="dropdown-item" href="#"><img src="asset_sample/img/uk-flag.png" alt="Language" width="20" height="20"
+                  <li><a class="dropdown-item" href="lang/en"><img src="asset_sample/img/{{ __('general.flag') }}-flag.png" alt="{{ __('general.language') }}" width="20" height="20"
                         class="me-2"> English</a></li>
-                  <li><a class="dropdown-item" href="#"><img src="asset_sample/img/ina-flag.png" alt="Language" width="20"
+                  <li><a class="dropdown-item" href="lang/id"><img src="asset_sample/img/{{ __('general.flag') }}-flag.png" alt="{{ __('general.language') }}" width="20"
                         height="20" class="me-2"> Indonesia</a></li>
                 </ul>
               </div>

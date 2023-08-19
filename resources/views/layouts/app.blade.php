@@ -30,16 +30,17 @@
   <div class="modal-dialog modal-sm modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body justify-content-center d-flex">
-        <div class="dropdown">
-          <button class="btn dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown"
+        <div class="dropdown w-100" >
+          <button class="btn dropdown-toggle w-100" type="button" id="languageDropdown" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="img/ina-flag.png" alt="Language" width="20" height="20" class="me-2"> Indonesia
+            <img src="asset_sample/img/{{ __('general.flag') }}-flag.png" alt="{{ __('general.language') }}" width="20" height="20" class="me-2">
+            {{ strtoupper(Lang::locale()) == 'ID' ? "Bahasa Indonesia" : "English" }}
           </button>
-          <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-            <li><a class="dropdown-item" href="#"><img src="img/uk-flag.png" alt="Language" width="20" height="20"
+          <ul class="dropdown-menu w-100" aria-labelledby="languageDropdown">
+            <li><a class="dropdown-item" href="lang/en"><img src="asset_sample/img/uk-flag.png" alt="{{ __('general.language') }}" width="20" height="20"
                   class="me-2"> English</a></li>
-            <li><a class="dropdown-item" href="#"><img src="img/ina-flag.png" alt="Language" width="20" height="20"
-                  class="me-2"> Indonesia</a></li>
+            <li><a class="dropdown-item" href="lang/id"><img src="asset_sample/img/ina-flag.png" alt="{{ __('general.language') }}" width="20" height="20"
+                  class="me-2"> Bahasa Indonesia</a></li>
           </ul>
         </div>
       </div>
