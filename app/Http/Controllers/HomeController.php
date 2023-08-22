@@ -129,7 +129,7 @@ class HomeController extends Controller
             });
 
             $filtered_['from'] = __('general.minPrice').': '.formatnumber($to);
-            $filtered_['to'] = __('general.mixPrice').': '.formatnumber($from);
+            $filtered_['to'] = __('general.maxPrice').': '.formatnumber($from);
         }
 
         if(!empty($request->get('sort'))){
