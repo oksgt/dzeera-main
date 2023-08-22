@@ -22,5 +22,6 @@ return [
     'priceLow'  => 'Harga Terendah',
     'nameAsc'   => 'Nama (A-Z)',
     'nameDesc'  => 'Nama (Z-A)',
-    'removeFilter' => 'Hapus Filter'
+    'removeFilter' => 'Hapus Filter',
+    'sortOption' => 'Urutkan'
 ];

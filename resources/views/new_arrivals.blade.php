@@ -98,7 +98,7 @@
                         <div class="col text-end">
                             <div class="btn-group">
                                 <button id="dropdownButton" class="btn btn-outline-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-sort"></i> <span id="selectedOptionText">Select an Option</span>
+                                    <i class="fas fa-sort"></i> <span id="selectedOptionText">{{__('general.sortOption')}}</span>
                                   </button>
                                   <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.newest')}}', 'fas fa-arrow-up-wide-short')"><i class="fas fa-arrow-up-wide-short"></i> {{__('general.newest')}}</a></li>

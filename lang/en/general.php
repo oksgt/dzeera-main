@@ -22,5 +22,6 @@ return [
     'priceLow'  => 'Lowest Price',
     'nameAsc'   => 'Name (A-Z)',
     'nameDesc'  => 'Name (Z-A)',
-    'removeFilter' => 'Remove Filter'
+    'removeFilter' => 'Remove Filter',
+    'sortOption' => 'Select an Option'
 ];
