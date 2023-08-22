@@ -44,6 +44,7 @@ class HomeController extends Controller
         $perPage = 10;
 
         $filtered_ = [
+            'use_filter'    => "",
             'category'      => "",
             'from'          => "",
             'to'            => "",
@@ -59,12 +60,17 @@ class HomeController extends Controller
         }
         $brand_id = $brand->id;
         session(['active-brand' => $brand->id]);
+        session(['active-brand-name' => strtolower($brand->brand_name)]);
 
         $sql = "select p.*, pi2.file_name from products p
         join product_tags pt on pt.product_id = p.id
         left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
         where pt.tag_id = 1 and p.product_availability = 'y'
         and p.brand_id = ? ";
+
+        if(!empty($request->get('use_filter'))){
+            $filtered_['use_filter'] = 1;
+        }
 
         if(!empty($request->get('search'))){
             $query_ = $request->input('search', '');
@@ -110,14 +116,22 @@ class HomeController extends Controller
                 return ($obj->price >= $from && $obj->price <= $to);
             });
 
-            $filtered_['from'] = __('general.minPrice').': '.$to;
-            $filtered_['to'] = __('general.mixPrice').': '.$from;
+            $filtered_['from'] = __('general.minPrice').': '.formatnumber($to);
+            $filtered_['to'] = __('general.mixPrice').': '.formatnumber($from);
         }
 
-        // dd($newArrivals);
+        if(!empty($request->get('fromInput2'))){
+            $from   = $request->input('fromInput2');
+            $to     = $request->input('toInput2');
 
-        $banner = BannerImage::All();
+            $newArrivals = array_filter($newArrivals, function ($obj) use ($from, $to) {
+                return ($obj->price >= $from && $obj->price <= $to);
+            });
 
-        return view('new_arrivals', compact('brand_id', 'newArrivals', 'banner'));
+            $filtered_['from'] = __('general.minPrice').': '.formatnumber($to);
+            $filtered_['to'] = __('general.mixPrice').': '.formatnumber($from);
+        }
+        // dd($filtered_);
+        return view('new_arrivals', compact('brand_id', 'newArrivals', 'filtered_'));
     }
 }

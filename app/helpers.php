@@ -158,3 +158,33 @@ function getVids(){
     ", [session('active-brand')]);
     return $data;
 }
+
+function checkArrayValuesNotEmpty($array) {
+    foreach ($array as $key => $value) {
+      if (is_array($value)) {
+        if (empty(array_filter($value))) {
+          return false;
+        }
+      } else {
+        if (empty($value)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  function checkAllKeysNotEmpty($array) {
+    foreach ($array as $key => $value) {
+      if (is_array($value)) {
+        if (checkAllKeysNotEmpty($value) === false) {
+          return false;
+        }
+      } else {
+        if (empty($value)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }

@@ -14,5 +14,13 @@ return [
     'category'    => 'Kategori',
     'applyFilter' => 'Terapkan Filter',
     'search'      => 'Cari',
-    'all'         => 'Semua'
+    'all'         => 'Semua',
+    'sort'        => 'Urutkan',
+    'newest' => 'Terbaru',
+    'oldest' => 'Terlama',
+    'priceHigh' => 'Harga Tertinggi',
+    'priceLow'  => 'Harga Terendah',
+    'nameAsc'   => 'Nama (A-Z)',
+    'nameDesc'  => 'Nama (Z-A)',
+    'removeFilter' => 'Hapus Filter'
 ];

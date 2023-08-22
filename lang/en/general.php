@@ -14,5 +14,13 @@ return [
     'category'    => 'Category',
     'applyFilter' => 'Apply Filter',
     'search'      => 'Search',
-    'all'         => 'All'
+    'all'         => 'All',
+    'sort'        => 'Sort by',
+    'newest' => 'Newest',
+    'oldest' => 'Oldest',
+    'priceHigh' => 'Highest Price',
+    'priceLow'  => 'Lowest Price',
+    'nameAsc'   => 'Name (A-Z)',
+    'nameDesc'  => 'Name (Z-A)',
+    'removeFilter' => 'Remove Filter'
 ];
