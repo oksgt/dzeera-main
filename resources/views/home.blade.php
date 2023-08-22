@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <a href="#" class="d-block btn mt-1 btn-outline-transparent "
+                    <a href="{{route('newArrivals', ['brandslug' => session('active-brand-name')])}}" class="d-block btn mt-1 btn-outline-transparent "
                         style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                 </div>
                 <div class="">
                     <div class="row">
-                        <div class="splide" aria-labelledby="carousel-heading" id="slide_category_1">
+                        <div class="splide" aria-labelledby="carousel-heading" id="slide_category_2">
                             <div class="splide__track">
                                 <div class="splide__list">
 
@@ -389,7 +389,7 @@
                 </div>
                 <div class="">
                     <div class="row">
-                        <div class="splide" aria-labelledby="carousel-heading" id="slide_category_1">
+                        <div class="splide" aria-labelledby="carousel-heading" id="slide_category_3">
                             <div class="splide__track">
                                 <div class="splide__list">
 

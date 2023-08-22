@@ -47,7 +47,7 @@ function getNewArrivals()
     $data_obj = DB::select("
             select p.*, pi2.file_name from products p
             join product_tags pt on pt.product_id = p.id
-            left join product_images pi2 on pi2.product_id = p.id
+            left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
             where pt.tag_id = 1 and p.product_availability = 'y'
             and p.brand_id = ?
             limit 10
