@@ -23,5 +23,6 @@ return [
     'nameAsc'   => 'Nama (A-Z)',
     'nameDesc'  => 'Nama (Z-A)',
     'removeFilter' => 'Hapus Filter',
-    'sortOption' => 'Urutkan'
+    'sortOption' => 'Urutkan',
+    'appliedFilter' => 'Filter yang Diterapkan'
 ];

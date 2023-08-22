@@ -48,9 +48,9 @@ class HomeController extends Controller
             'category'      => "",
             'from'          => "",
             'to'            => "",
-            'search'        => ""
+            'search'        => "",
+            'sort'          => ""
         ];
-
 
         $query = 'SELECT * FROM your_table';
         if ($brandslug) {
@@ -101,9 +101,9 @@ class HomeController extends Controller
                 ", [$value->id]);
 
             if ($data_opt) {
-                $data_obj[$key]->base_price = $data_opt[0]->base_price;
-                $data_obj[$key]->disc       = $data_opt[0]->disc;
-                $data_obj[$key]->price      = $data_opt[0]->price;
+                $data_obj[$key]->base_price = (int) $data_opt[0]->base_price;
+                $data_obj[$key]->disc       = (int) $data_opt[0]->disc;
+                $data_obj[$key]->price      = (int) $data_opt[0]->price;
             }
         }
         $newArrivals = $data_obj;
@@ -131,7 +131,70 @@ class HomeController extends Controller
             $filtered_['from'] = __('general.minPrice').': '.formatnumber($to);
             $filtered_['to'] = __('general.mixPrice').': '.formatnumber($from);
         }
-        // dd($filtered_);
+
+        if(!empty($request->get('sort'))){
+            if($request->get('sort') == 'newest'){
+                $newArrivals = $this->sortByUpdated($newArrivals);
+                $filtered_['sort'] = 'newest';
+            } else if($request->get('sort') == 'oldest'){
+                $newArrivals = $this->sortByUpdated($newArrivals, 'desc');
+                $filtered_['sort'] = 'oldest';
+            } else if($request->get('sort') == 'priceHigh'){
+                $newArrivals = $this->sortByPrice($newArrivals, 'desc');
+                $filtered_['sort'] = 'priceHigh';
+            } else if($request->get('sort') == 'priceLow'){
+                $newArrivals = $this->sortByPrice($newArrivals);
+                $filtered_['sort'] = 'priceLow';
+            } else if($request->get('sort') == 'nameAsc'){
+                $newArrivals = $this->sortByName($newArrivals);
+                $filtered_['sort'] = 'nameAsc';
+            } else if($request->get('sort') == 'nameDesc'){
+                $newArrivals = $this->sortByName($newArrivals, 'desc');
+                $filtered_['sort'] = 'nameDesc';
+            }
+        } else {
+            $newArrivals = $this->sortByName($newArrivals);
+        }
+        // dd($newArrivals);
         return view('new_arrivals', compact('brand_id', 'newArrivals', 'filtered_'));
+    }
+
+    private function sortByName(array $data, string $order = 'asc'): array
+    {
+        usort($data, function ($a, $b) use ($order) {
+            if ($order === 'asc') {
+                return strcmp($a->product_name, $b->product_name);
+            } else {
+                return strcmp($b->product_name, $a->product_name);
+            }
+        });
+
+        return $data;
+    }
+
+    private function sortByPrice(array $data, string $order = 'asc'): array
+    {
+        usort($data, function ($a, $b) use ($order) {
+            if ($order === 'asc') {
+                return strcmp($a->price, $b->price);
+            } else {
+                return strcmp($b->price, $a->price);
+            }
+        });
+
+        return $data;
+    }
+
+    private function sortByUpdated(array $data, string $order = 'asc'): array
+    {
+        usort($data, function ($a, $b) use ($order) {
+            if ($order === 'asc') {
+                return strcmp($a->updated_at, $b->updated_at);
+            } else {
+                return strcmp($b->updated_at, $a->updated_at);
+            }
+        });
+
+        return $data;
     }
 }

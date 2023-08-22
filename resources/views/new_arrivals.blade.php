@@ -92,22 +92,40 @@
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             @if ($filtered_['use_filter'] !== "")
-                                <p class="m-0">Applied Filter</p>
+                                <p class="m-0">{{__('general.appliedFilter')}}</p>
                             @endif
                         </div>
                         <div class="col text-end">
                             <div class="btn-group">
                                 <button id="dropdownButton" class="btn btn-outline-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-sort"></i> <span id="selectedOptionText">{{__('general.sortOption')}}</span>
-                                  </button>
-                                  <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.newest')}}', 'fas fa-arrow-up-wide-short')"><i class="fas fa-arrow-up-wide-short"></i> {{__('general.newest')}}</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.oldest')}}', 'fas fa-arrow-down-wide-short')"><i class="fas fa-arrow-down-wide-short"></i> {{__('general.oldest')}}</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.priceHigh')}}', 'fas fa-arrow-down-9-1')"><i class="fas fa-arrow-down-9-1"></i> {{__('general.priceHigh')}}</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.priceLow')}}', 'fas fa-arrow-down-1-9')"><i class="fas fa-arrow-down-1-9"></i> {{__('general.priceLow')}}</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.nameAsc')}}', 'fas fa-arrow-down-a-z')"><i class="fas fa-arrow-down-a-z"></i> {{__('general.nameAsc')}}</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="changeButtonText('{{__('general.nameDesc')}}', 'fas fa-arrow-down-z-a')"><i class="fas fa-arrow-down-z-a"></i> {{__('general.nameDesc')}}</a></li>
-                                  </ul>
+
+                                    @if ($filtered_['sort'] !== "")
+                                        @if ($filtered_['sort'] == "newest")
+                                            <i class="fas fa-arrow-up-wide-short"></i> <span id="selectedOptionText">{{__('general.newest')}}</span>
+                                        @elseif ($filtered_['sort'] == "oldest")
+                                            <i class="fas fa-arrow-down-wide-short"></i> <span id="selectedOptionText">{{__('general.oldest')}}</span>
+                                        @elseif ($filtered_['sort'] == "priceHigh")
+                                            <i class="fas fa-arrow-down-9-1'"></i> <span id="selectedOptionText">{{__('general.priceHigh')}}</span>
+                                        @elseif ($filtered_['sort'] == "priceLow")
+                                            <i class="fas fa-arrow-down-1-9"></i> <span id="selectedOptionText">{{__('general.priceLow')}}</span>
+                                        @elseif ($filtered_['sort'] == "nameAsc")
+                                            <i class="fas fa-arrow-down-a-z"></i> <span id="selectedOptionText">{{__('general.nameAsc')}}</span>
+                                        @elseif ($filtered_['sort'] == "nameDesc")
+                                            <i class="fas fa-arrow-down-z-a"></i> <span id="selectedOptionText">{{__('general.nameDesc')}}</span>
+                                        @endif
+                                    @else
+                                        <i class="fas fa-sort"></i> <span id="selectedOptionText">{{__('general.sortOption')}}</span>
+                                    @endif
+
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.newest')}}', 'fas fa-arrow-up-wide-short', 'newest')"><i class="fas fa-arrow-up-wide-short"></i> {{__('general.newest')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.oldest')}}', 'fas fa-arrow-down-wide-short', 'oldest')"><i class="fas fa-arrow-down-wide-short"></i> {{__('general.oldest')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.priceHigh')}}', 'fas fa-arrow-down-9-1', 'priceHigh')"><i class="fas fa-arrow-down-9-1"></i> {{__('general.priceHigh')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.priceLow')}}', 'fas fa-arrow-down-1-9', 'priceLow')"><i class="fas fa-arrow-down-1-9"></i> {{__('general.priceLow')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.nameAsc')}}', 'fas fa-arrow-down-a-z', 'nameAsc')"><i class="fas fa-arrow-down-a-z"></i> {{__('general.nameAsc')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.nameDesc')}}', 'fas fa-arrow-down-z-a', 'nameDesc')"><i class="fas fa-arrow-down-z-a"></i> {{__('general.nameDesc')}}</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -446,14 +464,25 @@
             fromInput_2.oninput = () => controlFromInput_2(fromSlider_2, fromInput_2, toInput_2, toSlider_2);
             toInput_2.oninput = () => controlToInput_2(toSlider_2, fromInput_2, toInput_2, toSlider_2);
 
-            function changeButtonText(text) {
-                document.getElementById('filterButton').innerText = text;
-            }
-
-            function changeButtonText(text, iconClass) {
+            function changeButtonText(text, iconClass, value) {
                 document.getElementById('selectedOptionText').innerText = text;
                 document.getElementById('selectedOptionText').previousElementSibling.className = iconClass;
+                console.log('Data value:', value);
+                var current_url = window.location.href;
+
+                @if ($filtered_['use_filter'] !== "")
+                    var url = new URL(current_url);
+                    url.searchParams.delete('sort');
+                    var updatedUrlString = url.toString();
+                    window.location.replace(updatedUrlString + '&sort=' + value)
+                @else
+                    var url = new URL(current_url);
+                    url.searchParams.delete('sort');
+                    var updatedUrlString = url.toString();
+                    window.location.replace(updatedUrlString + '?sort=' + value)
+                @endif
             }
+
         </script>
     @endpush
 @endsection

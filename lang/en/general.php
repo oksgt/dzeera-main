@@ -23,5 +23,6 @@ return [
     'nameAsc'   => 'Name (A-Z)',
     'nameDesc'  => 'Name (Z-A)',
     'removeFilter' => 'Remove Filter',
-    'sortOption' => 'Select an Option'
+    'sortOption' => 'Select an Option',
+    'appliedFilter' => 'Applied Filter'
 ];
