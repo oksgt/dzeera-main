@@ -17,7 +17,9 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 product-filter-card p-3 d-lg-block d-none">
-                    <form action="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}" method="GET">
+                    <form
+                        action="{{ route('newArrivals', ['brandslug' => session('active-brand-name'), 'page' => $page]) }}"
+                        method="GET">
                         <input type="hidden" name="use_filter" value="1">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">{{ __('general.search') }}</label>
@@ -79,10 +81,11 @@
                             <button class="btn btn-sm btn-dark" type="submit">
                                 {{ __('general.applyFilter') }}
                             </button>
-                            @if ($filtered_['use_filter'] !== "")
-                            <a class="btn btn-sm btn-light" type="button" href="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}">
-                                {{ __('general.removeFilter') }}
-                            </a>
+                            @if ($filtered_['use_filter'] !== '')
+                                <a class="btn btn-sm btn-light" type="button"
+                                    href="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}">
+                                    {{ __('general.removeFilter') }}
+                                </a>
                             @endif
 
                         </div>
@@ -91,40 +94,62 @@
                 <div class="col-sm-12 col-md-12 col-lg-9">
                     <div class="row">
                         <div class="col d-flex align-items-center">
-                            @if ($filtered_['use_filter'] !== "")
-                                <p class="m-0">{{__('general.appliedFilter')}}</p>
+                            @if ($filtered_['use_filter'] !== '')
+                                <p class="m-0">{{ __('general.appliedFilter') }}</p>
                             @endif
                         </div>
                         <div class="col text-end">
                             <div class="btn-group">
-                                <button id="dropdownButton" class="btn btn-outline-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button id="dropdownButton" class="btn btn-outline-transparent dropdown-toggle"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                                    @if ($filtered_['sort'] !== "")
-                                        @if ($filtered_['sort'] == "newest")
-                                            <i class="fas fa-arrow-up-wide-short"></i> <span id="selectedOptionText">{{__('general.newest')}}</span>
-                                        @elseif ($filtered_['sort'] == "oldest")
-                                            <i class="fas fa-arrow-down-wide-short"></i> <span id="selectedOptionText">{{__('general.oldest')}}</span>
-                                        @elseif ($filtered_['sort'] == "priceHigh")
-                                            <i class="fas fa-arrow-down-9-1'"></i> <span id="selectedOptionText">{{__('general.priceHigh')}}</span>
-                                        @elseif ($filtered_['sort'] == "priceLow")
-                                            <i class="fas fa-arrow-down-1-9"></i> <span id="selectedOptionText">{{__('general.priceLow')}}</span>
-                                        @elseif ($filtered_['sort'] == "nameAsc")
-                                            <i class="fas fa-arrow-down-a-z"></i> <span id="selectedOptionText">{{__('general.nameAsc')}}</span>
-                                        @elseif ($filtered_['sort'] == "nameDesc")
-                                            <i class="fas fa-arrow-down-z-a"></i> <span id="selectedOptionText">{{__('general.nameDesc')}}</span>
+                                    @if ($filtered_['sort'] !== '')
+                                        @if ($filtered_['sort'] == 'newest')
+                                            <i class="fas fa-arrow-up-wide-short"></i> <span
+                                                id="selectedOptionText">{{ __('general.newest') }}</span>
+                                        @elseif ($filtered_['sort'] == 'oldest')
+                                            <i class="fas fa-arrow-down-wide-short"></i> <span
+                                                id="selectedOptionText">{{ __('general.oldest') }}</span>
+                                        @elseif ($filtered_['sort'] == 'priceHigh')
+                                            <i class="fas fa-arrow-down-9-1'"></i> <span
+                                                id="selectedOptionText">{{ __('general.priceHigh') }}</span>
+                                        @elseif ($filtered_['sort'] == 'priceLow')
+                                            <i class="fas fa-arrow-down-1-9"></i> <span
+                                                id="selectedOptionText">{{ __('general.priceLow') }}</span>
+                                        @elseif ($filtered_['sort'] == 'nameAsc')
+                                            <i class="fas fa-arrow-down-a-z"></i> <span
+                                                id="selectedOptionText">{{ __('general.nameAsc') }}</span>
+                                        @elseif ($filtered_['sort'] == 'nameDesc')
+                                            <i class="fas fa-arrow-down-z-a"></i> <span
+                                                id="selectedOptionText">{{ __('general.nameDesc') }}</span>
                                         @endif
                                     @else
-                                        <i class="fas fa-sort"></i> <span id="selectedOptionText">{{__('general.sortOption')}}</span>
+                                        <i class="fas fa-sort"></i> <span
+                                            id="selectedOptionText">{{ __('general.sortOption') }}</span>
                                     @endif
 
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.newest')}}', 'fas fa-arrow-up-wide-short', 'newest')"><i class="fas fa-arrow-up-wide-short"></i> {{__('general.newest')}}</a></li>
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.oldest')}}', 'fas fa-arrow-down-wide-short', 'oldest')"><i class="fas fa-arrow-down-wide-short"></i> {{__('general.oldest')}}</a></li>
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.priceHigh')}}', 'fas fa-arrow-down-9-1', 'priceHigh')"><i class="fas fa-arrow-down-9-1"></i> {{__('general.priceHigh')}}</a></li>
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.priceLow')}}', 'fas fa-arrow-down-1-9', 'priceLow')"><i class="fas fa-arrow-down-1-9"></i> {{__('general.priceLow')}}</a></li>
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.nameAsc')}}', 'fas fa-arrow-down-a-z', 'nameAsc')"><i class="fas fa-arrow-down-a-z"></i> {{__('general.nameAsc')}}</a></li>
-                                    <li><a class="dropdown-item my-link" href="#" onclick="changeButtonText('{{__('general.nameDesc')}}', 'fas fa-arrow-down-z-a', 'nameDesc')"><i class="fas fa-arrow-down-z-a"></i> {{__('general.nameDesc')}}</a></li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=newest"
+                                            onclick="changeButtonText('{{ __('general.newest') }}', 'fas fa-arrow-up-wide-short', 'newest')"><i
+                                                class="fas fa-arrow-up-wide-short"></i> {{ __('general.newest') }}</a>
+                                    </li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=oldest"
+                                            onclick="changeButtonText('{{ __('general.oldest') }}', 'fas fa-arrow-down-wide-short', 'oldest')"><i
+                                                class="fas fa-arrow-down-wide-short"></i> {{ __('general.oldest') }}</a>
+                                    </li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=priceHigh"
+                                            onclick="changeButtonText('{{ __('general.priceHigh') }}', 'fas fa-arrow-down-9-1', 'priceHigh')"><i
+                                                class="fas fa-arrow-down-9-1"></i> {{ __('general.priceHigh') }}</a></li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=priceLow"
+                                            onclick="changeButtonText('{{ __('general.priceLow') }}', 'fas fa-arrow-down-1-9', 'priceLow')"><i
+                                                class="fas fa-arrow-down-1-9"></i> {{ __('general.priceLow') }}</a></li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=nameAsc"
+                                            onclick="changeButtonText('{{ __('general.nameAsc') }}', 'fas fa-arrow-down-a-z', 'nameAsc')"><i
+                                                class="fas fa-arrow-down-a-z"></i> {{ __('general.nameAsc') }}</a></li>
+                                    <li><a class="dropdown-item my-link" href="{{ url()->full() }}&sort=nameDesc"
+                                            onclick="changeButtonText('{{ __('general.nameDesc') }}', 'fas fa-arrow-down-z-a', 'nameDesc')"><i
+                                                class="fas fa-arrow-down-z-a"></i> {{ __('general.nameDesc') }}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -132,26 +157,26 @@
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             {{-- @if (checkArrayValuesNotEmpty($filtered_)) --}}
-                                @if ($filtered_['search'] !== "")
-                                    <span class="badge text-bg-secondary mx-2">{{$filtered_['search']}}</span>
-                                @endif
+                            @if ($filtered_['search'] !== '')
+                                <span class="badge text-bg-secondary mx-2">{{ $filtered_['search'] }}</span>
+                            @endif
 
-                                @if ($filtered_['category'] !== "")
-                                    <span class="badge text-bg-secondary mx-2">{{$filtered_['category']}}</span>
-                                @endif
+                            @if ($filtered_['category'] !== '')
+                                <span class="badge text-bg-secondary mx-2">{{ $filtered_['category'] }}</span>
+                            @endif
 
-                                @if ($filtered_['from'] !== "")
-                                    <span class="badge text-bg-secondary mx-2">{{$filtered_['from']}}</span>
-                                @endif
+                            @if ($filtered_['from'] !== '')
+                                <span class="badge text-bg-secondary mx-2">{{ $filtered_['from'] }}</span>
+                            @endif
 
-                                @if ($filtered_['to'] !== "")
-                                    <span class="badge text-bg-secondary mx-2">{{$filtered_['to']}}</span>
-                                @endif
+                            @if ($filtered_['to'] !== '')
+                                <span class="badge text-bg-secondary mx-2">{{ $filtered_['to'] }}</span>
+                            @endif
                             {{-- @endif --}}
                         </div>
                     </div>
-                    <div class="row row-cols-2 row-cols-sm-4 row-cols-md-4 g-3 mt-0">
-                        @foreach ($newArrivals as $item)
+                    <div class="row row-cols-2 row-cols-sm-4 row-cols-md-4 g-3 mt-0" id="product-container">
+                        @foreach ($data as $item)
                             @php
                                 $image = $item->file_name == null || $item->file_name == '' ? 'images/no-image.png' : 'img_product/' . $item->file_name;
                             @endphp
@@ -183,7 +208,39 @@
                             @endif
                         @endforeach
                     </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-sm justify-content-end">
+                                    @if ($totalPages > 1)
+                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
+                                            <a class="page-link" href="{{ url()->full() }}&page=1">First</a>
+                                        </li>
+                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ url()->full() }}&page={{ $page - 1 }}">Previous</a>
+                                        </li>
+                                        @for ($i = 1; $i <= $totalPages; $i++)
+                                            <li class="page-item {{ $i == $page ? 'active' : '' }}">
+                                                <a class="page-link"
+                                                    href="{{ url()->full() }}&page={{ $i }}">{{ $i }}</a>
+                                            </li>
+                                        @endfor
 
+                                        <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ url()->full() }}&page={{ $page + 1 }}">Next</a>
+                                        </li>
+
+                                        <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
+                                            <a class="page-link"
+                                                href="{{ url()->full() }}&page={{ $totalPages }}">Last</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,7 +255,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body justify-content-center d-flex">
-                    <form action="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}" method="GET">
+                    <form
+                        action="{{ route('newArrivals', ['brandslug' => session('active-brand-name'), 'page' => $page]) }}"
+                        method="GET">
                         <input type="hidden" name="use_filter" value="1">
                         <div class="row">
                             <div class="mb-3">
@@ -217,8 +276,8 @@
                                         $categories = getAllCategoriesByBrand();
                                     @endphp
                                     <div class="form-check mx-3 p-2">
-                                        <input class="form-check-input" type="radio" name="input_category" id="all"
-                                            value="" checked>
+                                        <input class="form-check-input" type="radio" name="input_category"
+                                            id="all" value="" checked>
                                         <label class="form-check-label" for="all">
                                             {{ __('general.all') }}
                                         </label>
@@ -269,10 +328,11 @@
                                 <button class="btn btn-sm btn-dark btn-primary">
                                     {{ __('general.applyFilter') }}
                                 </button>
-                                @if ($filtered_['use_filter'] !== "")
-                                <a class="btn btn-sm btn-light" type="button" href="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}">
-                                    {{ __('general.removeFilter') }}
-                                </a>
+                                @if ($filtered_['use_filter'] !== '')
+                                    <a class="btn btn-sm btn-light" type="button"
+                                        href="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}">
+                                        {{ __('general.removeFilter') }}
+                                    </a>
                                 @endif
                             </div>
 
@@ -283,6 +343,14 @@
     </div>
 
     @push('scripts')
+        <script>
+            // document.addEventListener("DOMContentLoaded", function() {
+            //     var lastCard = document.querySelector(".product-card");
+            //     @if ($filtered_['page'] >= 3)
+            //     lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            //     @endif
+            // });;
+        </script>
         <script>
             function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
                 const [from, to] = getParsed(fromInput, toInput);
@@ -470,19 +538,11 @@
                 console.log('Data value:', value);
                 var current_url = window.location.href;
 
-                @if ($filtered_['use_filter'] !== "")
-                    var url = new URL(current_url);
-                    url.searchParams.delete('sort');
-                    var updatedUrlString = url.toString();
-                    window.location.replace(updatedUrlString + '&sort=' + value)
-                @else
-                    var url = new URL(current_url);
-                    url.searchParams.delete('sort');
-                    var updatedUrlString = url.toString();
-                    window.location.replace(updatedUrlString + '?sort=' + value)
-                @endif
+                var url = new URL(current_url);
+                url.searchParams.delete('sort');
+                var updatedUrlString = url.toString();
+                window.location.replace(updatedUrlString + '&sort=' + value);
             }
-
         </script>
     @endpush
 @endsection
