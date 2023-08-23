@@ -24,5 +24,9 @@ return [
     'nameDesc'  => 'Name (Z-A)',
     'removeFilter' => 'Remove Filter',
     'sortOption' => 'Select an Option',
-    'appliedFilter' => 'Applied Filter'
+    'appliedFilter' => 'Applied Filter',
+    'first' => 'First',
+    'last' => 'Last',
+    'next' => 'Next',
+    'previous' => 'Previous',
 ];

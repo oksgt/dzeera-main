@@ -24,5 +24,9 @@ return [
     'nameDesc'  => 'Nama (Z-A)',
     'removeFilter' => 'Hapus Filter',
     'sortOption' => 'Urutkan',
-    'appliedFilter' => 'Filter yang Diterapkan'
+    'appliedFilter' => 'Filter yang Diterapkan',
+    'first' => 'Pertama',
+    'last' => 'Terakhir',
+    'next' => 'Berikutnya',
+    'previous' => 'Sebelumnya',
 ];

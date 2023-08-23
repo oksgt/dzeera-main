@@ -213,28 +213,117 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination pagination-sm justify-content-end">
                                     @if ($totalPages > 1)
+                                        @php
+                                            $currentPage = $page;
+                                            $range = 2;
+                                        @endphp
+
                                         <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
-                                            <a class="page-link" href="{{ url()->full() }}&page=1">First</a>
-                                        </li>
-                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
+                                            @php
+                                                // $current_url = url()->current() . '?page=1';
+                                                if ($filtered_['use_filter'] !== 1) {
+                                                    $updatedUrl = url()->current() . '?page=1';
+                                                } else {
+                                                    $currentUrl = URL::current();
+                                                    $queryParameters = Request::query();
+                                                    unset($queryParameters['page']);
+                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
+                                                }
+
+                                            @endphp
                                             <a class="page-link"
-                                                href="{{ url()->full() }}&page={{ $page - 1 }}">Previous</a>
+                                                href="{{ $updatedUrl }}">{{ __('general.first') }}</a>
                                         </li>
-                                        @for ($i = 1; $i <= $totalPages; $i++)
+
+                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
+                                            @php
+                                                if ($filtered_['use_filter'] !== 1) {
+                                                    $updatedUrl = url()->current() . '?page=' . $page - 1;
+                                                } else {
+                                                    // $current_url = url()->current() . '?page=' . $page - 1;
+                                                    $currentUrl = URL::current();
+                                                    $queryParameters = Request::query();
+                                                    unset($queryParameters['page']);
+                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page - 1;
+                                                }
+                                            @endphp
+                                            <a class="page-link"
+                                                href="{{ $updatedUrl }}">{{ __('general.previous') }}</a>
+                                        </li>
+
+                                        <li class="page-item {{ $page == 1 ? 'active' : '' }}">
+                                            @php
+                                                if ($filtered_['use_filter'] !== 1) {
+                                                    $updatedUrl = url()->current() . '?page=1';
+                                                } else {
+                                                    $currentUrl = URL::current();
+                                                    $queryParameters = Request::query();
+                                                    unset($queryParameters['page']);
+                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
+                                                }
+                                            @endphp
+                                            <a class="page-link" href="{{ $updatedUrl }}">1</a>
+                                        </li>
+
+                                        @if ($currentPage - $range > 2)
+                                            <li class="page-item ">
+                                                <a class="page-link" href="#">...</a>
+                                            </li>
+                                        @endif
+
+                                        @php
+                                            $startPage = max($currentPage - $range, 2);
+                                            $endPage = min($currentPage + $range, $totalPages - 1);
+                                        @endphp
+
+                                        @for ($i = $startPage; $i <= $endPage; $i++)
                                             <li class="page-item {{ $i == $page ? 'active' : '' }}">
-                                                <a class="page-link"
-                                                    href="{{ url()->full() }}&page={{ $i }}">{{ $i }}</a>
+                                                @php
+                                                    if ($filtered_['use_filter'] !== 1) {
+                                                        $updatedUrl = url()->current() . '?page=' . $i;
+                                                    } else {
+                                                        $currentUrl = URL::current();
+                                                        $queryParameters = Request::query();
+                                                        unset($queryParameters['page']);
+                                                        $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $i;
+                                                    }
+                                                @endphp
+                                                <a class="page-link" href="{{ $updatedUrl }}">{{ $i }}</a>
                                             </li>
                                         @endfor
 
+                                        @if ($totalPages - $currentPage > $range + 1)
+                                            <li class="page-item ">
+                                                <a class="page-link" href="#">...</a>
+                                            </li>
+                                        @endif
+
                                         <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
-                                            <a class="page-link"
-                                                href="{{ url()->full() }}&page={{ $page + 1 }}">Next</a>
+                                            @php
+                                                if ($filtered_['use_filter'] !== 1) {
+                                                    $updatedUrl = url()->current() . '?page=' . $page + 1;
+                                                } else {
+                                                    $currentUrl = URL::current();
+                                                    $queryParameters = Request::query();
+                                                    unset($queryParameters['page']);
+                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page + 1;
+                                                }
+                                            @endphp
+                                            <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.next') }}</a>
                                         </li>
 
                                         <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
-                                            <a class="page-link"
-                                                href="{{ url()->full() }}&page={{ $totalPages }}">Last</a>
+                                            @php
+                                                if ($filtered_['use_filter'] !== 1) {
+                                                    $updatedUrl = url()->current() . '?page=' . $totalPages;
+                                                } else {
+                                                    $currentUrl = URL::current();
+                                                    $queryParameters = Request::query();
+                                                    unset($queryParameters['page']);
+                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $totalPages;
+                                                }
+                                            @endphp
+                                            <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.last') }}</a>
                                         </li>
                                     @endif
                                 </ul>

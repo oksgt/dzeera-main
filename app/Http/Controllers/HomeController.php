@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class HomeController extends Controller
 {
@@ -85,8 +86,6 @@ class HomeController extends Controller
             'sort'          => "",
             'page'          => $page,
         ];
-
-
 
         $sql = "
         select DISTINCT  p.*, pi2.file_name, po.base_price, po.disc, po.price from products p
