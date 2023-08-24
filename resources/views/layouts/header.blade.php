@@ -43,10 +43,10 @@
                         <small style="font-size: 14px">{{ Auth::user()->name }}</small>
                     </button>
 
-                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout">
+                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout" href="{{ url('/signout') }}">
                         <i class="fa fa-sign-out"></i>
                         <small style="font-size: 14px"></small>
-                    </button>
+                    </a>
                 @endguest
 
             </div>
@@ -157,7 +157,7 @@
                             class="navbar-nav mx-auto {{ Route::currentRouteName() == 'home' ? 'mobile-navbar-nav' : 'mobile-navbar-nav-other' }}">
 
                             @guest
-                                <li class="nav-item ">
+                                <li class="nav-item d-block d-lg-none">
                                     <a class="nav-link category-link" href="#" data-bs-toggle="modal"
                                     data-bs-target="#loginModal" title="Login">
                                         <i class="fa fa-sign-in"></i>
@@ -165,13 +165,13 @@
                                     </a>
                                 </li>
                             @else
-                                <li class="nav-item ">
+                                <li class="nav-item d-block d-lg-none ">
                                     <a class="nav-link category-link" href="#">
                                         <i class="fa fa-user"></i> {{ Auth::user()->name }}
                                     </a>
                                 </li>
 
-                                <li class="nav-item ">
+                                <li class="nav-item d-block d-lg-none ">
                                     <a class="nav-link category-link" href="{{ url('/signout') }}">
                                         <i class="fa fa-sign-out"></i> Logout
                                     </a>
