@@ -29,4 +29,5 @@ return [
     'last' => 'Terakhir',
     'next' => 'Berikutnya',
     'previous' => 'Sebelumnya',
+    'searchProduct' => 'Cari Produk'
 ];

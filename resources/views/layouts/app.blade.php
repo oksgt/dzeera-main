@@ -53,6 +53,45 @@
         </div>
     </div>
 
+    <!-- modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body justify-content-center d-flex">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{{ __('general.searchProduct') }}"
+                            aria-label="{{ __('general.searchProduct') }}" aria-describedby="button-addon2">
+                        <button class="btn btn-dark" type="submit" id="button-addon2">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade w-100" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center d-flex">
+                    <div class="card text-center  w-100 border-0">
+                        <div class="card-body p-2">
+                            <h6 class="text-muted">Please login with your social media account below</h6>
+                            <a href="{{ url('/auth/google') }}" class="btn btn-sm btn-outline-dark mt-3">
+                                <i class="fab fa-google"></i>
+                                Login with Google</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -61,8 +100,32 @@
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/wrunner-native.js') }}"></script>
-
     @stack('scripts')
+
+    {{-- <script>
+        function handleGoogleSignIn(googleUser) {
+            // Handle the Google sign-in response
+            var id_token = googleUser.getAuthResponse().id_token;
+            // Send the ID token to your server for verification and to create a session
+
+            // Redirect the user to the desired page after successful login
+            window.location.href = '/dashboard'; // Replace with the desired page URL
+        }
+
+        function renderGoogleSignInButton() {
+            gapi.signin2.render('google-signin-button', {
+            'scope': 'profile email',
+            'width': 250,
+            'height': 40,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': handleGoogleSignIn,
+            'client_id': '422705523249-5f17ekbdjmt7688uht1qq6e1l3q9j3bd.apps.googleusercontent.com'
+            });
+        }
+      </script>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script src="https://apis.google.com/js/platform.js?onload=renderGoogleSignInButton" async defer></script> --}}
 </body>
 
 </html>

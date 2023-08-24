@@ -29,4 +29,5 @@ return [
     'last' => 'Last',
     'next' => 'Next',
     'previous' => 'Previous',
+    'searchProduct' => 'Search Product'
 ];

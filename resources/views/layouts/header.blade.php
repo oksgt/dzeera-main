@@ -30,8 +30,25 @@
                     <img src="{{ asset('asset_sample/img/' . __('general.flag') . '-flag.png') }}" alt="Language"
                         width="20" height="20" class="me-2">
                 </button>
-                <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block"><i
-                        class="fa fa-user-o"></i></button>
+
+                @guest
+                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" data-bs-toggle="modal"
+                    data-bs-target="#loginModal" title="Login">
+                        <i class="fa fa-sign-in"></i>
+                        <small style="font-size: 14px"></small>
+                    </button>
+                @else
+                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" >
+                        <i class="fa fa-user"></i>
+                        <small style="font-size: 14px">{{ Auth::user()->name }}</small>
+                    </button>
+
+                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout">
+                        <i class="fa fa-sign-out"></i>
+                        <small style="font-size: 14px"></small>
+                    </button>
+                @endguest
+
             </div>
         </nav>
 
@@ -51,8 +68,9 @@
                 <div class="navbar w-100 order-3 dual-collapse2  p-0">
                     <div class="ms-auto d-none d-lg-block p-0">
                         <button
-                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"><i
-                                class="fa fa-search"></i></button>
+                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
+                            data-bs-toggle="modal" data-bs-target="#searchModal">
+                            <i class="fa fa-search"></i></button>
                         <button
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
@@ -89,8 +107,9 @@
                 <div class="d-lg-none ">
                     <div class="mx-auto">
                         <button
-                            class="btn {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"><i
-                                class="fa fa-search"></i></button>
+                            class="btn {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
+                            data-bs-toggle="modal" data-bs-target="#searchModal">
+                            <i class="fa fa-search"></i></button>
                         <button
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
@@ -107,12 +126,12 @@
                 <div class="mobile-navbar-menu offcanvas offcanvas-start" tabindex="-1" id="navbarNav"
                     aria-labelledby="navbarNavLabel">
                     <div class="offcanvas-header ">
-                        <button
+                        {{-- <button
                             class="ml-0 btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} "><i
-                                class="fa fa-user"></i></button>
+                                class="fa fa-user"></i></button> --}}
 
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button" id="languageDropdown"
+                        <div class="dropdown ml-0 ">
+                            <button class="btn dropdown-toggle ml-0" type="button" id="languageDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ asset('asset_sample/img/' . __('general.flag') . '-flag.png') }}"
                                     alt="{{ __('general.language') }}" width="20" height="20" class="me-2">
@@ -133,9 +152,34 @@
                         <button type="button" class="btn-close  text-reset" data-bs-dismiss="offcanvas"
                             aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body flex-column flex-sm-row ">
+                    <div class="offcanvas-body flex-column flex-sm-row mt-0">
                         <ul
                             class="navbar-nav mx-auto {{ Route::currentRouteName() == 'home' ? 'mobile-navbar-nav' : 'mobile-navbar-nav-other' }}">
+
+                            @guest
+                                <li class="nav-item ">
+                                    <a class="nav-link category-link" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal" title="Login">
+                                        <i class="fa fa-sign-in"></i>
+                                        <small style="font-size: 14px"> Login</small>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="nav-item ">
+                                    <a class="nav-link category-link" href="#">
+                                        <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                    </a>
+                                </li>
+
+                                <li class="nav-item ">
+                                    <a class="nav-link category-link" href="{{ url('/signout') }}">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                </li>
+                            @endguest
+
+                            <hr>
+
                             @php
                                 $categories = getAllCategoriesByBrand();
                             @endphp

@@ -155,7 +155,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => null, //env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
