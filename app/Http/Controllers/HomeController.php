@@ -66,7 +66,7 @@ class HomeController extends Controller
             return redirect($modifiedUrl);
         }
 
-        $perPage = 1;
+        $perPage = 10;
         $page = request()->get('page', 1);
         $offset = ($page - 1) * $perPage;
 
