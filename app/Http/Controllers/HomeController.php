@@ -87,33 +87,93 @@ class HomeController extends Controller
             'page'          => $page,
         ];
 
+        // $sql = "
+        // select DISTINCT  p.*, pi2.file_name, po.id as product_opt_id, po.base_price, po.disc, po.price from products p
+        // JOIN (
+        //     SELECT product_id, MIN(price) AS min_price
+        //     FROM product_options
+        //     GROUP BY product_id
+        // ) AS min_prices ON p.id = min_prices.product_id
+        // JOIN product_options po
+        // ON p.id = po.product_id AND po.price = min_prices.min_price
+        // join product_tags pt on pt.product_id = p.id
+        // left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
+        // where pt.tag_id = 1 and p.product_availability = 'y'
+        // and p.brand_id = ?";
+
+        // $sql_2 = "
+        // select DISTINCT  p.*, pi2.file_name,    po.base_price, po.disc, po.price from products p
+        // JOIN (
+        //     SELECT product_id, MIN(price) AS min_price
+        //     FROM product_options
+        //     GROUP BY product_id
+        // ) AS min_prices ON p.id = min_prices.product_id
+        // JOIN product_options po
+        // ON p.id = po.product_id AND po.price = min_prices.min_price
+        // join product_tags pt on pt.product_id = p.id
+        // left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
+        // where pt.tag_id = 1 and p.product_availability = 'y'
+        // and p.brand_id = ? ";
+
         $sql = "
-        select DISTINCT  p.*, pi2.file_name, po.base_price, po.disc, po.price from products p
-        JOIN (
-            SELECT product_id, MIN(price) AS min_price
-            FROM product_options
-            GROUP BY product_id
-        ) AS min_prices ON p.id = min_prices.product_id
-        JOIN product_options po
-        ON p.id = po.product_id AND po.price = min_prices.min_price
-        join product_tags pt on pt.product_id = p.id
-        left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
-        where pt.tag_id = 1 and p.product_availability = 'y'
-        and p.brand_id = ?";
+            select
+            CONCAT(p.slug, '-', lower(pco.color_name)) as item_slug,
+            CONCAT(p.id, '-', pco.id) as item_id,
+            pco.id as color_id, pco.color_name,
+            p.id as product_id,
+            p.brand_id,
+            p.category_id,
+            p.product_sku,
+            p.product_name,
+            p.slug,
+            p.product_status,
+            p.product_availability,
+            p.rating,
+            pi2.file_name, min_prices.base_price, min_prices.disc, min_prices.price
+            from product_color_options pco
+            join products p on p.id = pco.product_id
+            join product_tags pt on pt.product_id = p.id
+            left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
+
+            JOIN (
+                SELECT product_id, MIN(price) AS price, disc, base_price
+                FROM product_options
+                GROUP BY product_id, price, disc, base_price
+            ) AS min_prices ON p.id = min_prices.product_id
+
+            where pt.tag_id = 1 and p.product_availability = 'y'
+            and p.brand_id = ?
+        ";
 
         $sql_2 = "
-        select DISTINCT  p.*, pi2.file_name,    po.base_price, po.disc, po.price from products p
-        JOIN (
-            SELECT product_id, MIN(price) AS min_price
-            FROM product_options
-            GROUP BY product_id
-        ) AS min_prices ON p.id = min_prices.product_id
-        JOIN product_options po
-        ON p.id = po.product_id AND po.price = min_prices.min_price
-        join product_tags pt on pt.product_id = p.id
-        left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
-        where pt.tag_id = 1 and p.product_availability = 'y'
-        and p.brand_id = ? ";
+            select
+            CONCAT(p.slug, '-', lower(pco.color_name)) as item_slug,
+            CONCAT(p.id, '-', pco.id) as item_id,
+            pco.id as color_id, pco.color_name,
+            p.id as product_id,
+            p.brand_id,
+            p.category_id,
+            p.product_sku,
+            p.product_name,
+            p.slug,
+            p.product_status,
+            p.product_availability,
+            p.rating,
+            pi2.file_name, min_prices.base_price, min_prices.disc, min_prices.price
+            from product_color_options pco
+            join products p on p.id = pco.product_id
+            join product_tags pt on pt.product_id = p.id
+            left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
+
+            JOIN (
+                SELECT product_id, MIN(price) AS price, disc, base_price
+                FROM product_options
+                GROUP BY product_id, price, disc, base_price
+            ) AS min_prices ON p.id = min_prices.product_id
+
+            where pt.tag_id = 1 and p.product_availability = 'y'
+            and p.brand_id = ?
+        ";
 
 
         if (!empty($request->get('use_filter'))) {
@@ -141,8 +201,8 @@ class HomeController extends Controller
             $from   = $request->input('fromInput');
             $to     = $request->input('toInput');
 
-            $sql    .= " and po.price BETWEEN $from AND $to ";
-            $sql_2  .= " and po.price BETWEEN $from AND $to ";
+            $sql    .= " and min_prices.price BETWEEN $from AND $to ";
+            $sql_2  .= " and min_prices.price BETWEEN $from AND $to ";
             // $newArrivals = array_filter($newArrivals, function ($obj) use ($from, $to) {
             //     return ($obj->price >= $from && $obj->price <= $to);
             // });
@@ -159,8 +219,8 @@ class HomeController extends Controller
             //     return ($obj->price >= $from && $obj->price <= $to);
             // });
 
-            $sql    .= " and po.price BETWEEN $from AND $to ";
-            $sql_2  .= " and po.price BETWEEN $from AND $to ";
+            $sql    .= " and min_prices.price BETWEEN $from AND $to ";
+            $sql_2  .= " and min_prices.price BETWEEN $from AND $to ";
 
             $filtered_['from'] = __('general.minPrice') . ': ' . formatnumber($to);
             $filtered_['to'] = __('general.maxPrice') . ': ' . formatnumber($from);
@@ -176,11 +236,11 @@ class HomeController extends Controller
                 // $newArrivals = $this->sortByUpdated($newArrivals, 'desc');
                 $filtered_['sort'] = 'oldest';
             } else if ($request->get('sort') == 'priceHigh') {
-                $sql    .= " order by po.price desc";
+                $sql    .= " order by min_prices.price desc";
                 // $newArrivals = $this->sortByPrice($newArrivals, 'desc');
                 $filtered_['sort'] = 'priceHigh';
             } else if ($request->get('sort') == 'priceLow') {
-                $sql    .= " order by po.price asc";
+                $sql    .= " order by min_prices.price asc";
                 // $newArrivals = $this->sortByPrice($newArrivals);
                 $filtered_['sort'] = 'priceLow';
             } else if ($request->get('sort') == 'nameAsc') {
@@ -213,6 +273,8 @@ class HomeController extends Controller
         $data = $newArrivals;
 
         $totalItems = count($data_obj_2);
+
+        // dd($data);
 
         $totalPages = ceil($totalItems / $perPage);
         return view('new_arrivals', compact('brand_id', 'data', 'filtered_', 'page', 'totalPages'));

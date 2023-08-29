@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -13,3 +14,12 @@ Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class 
 
 Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
+
+// Public routes
+Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
+
+// Protected routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'getWishlist']);
+    Route::post('/wishlist/sync', [WishlistController::class, 'syncWishlist']);
+});
