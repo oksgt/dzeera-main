@@ -75,10 +75,7 @@
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
                             @php
-                                // Retrieve the wishlist from the cookie
                                 $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
-
-                                // Count the number of wishlist items
                                 $count_wishlist = count($wishlist);
                             @endphp
                             <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
@@ -120,7 +117,11 @@
                         <button
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">5</span>
+                            @php
+                                $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
+                                $count_wishlist = count($wishlist);
+                            @endphp
+                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
                         </button>
                         <button
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
