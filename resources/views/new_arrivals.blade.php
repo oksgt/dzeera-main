@@ -202,8 +202,14 @@
                                             <div class="d-flex justify-content-between">
                                                 <form action="{{ url('/wishlist') }}" method="POST">
                                                     @csrf
+                                                    <input type="hidden" name="product_item_id"
+                                                        value="{{ $item->item_id }}">
                                                     <input type="hidden" name="product_item_slug"
                                                         value="{{ $item->item_slug }}">
+                                                    <input type="hidden" name="product_name"
+                                                        value="{{ $item->product_name }}">
+                                                    <input type="hidden" name="color_name"
+                                                        value="{{ $item->color_name }}">
                                                     <button type="submit"
                                                         class="float-left btn mt-1 btn-outline-transparent "
                                                         style="width: 100% !important; ">Wishlist</button>

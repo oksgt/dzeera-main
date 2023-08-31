@@ -43,21 +43,30 @@
                                                         <span class="d-inline-block text-muted "
                                                             style="text-decoration: line-through; ">Rp.
                                                             {{ formatNumber($item->base_price) }}</span>
-                                                        <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
+                                                        <span class="d-inline-block"
+                                                            style="font-weight: 200; color: #e5345b;">Rp.
                                                             {{ formatNumber($item->price) }}</span>
                                                     </div>
 
                                                     <div class="d-flex justify-content-between">
                                                         <form action="{{ url('/wishlist') }}" method="POST">
                                                             @csrf
+                                                            <input type="hidden" name="product_item_id"
+                                                                value="{{ $item->item_id }}">
                                                             <input type="hidden" name="product_item_slug"
                                                                 value="{{ $item->item_slug }}">
+                                                            <input type="hidden" name="product_name"
+                                                                value="{{ $item->product_name }}">
+                                                            <input type="hidden" name="color_name"
+                                                                value="{{ $item->color_name }}">
                                                             <button type="submit"
                                                                 class="float-left btn mt-1 btn-outline-transparent "
                                                                 style="width: 100% !important; ">Wishlist</button>
                                                         </form>
 
-                                                        <a href="#" class="float-right btn mt-1 btn-outline-transparent " id="btn-buy"
+                                                        <a href="#"
+                                                            class="float-right btn mt-1 btn-outline-transparent "
+                                                            id="btn-buy"
                                                             style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                         </a>
                                                     </div>
@@ -72,7 +81,8 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
-                    <a href="{{route('newArrivals', ['brandslug' => session('active-brand-name')])}}" class="d-block btn mt-1 btn-outline-transparent "
+                    <a href="{{ route('newArrivals', ['brandslug' => session('active-brand-name')]) }}"
+                        class="d-block btn mt-1 btn-outline-transparent "
                         style="width: 100% !important; border: 1px solid inherit !important; max-width: 150px !important;">{{ __('general.viewAll') }}</a>
                 </div>
             </div>
@@ -197,30 +207,41 @@
                                                             @endif
 
                                                             <i class="text-small text-muted"
-                                                                style="font-size: 12px !important;">({{$item->rating}})</i>
+                                                                style="font-size: 12px !important;">({{ $item->rating }})</i>
 
-                                                                <div style="text-align: center">
-                                                                    <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
-                                                                        {{ $item->product_name . ' - ' . $item->color_name }}
-                                                                    </h5>
-                                                                    @if ($item->disc > 0)
-                                                                        <span class="d-inline-block text-muted "
-                                                                            style="text-decoration: line-through; ">Rp
-                                                                            {{ formatNumber($item->base_price) }}</span>
-                                                                    @endif
+                                                            <div style="text-align: center">
+                                                                <h5 class="text-capitalize mt-1 mb-1"
+                                                                    style="font-weight: 100">
+                                                                    {{ $item->product_name . ' - ' . $item->color_name }}
+                                                                </h5>
+                                                                @if ($item->disc > 0)
+                                                                    <span class="d-inline-block text-muted "
+                                                                        style="text-decoration: line-through; ">Rp
+                                                                        {{ formatNumber($item->base_price) }}</span>
+                                                                @endif
 
-                                                                    <span class="fw-bold d-inline-block"
-                                                                        style="color: #e5345b;">Rp
-                                                                        {{ formatNumber($item->price) }}
-                                                                    </span>
-                                                                </div>
+                                                                <span class="fw-bold d-inline-block"
+                                                                    style="color: #e5345b;">Rp
+                                                                    {{ formatNumber($item->price) }}
+                                                                </span>
+                                                            </div>
 
 
                                                             <div class="d-flex justify-content-between">
-                                                                <a href="#"
-                                                                    class="float-left btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; ">Whistlist
-                                                                </a>
+                                                                <form action="{{ url('/wishlist') }}" method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_item_id"
+                                                                        value="{{ $item->item_id }}">
+                                                                    <input type="hidden" name="product_item_slug"
+                                                                        value="{{ $item->item_slug }}">
+                                                                    <input type="hidden" name="product_name"
+                                                                        value="{{ $item->product_name }}">
+                                                                    <input type="hidden" name="color_name"
+                                                                        value="{{ $item->color_name }}">
+                                                                    <button type="submit"
+                                                                        class="float-left btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; ">Wishlist</button>
+                                                                </form>
                                                                 <a href="#"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
@@ -327,29 +348,40 @@
                                                             @endif
 
                                                             <i class="text-small text-muted"
-                                                                style="font-size: 12px !important;">({{$item->rating}})</i>
+                                                                style="font-size: 12px !important;">({{ $item->rating }})</i>
 
-                                                                <div style="text-align: center">
-                                                                    <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
-                                                                        {{ $item->product_name . ' - ' . $item->color_name }}
-                                                                    </h5>
-                                                                    @if ($item->disc > 0)
-                                                                        <span class="d-inline-block text-muted "
-                                                                            style="text-decoration: line-through; ">Rp
-                                                                            {{ formatNumber($item->base_price) }}</span>
-                                                                    @endif
+                                                            <div style="text-align: center">
+                                                                <h5 class="text-capitalize mt-1 mb-1"
+                                                                    style="font-weight: 100">
+                                                                    {{ $item->product_name . ' - ' . $item->color_name }}
+                                                                </h5>
+                                                                @if ($item->disc > 0)
+                                                                    <span class="d-inline-block text-muted "
+                                                                        style="text-decoration: line-through; ">Rp
+                                                                        {{ formatNumber($item->base_price) }}</span>
+                                                                @endif
 
-                                                                    <span class="fw-bold d-inline-block"
-                                                                        style="color: #e5345b;">Rp
-                                                                        {{ formatNumber($item->price) }}
-                                                                    </span>
-                                                                </div>
+                                                                <span class="fw-bold d-inline-block"
+                                                                    style="color: #e5345b;">Rp
+                                                                    {{ formatNumber($item->price) }}
+                                                                </span>
+                                                            </div>
 
                                                             <div class="d-flex justify-content-between">
-                                                                <a href="#"
-                                                                    class="float-left btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; ">Whistlist
-                                                                </a>
+                                                                <form action="{{ url('/wishlist') }}" method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_item_id"
+                                                                        value="{{ $item->item_id }}">
+                                                                    <input type="hidden" name="product_item_slug"
+                                                                        value="{{ $item->item_slug }}">
+                                                                    <input type="hidden" name="product_name"
+                                                                        value="{{ $item->product_name }}">
+                                                                    <input type="hidden" name="color_name"
+                                                                        value="{{ $item->color_name }}">
+                                                                    <button type="submit"
+                                                                        class="float-left btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; ">Wishlist</button>
+                                                                </form>
                                                                 <a href="#"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
@@ -456,28 +488,39 @@
                                                             @endif
 
                                                             <i class="text-small text-muted"
-                                                                style="font-size: 12px !important;">({{$item->rating}})</i>
+                                                                style="font-size: 12px !important;">({{ $item->rating }})</i>
 
                                                             <div style="text-align: center">
-                                                                    <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
-                                                                        {{ $item->product_name . ' - ' . $item->color_name }}
-                                                                    </h5>
-                                                                    @if ($item->disc > 0)
-                                                                        <span class="d-inline-block text-muted "
-                                                                            style="text-decoration: line-through; ">Rp
-                                                                            {{ formatNumber($item->base_price) }}</span>
-                                                                    @endif
+                                                                <h5 class="text-capitalize mt-1 mb-1"
+                                                                    style="font-weight: 100">
+                                                                    {{ $item->product_name . ' - ' . $item->color_name }}
+                                                                </h5>
+                                                                @if ($item->disc > 0)
+                                                                    <span class="d-inline-block text-muted "
+                                                                        style="text-decoration: line-through; ">Rp
+                                                                        {{ formatNumber($item->base_price) }}</span>
+                                                                @endif
 
-                                                                    <span class="fw-bold d-inline-block"
-                                                                        style="color: #e5345b;">Rp
-                                                                        {{ formatNumber($item->price) }}
-                                                                    </span>
-                                                                </div>
+                                                                <span class="fw-bold d-inline-block"
+                                                                    style="color: #e5345b;">Rp
+                                                                    {{ formatNumber($item->price) }}
+                                                                </span>
+                                                            </div>
                                                             <div class="d-flex justify-content-between">
-                                                                <a href="#"
-                                                                    class="float-left btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; ">Whistlist
-                                                                </a>
+                                                                <form action="{{ url('/wishlist') }}" method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_item_id"
+                                                                        value="{{ $item->item_id }}">
+                                                                    <input type="hidden" name="product_item_slug"
+                                                                        value="{{ $item->item_slug }}">
+                                                                    <input type="hidden" name="product_name"
+                                                                        value="{{ $item->product_name }}">
+                                                                    <input type="hidden" name="color_name"
+                                                                        value="{{ $item->color_name }}">
+                                                                    <button type="submit"
+                                                                        class="float-left btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; ">Wishlist</button>
+                                                                </form>
                                                                 <a href="#"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
@@ -504,7 +547,7 @@
         </section>
     @endif
 
-    {{-- @if ($videos)
+    @if ($videos)
         @foreach ($videos as $item)
             <div class="container">
                 <div class="row mt-3  p-1">
@@ -515,6 +558,6 @@
                 </div>
             </div>
         @endforeach
-    @endif --}}
+    @endif
 
 @endsection

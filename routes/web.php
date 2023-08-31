@@ -12,10 +12,13 @@ Route::get('/signout', [LoginController::class, 'logout'])->name('signout');
 
 Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class , 'lang'])->name('lang');
 
+Route::get('/wishlist', [WishlistController::class, 'getWishlist'])->name('wishlist.index');
+
 Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
 
 // Public routes
+
 Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
 
 // Protected routes

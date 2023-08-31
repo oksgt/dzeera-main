@@ -71,7 +71,7 @@
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
                             data-bs-toggle="modal" data-bs-target="#searchModal">
                             <i class="fa fa-search"></i></button>
-                        <button
+                        <a href="{{url('/wishlist')}}"
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
                             @php
@@ -79,7 +79,7 @@
                                 $count_wishlist = count($wishlist);
                             @endphp
                             <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
-                        </button>
+                        </a>
                         <button
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-shopping-bag"></i>
