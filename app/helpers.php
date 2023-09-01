@@ -41,33 +41,53 @@ function getNewArrivals()
 {
 
     $sql = "
-            select
-            CONCAT(p.slug, '-', lower(pco.color_name)) as item_slug,
-            CONCAT(p.id, '-', pco.id) as item_id,
-            pco.id as color_id, pco.color_name,
-            p.id as product_id,
-            p.brand_id,
-            p.category_id,
-            p.product_sku,
-            p.product_name,
-            p.slug,
-            p.product_status,
-            p.product_availability,
-            p.rating,
-            pi2.file_name, min_prices.base_price, min_prices.disc, min_prices.price
-            from product_color_options pco
-            join products p on p.id = pco.product_id
-            join product_tags pt on pt.product_id = p.id
-            left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
-
-            JOIN (
-                SELECT product_id, MIN(price) AS price, disc, base_price
-                FROM product_options
-                GROUP BY product_id, price, disc, base_price
-            ) AS min_prices ON p.id = min_prices.product_id
-
-            where pt.tag_id = 1 and p.product_availability = 'y'
-            and p.brand_id = ? limit 10
+    select * from
+    (
+    SELECT
+        CONCAT(p.slug, '-', LOWER(pco.color_name)) AS item_slug,
+        CONCAT(p.id, '-', pco.id) AS item_id,
+        pco.id AS color_id,
+        pco.color_name,
+        p.id AS product_id,
+        p.brand_id,
+        p.category_id,
+        p.product_sku,
+        p.product_name,
+        p.slug,
+        p.product_status,
+        p.product_availability,
+        p.rating,
+        pi2.file_name,
+        min_prices.base_price,
+        min_prices.disc,
+        min_prices.price
+    FROM
+        product_color_options pco
+    JOIN
+        products p ON p.id = pco.product_id
+    JOIN
+        product_tags pt ON pt.product_id = p.id
+    LEFT JOIN
+        product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+    JOIN
+        (
+            SELECT
+                product_id,
+                MIN(price) AS price,
+                disc,
+                base_price
+            FROM
+                product_options
+            GROUP BY
+                product_id
+        ) AS min_prices ON p.id = min_prices.product_id
+    WHERE
+        pt.tag_id = 1
+        AND p.product_availability = 'y'
+        AND p.brand_id = ?
+    GROUP BY
+        item_id
+    ) as product_view limit 10
         ";
 
     $data_obj = DB::select($sql, [session('active-brand')]);
@@ -135,33 +155,53 @@ function getProductByCategoryIndex($category_id)
 {
 
     $sql = "
-            select
-            CONCAT(p.slug, '-', lower(pco.color_name)) as item_slug,
-            CONCAT(p.id, '-', pco.id) as item_id,
-            pco.id as color_id, pco.color_name,
-            p.id as product_id,
-            p.brand_id,
-            p.category_id,
-            p.product_sku,
-            p.product_name,
-            p.slug,
-            p.product_status,
-            p.product_availability,
-            p.rating,
-            pi2.file_name, min_prices.base_price, min_prices.disc, min_prices.price
-            from product_color_options pco
-            join products p on p.id = pco.product_id
-            join product_tags pt on pt.product_id = p.id
-            left join product_images pi2 on pi2.product_id = p.id and pi2.is_thumbnail = 1
-
-            JOIN (
-                SELECT product_id, MIN(price) AS price, disc, base_price
-                FROM product_options
-                GROUP BY product_id, price, disc, base_price
-            ) AS min_prices ON p.id = min_prices.product_id
-
-            where pt.tag_id = 1 and p.product_availability = 'y'
-            and p.brand_id = ? and  p.category_id = ? limit 10
+    select * from
+    (
+    SELECT
+        CONCAT(p.slug, '-', LOWER(pco.color_name)) AS item_slug,
+        CONCAT(p.id, '-', pco.id) AS item_id,
+        pco.id AS color_id,
+        pco.color_name,
+        p.id AS product_id,
+        p.brand_id,
+        p.category_id,
+        p.product_sku,
+        p.product_name,
+        p.slug,
+        p.product_status,
+        p.product_availability,
+        p.rating,
+        pi2.file_name,
+        min_prices.base_price,
+        min_prices.disc,
+        min_prices.price
+    FROM
+        product_color_options pco
+    JOIN
+        products p ON p.id = pco.product_id
+    JOIN
+        product_tags pt ON pt.product_id = p.id
+    LEFT JOIN
+        product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+    JOIN
+        (
+            SELECT
+                product_id,
+                MIN(price) AS price,
+                disc,
+                base_price
+            FROM
+                product_options
+            GROUP BY
+                product_id
+        ) AS min_prices ON p.id = min_prices.product_id
+    WHERE
+        pt.tag_id = 1
+        AND p.product_availability = 'y'
+        AND p.brand_id = ? and p.category_id = ?
+    GROUP BY
+        item_id
+    ) as product_view limit 10
         ";
 
     $data_obj = DB::select($sql, [session('active-brand'), $category_id]);

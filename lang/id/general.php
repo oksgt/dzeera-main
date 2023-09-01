@@ -29,5 +29,8 @@ return [
     'last' => 'Terakhir',
     'next' => 'Berikutnya',
     'previous' => 'Sebelumnya',
-    'searchProduct' => 'Cari Produk'
+    'searchProduct' => 'Cari Produk',
+    'yourWishlist' => 'Wishlist Anda',
+    'remove'    => 'Hapus',
+    'searchResult' => 'Hasil Pencarian',
 ];

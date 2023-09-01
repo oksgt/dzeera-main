@@ -165,7 +165,14 @@ class WishlistController extends Controller
         GROUP BY item_id;";
 
         $data_obj = DB::select($sql);
-        dd($data_obj);
+        foreach ($data_obj as $key => $value) {
+            $data_obj[$key]->base_price = (int) $data_obj[$key]->base_price;
+            $data_obj[$key]->disc       = (int) $data_obj[$key]->disc;
+            $data_obj[$key]->price      = (int) $data_obj[$key]->price;
+        }
+
+        $data = $data_obj;
+        return view('wishlist', compact( 'data'));
     }
 
     public function syncWishlist(Request $request)

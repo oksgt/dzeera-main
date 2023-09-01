@@ -29,5 +29,8 @@ return [
     'last' => 'Last',
     'next' => 'Next',
     'previous' => 'Previous',
-    'searchProduct' => 'Search Product'
+    'searchProduct' => 'Search Product',
+    'yourWishlist' => 'Your Wishlist',
+    'remove'    => 'Remove',
+    'searchResult' => 'Search Result',
 ];

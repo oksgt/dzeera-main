@@ -6,14 +6,14 @@
             <div class="row mt-4 mb-4">
                 <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
                     <div class="text-center">
-                        <h3>New Arrivals</h3>
+                        <h3>{{ __('general.yourWishlist') }}</h3>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
 
-                    <div class="row row-cols-2 row-cols-sm-4 row-cols-md-4 g-3 mt-0" id="product-container">
+                    <div class="row row-cols-2 row-cols-sm-4 row-cols-md-6 g-3 mt-0" id="product-container">
                         @foreach ($data as $item)
                             @php
                                 $image = $item->file_name == null || $item->file_name == '' ? 'images/no-image.png' : 'img_product/' . $item->file_name;
@@ -50,7 +50,7 @@
                                                         value="{{ $item->color_name }}">
                                                     <button type="submit"
                                                         class="float-left btn mt-1 btn-outline-transparent "
-                                                        style="width: 100% !important; ">Wishlist</button>
+                                                        style="width: 100% !important; ">{{ __('general.remove') }}</button>
                                                 </form>
 
                                                 <a href="#" class="float-right btn mt-1 btn-outline-transparent " id="btn-buy"
@@ -62,128 +62,6 @@
                                 </div>
                             @endif
                         @endforeach
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination pagination-sm justify-content-end">
-                                    @if ($totalPages > 1)
-                                        @php
-                                            $currentPage = $page;
-                                            $range = 2;
-                                        @endphp
-
-                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
-                                            @php
-                                                // $current_url = url()->current() . '?page=1';
-                                                if ($filtered_['use_filter'] !== 1) {
-                                                    $updatedUrl = url()->current() . '?page=1';
-                                                } else {
-                                                    $currentUrl = URL::current();
-                                                    $queryParameters = Request::query();
-                                                    unset($queryParameters['page']);
-                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
-                                                }
-
-                                            @endphp
-                                            <a class="page-link"
-                                                href="{{ $updatedUrl }}">{{ __('general.first') }}</a>
-                                        </li>
-
-                                        <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
-                                            @php
-                                                if ($filtered_['use_filter'] !== 1) {
-                                                    $updatedUrl = url()->current() . '?page=' . $page - 1;
-                                                } else {
-                                                    // $current_url = url()->current() . '?page=' . $page - 1;
-                                                    $currentUrl = URL::current();
-                                                    $queryParameters = Request::query();
-                                                    unset($queryParameters['page']);
-                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page - 1;
-                                                }
-                                            @endphp
-                                            <a class="page-link"
-                                                href="{{ $updatedUrl }}">{{ __('general.previous') }}</a>
-                                        </li>
-
-                                        <li class="page-item {{ $page == 1 ? 'active' : '' }}">
-                                            @php
-                                                if ($filtered_['use_filter'] !== 1) {
-                                                    $updatedUrl = url()->current() . '?page=1';
-                                                } else {
-                                                    $currentUrl = URL::current();
-                                                    $queryParameters = Request::query();
-                                                    unset($queryParameters['page']);
-                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
-                                                }
-                                            @endphp
-                                            <a class="page-link" href="{{ $updatedUrl }}">1</a>
-                                        </li>
-
-                                        @if ($currentPage - $range > 2)
-                                            <li class="page-item ">
-                                                <a class="page-link" href="#">...</a>
-                                            </li>
-                                        @endif
-
-                                        @php
-                                            $startPage = max($currentPage - $range, 2);
-                                            $endPage = min($currentPage + $range, $totalPages - 1);
-                                        @endphp
-
-                                        @for ($i = $startPage; $i <= $endPage; $i++)
-                                            <li class="page-item {{ $i == $page ? 'active' : '' }}">
-                                                @php
-                                                    if ($filtered_['use_filter'] !== 1) {
-                                                        $updatedUrl = url()->current() . '?page=' . $i;
-                                                    } else {
-                                                        $currentUrl = URL::current();
-                                                        $queryParameters = Request::query();
-                                                        unset($queryParameters['page']);
-                                                        $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $i;
-                                                    }
-                                                @endphp
-                                                <a class="page-link" href="{{ $updatedUrl }}">{{ $i }}</a>
-                                            </li>
-                                        @endfor
-
-                                        @if ($totalPages - $currentPage > $range + 1)
-                                            <li class="page-item ">
-                                                <a class="page-link" href="#">...</a>
-                                            </li>
-                                        @endif
-
-                                        <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
-                                            @php
-                                                if ($filtered_['use_filter'] !== 1) {
-                                                    $updatedUrl = url()->current() . '?page=' . $page + 1;
-                                                } else {
-                                                    $currentUrl = URL::current();
-                                                    $queryParameters = Request::query();
-                                                    unset($queryParameters['page']);
-                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page + 1;
-                                                }
-                                            @endphp
-                                            <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.next') }}</a>
-                                        </li>
-
-                                        <li class="page-item {{ $page == $totalPages ? 'disabled' : '' }}">
-                                            @php
-                                                if ($filtered_['use_filter'] !== 1) {
-                                                    $updatedUrl = url()->current() . '?page=' . $totalPages;
-                                                } else {
-                                                    $currentUrl = URL::current();
-                                                    $queryParameters = Request::query();
-                                                    unset($queryParameters['page']);
-                                                    $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $totalPages;
-                                                }
-                                            @endphp
-                                            <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.last') }}</a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
