@@ -215,7 +215,12 @@
                                                         style="width: 100% !important; ">Wishlist</button>
                                                 </form>
 
-                                                <a href="#" class="float-right btn mt-1 btn-outline-transparent " id="btn-buy"
+                                                @php
+                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                    $slug = strtolower($slug);
+                                                @endphp
+
+                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}" class="float-right btn mt-1 btn-outline-transparent " id="btn-buy"
                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                 </a>
                                             </div>

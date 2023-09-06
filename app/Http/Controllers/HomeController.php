@@ -562,6 +562,92 @@ class HomeController extends Controller
         return view('new_arrivals', compact('brand_id', 'data', 'filtered_', 'page', 'totalPages'));
     }
 
+    public function product(Request $request){
+        $slug = $request->productslug;
+
+        // Separate the string using the delimiter "__"
+        $parts = explode("__", $slug);
+        $product_slug = $parts[0];
+        $color_slug = str_replace("_", " ", $parts[1]);
+
+        $sql = "
+        select * from
+        (
+        SELECT
+            CONCAT(p.slug, '-', LOWER(pco.color_name)) AS item_slug,
+            CONCAT(p.id, '-', pco.id) AS item_id,
+            p.product_desc,
+            pco.id AS color_id,
+            pco.color_name,
+            p.id AS product_id,
+            p.brand_id,
+            p.category_id,
+            p.product_sku,
+            p.product_name,
+            p.slug,
+            p.product_status,
+            p.product_availability,
+            p.rating,
+            pi2.file_name,
+            min_prices.base_price,
+            min_prices.disc,
+            min_prices.price
+        FROM
+            product_color_options pco
+        JOIN
+            products p ON p.id = pco.product_id
+        JOIN
+            product_tags pt ON pt.product_id = p.id
+        LEFT JOIN
+            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+        JOIN
+            (
+                SELECT
+                    product_id,
+                    MIN(price) AS price,
+                    disc,
+                    base_price
+                FROM
+                    product_options
+                GROUP BY
+                    product_id
+            ) AS min_prices ON p.id = min_prices.product_id
+        WHERE
+        p.slug = ? and
+        pco.color_name = ?
+            AND p.product_availability = 'y'
+        GROUP BY
+            item_id
+        ) as product_view
+        ";
+
+        $product_detail_obj = DB::select($sql, [$product_slug, $color_slug]);
+
+        $product_detail = $product_detail_obj[0];
+
+        $product_id = $product_detail_obj[0]->product_id;
+        $color_id   = $product_detail_obj[0]->color_id;
+
+        $options = DB::select("
+            select po.id as option_id, po.product_id, po.color, po.size_opt_id, pso.`size`, po.stock,
+            po.base_price, po.disc, po.price, po.option_availability
+            from product_options po
+            join product_size_options pso on pso.id = po.size_opt_id
+            where po.color = ?
+            and po.option_availability = 'y'
+            and po.product_id = ?
+        ", [$color_id, $product_id]);
+
+        $images = DB::select("
+        select * from product_images pi2 where product_id = ? order by is_thumbnail desc
+        ", [$product_id]);
+
+        // dd($images);
+
+        return view('product_detail', compact('product_detail', 'options', 'images'));
+
+    }
+
     private function sortByName(array $data, string $order = 'asc'): array
     {
         usort($data, function ($a, $b) use ($order) {

@@ -33,4 +33,5 @@ return [
     'yourWishlist' => 'Your Wishlist',
     'remove'    => 'Remove',
     'searchResult' => 'Search Result',
+    'youmightalsolikes' => 'You might also like',
 ];

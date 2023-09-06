@@ -71,7 +71,7 @@
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
                             data-bs-toggle="modal" data-bs-target="#searchModal">
                             <i class="fa fa-search"></i></button>
-                        <a href="{{url('/wishlist')}}"
+                            <a href="{{url('/wishlist/show')}}"
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
                             @php
@@ -83,7 +83,11 @@
                         <button
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-shopping-bag"></i>
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">5</span>
+                            @php
+                                $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                $count_cart = count($cart);
+                            @endphp
+                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_cart}}</span>
                         </button>
                     </div>
                 </div>
@@ -126,7 +130,11 @@
                         <button
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-shopping-bag"></i>
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">5</span>
+                            @php
+                                $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                $count_cart = count($cart);
+                            @endphp
+                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
                         </button>
                     </div>
                 </div>

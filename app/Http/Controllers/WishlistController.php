@@ -111,7 +111,7 @@ class WishlistController extends Controller
             $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
             $data = $wishlist;
         }
-
+        // dd($data);
         if(empty($data)){
             return route('home');
         }
