@@ -113,7 +113,7 @@ class WishlistController extends Controller
         }
         // dd($data);
         if(empty($data)){
-            return route('home');
+            return redirect()->route('home');
         }
 
         $productItemIds = Arr::pluck($data, 'product_item_id');
@@ -165,6 +165,7 @@ class WishlistController extends Controller
         GROUP BY item_id;";
 
         $data_obj = DB::select($sql);
+        // dd($data_obj);
         foreach ($data_obj as $key => $value) {
             $data_obj[$key]->base_price = (int) $data_obj[$key]->base_price;
             $data_obj[$key]->disc       = (int) $data_obj[$key]->disc;

@@ -34,4 +34,5 @@ return [
     'remove'    => 'Remove',
     'searchResult' => 'Search Result',
     'youmightalsolikes' => 'You might also like',
+    'cart' => 'Your Cart',
 ];

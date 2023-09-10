@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 // use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
 
@@ -39,7 +42,52 @@ class LoginController extends Controller
                 Auth::login($existingUser);
             }
 
-            return redirect()->route('home'); // Redirect to the desired page after login
+            // sync cart
+            $data = [];
+            // if (auth()->check()) {
+                // $cart = Cart::where('user_id', auth()->id())->get();
+                // $cart_arr = json_decode($cart[0]->data, true);
+            //     $data = $cart_arr;
+            // } else {
+            //     $cart = json_decode(request()->cookie('cart'), true) ?? [];
+            //     $data = $cart;
+            // }
+
+            // for
+            $cart = json_decode(request()->cookie('cart'), true) ?? [];
+            $dataArray = $cart;
+            $user_id = auth()->id();
+
+            foreach ($dataArray as $data) {
+                $existingRecord = DB::table('carts')
+                    ->where('user_id', $user_id)
+                    ->where('product_id', $data['product_id'])
+                    ->where('color_opt_id', $data['color_opt_id'])
+                    ->where('size_opt_id', $data['size_opt_id'])
+                    ->first();
+
+                if ($existingRecord) {
+                    $newQty = $existingRecord->qty + $data['qty'];
+
+                    DB::table('carts')
+                        ->where('user_id', $user_id)
+                        ->where('product_id', $data['product_id'])
+                        ->where('color_opt_id', $data['color_opt_id'])
+                        ->where('size_opt_id', $data['size_opt_id'])
+                        ->update(['qty' => $newQty]);
+                } else {
+                    $data['user_id'] = $user_id;
+                    DB::table('carts')->insert($data);
+                }
+            }
+
+            $cart = Cart::where('user_id', auth()->id())
+            ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
+            ->get();
+            $cart_arr = json_decode($cart, true);
+            $cookie = Cookie::make('cart', json_encode($cart_arr));
+
+            return redirect()->route('home')->cookie($cookie);; // Redirect to the previous page after login
         } catch (InvalidStateException $e) {
             // $user = Socialite::driver('google')->stateless()->user();
             // dd($e);

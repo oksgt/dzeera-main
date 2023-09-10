@@ -34,4 +34,5 @@ return [
     'remove'    => 'Hapus',
     'searchResult' => 'Hasil Pencarian',
     'youmightalsolikes' => 'Kamu mungkin juga suka',
+    'cart' => 'Keranjang Kamu',
 ];

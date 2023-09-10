@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+
+    private function removeCookie($cookieName){
+        Cookie::queue(Cookie::forget($cookieName));
+        return ['ok' => true];
+    }
+
     public function addToCart(Request $request)
     {
             $productId  = $request->input('product_id');
@@ -20,7 +26,7 @@ class CartController extends Controller
             $qty        = $request->input('qty');
 
         if (auth()->check()) {
-
+            echo "here";
             $cek = Cart::where([
                 'product_id'   => $productId,
                 'color_opt_id' => $color,
@@ -28,62 +34,103 @@ class CartController extends Controller
                 'user_id'      => auth()->id()
             ])->first();
 
-
             if($cek){
-                // dd($cek);
-                // echo json_decode(json_encode($cek->data), true); die;
-                $decoded_data = json_decode(json_decode(json_encode($cek->data), true));
-                $cart = json_decode(request()->cookie('cart')) ?? [];
-
-                $new_item = [
-                    'product_id'   => $productId,
-                    'color_opt_id' => $color,
-                    'size_opt_id'  => $size,
-                    'qty'          => $qty,
-                    'price'        => $price
-                ];
-
-                // Iterate over the array
-                foreach ($decoded_data as &$item) {
-                    // Check if the combination matches
-                    if ($item->product_id === $new_item['product_id']
-                        && $item->color_opt_id === $new_item['color_opt_id']
-                        && $item->size_opt_id === $new_item['size_opt_id']
-                    ) {
-                        // Update the quantity value
-                        $item->qty = strval(intval($item->qty) + intval($new_item['qty']));
-                        break; // Stop iterating after finding the match
-                    }
-                }
-
-                // Encode the updated array back into JSON
-                $updatedData = json_encode($decoded_data);
-
-                // Output the updated JSON
-                // echo $updatedData;
-                // die;
-
-                $new_decoded_data = [];
-                foreach ($decoded_data as $object) {
-                    $new_decoded_data[] = (array) $object;
-                }
-
-
-                if (in_array($item, $new_decoded_data)) {
-                    return redirect()->back()->with('cart_exists', true);
-                }
-
-                $cart_arr = array_merge($new_decoded_data, [$item]);
-
-                $cart =  Cart::find($cek->id);
+                //if exist, update qty in table
+                $cart = Cart::find($cek->id);
 
                 $cart->user_id = auth()->id();
-                $cart->data = json_encode($cart_arr);
-                $cart->qty     = 22;
+                $cart->qty     = $cart->qty + $qty;
                 $cart->save();
 
+                //remove cookie
+                $deleteCookie = $this->removeCookie('cart');
+
+                $cart = Cart::where('user_id', auth()->id())
+                ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
+                ->get();
+                $cart_arr = json_decode($cart, true);
+                // echo json_encode($cart_arr); die;;
                 $cookie = Cookie::make('cart', json_encode($cart_arr));
-                return redirect()->back()->with('cart_added', true)->cookie($cookie);
+                // dd($cookie);
+                return redirect()->back()->with('cart_added', true)->withCookie($cookie);
+
+                // Check if the item already exists in the cart based on product_id, color_opt_id, and size_opt_id
+                // $item = [
+                //     'product_id'   => $productId,
+                //     'color_opt_id' => $color,
+                //     'size_opt_id'  => $size,
+                //     'qty'          => $qty,
+                //     'price'        => $price
+                // ];
+
+                // $cart_cookie = json_decode($request->cookie('cart'), true) ?? [];
+
+                // $existingItem = array_filter($cart_cookie, function ($cartItem) use ($item) {
+                //     return $cartItem['product_id'] === $item['product_id'] &&
+                //         $cartItem['color_opt_id'] === $item['color_opt_id'] &&
+                //         $cartItem['size_opt_id'] === $item['size_opt_id'];
+                // });
+
+                // if (!empty($existingItem)) {
+                //     // Item exists, update the quantity
+                //     $existingItemKey = key($existingItem);
+                //     $cart_cookie[$existingItemKey]['qty'] += $qty;
+                //     $cookie = Cookie::make('cart', json_encode($cart_cookie));
+                //     return redirect()->back()->with('cart_added', true)->cookie($cookie);
+                // }
+
+                // $cart[] = $item;
+
+                // $cookie = Cookie::make('cart', json_encode($cart));
+                // return redirect()->back()->with('cart_added', true)->cookie($cookie);
+
+                // dd($cek);
+                // echo json_decode(json_encode($cek->data), true); die;
+                // $decoded_data = json_decode(json_decode(json_encode($cek->data), true));
+                // $cart = json_decode(request()->cookie('cart')) ?? [];
+
+                // $new_item = [
+                //     'product_id'   => $productId,
+                //     'color_opt_id' => $color,
+                //     'size_opt_id'  => $size,
+                //     'qty'          => $qty,
+                //     'price'        => $price
+                // ];
+
+                // // Iterate over the array
+                // foreach ($decoded_data as &$item) {
+                //     // Check if the combination matches
+                //     if ($item->product_id === $new_item['product_id']
+                //         && $item->color_opt_id === $new_item['color_opt_id']
+                //         && $item->size_opt_id === $new_item['size_opt_id']
+                //     ) {
+                //         // Update the quantity value
+                //         $item->qty = strval(intval($item->qty) + intval($new_item['qty']));
+                //         break; // Stop iterating after finding the match
+                //     }
+                // }
+
+                // $new_decoded_data = [];
+                // foreach ($decoded_data as $object) {
+                //     $new_decoded_data[] = (array) $object;
+                // }
+
+
+                // if (in_array($item, $new_decoded_data)) {
+                //     return redirect()->back()->with('cart_exists', true);
+                // }
+
+                // $cart_arr = array_merge($new_decoded_data, [$item]);
+
+                // $cart =  Cart::find($cek->id);
+
+                // $cart->user_id = auth()->id();
+                // $cart->data = json_encode($cart_arr);
+                // $cart->qty     = 22;
+                // $cart->save();
+
+                // $cookie = Cookie::make('cart', json_encode($cart_arr));
+                // return redirect()->back()->with('cart_added', true)->cookie($cookie);
 
             } else {
                 $cart = json_decode($request->cookie('cart'), true) ?? [];
@@ -126,113 +173,102 @@ class CartController extends Controller
                 'price'        => $price
             ];
 
-            if (in_array($item, $cart)) {
-                return redirect()->back()->with('wishlist_exists', true);
+            // Check if the item already exists in the cart based on product_id, color_opt_id, and size_opt_id
+            $existingItem = array_filter($cart, function ($cartItem) use ($item) {
+                return $cartItem['product_id'] === $item['product_id'] &&
+                    $cartItem['color_opt_id'] === $item['color_opt_id'] &&
+                    $cartItem['size_opt_id'] === $item['size_opt_id'];
+            });
+
+            if (!empty($existingItem)) {
+                // Item exists, update the quantity
+                $existingItemKey = key($existingItem);
+                $cart[$existingItemKey]['qty'] += $qty;
+                $cookie = Cookie::make('cart', json_encode($cart));
+                return redirect()->back()->with('cart_added', true)->cookie($cookie);
             }
 
-            $cart = array_merge($cart, [$item]);
+            $cart[] = $item;
 
             $cookie = Cookie::make('cart', json_encode($cart));
             return redirect()->back()->with('cart_added', true)->cookie($cookie);
         }
     }
 
-    // public function getWishlist()
-    // {
-    //     $data = [];
-    //     if (auth()->check()) {
-    //         $wishlist = Wishlist::where('user_id', auth()->id())->get();
-    //         $wishlist_arr = json_decode($wishlist[0]->data, true);
-    //         $data = $wishlist_arr;
-    //     } else {
-    //         $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
-    //         $data = $wishlist;
-    //     }
-    //     dd($data);
-    //     if(empty($data)){
-    //         return route('home');
-    //     }
+    public function getCart()
+    {
+        $data_db = [];
+        $data_cookie = [];
+        $data = [];
+        if (auth()->check()) {
+            echo "db";
+            $cart = Cart::where('user_id', auth()->id())
+            ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
+            ->get();
+            $cart_arr = json_decode($cart, true);
+            $data = $cart_arr;
+        } else {
+            $cart_cookie = json_decode(request()->cookie('cart'), true) ?? [];
+            $data = $cart_cookie;
+        }
 
-    //     $productItemIds = Arr::pluck($data, 'product_item_id');
-    //     $result = "and CONCAT(p.id, '-', pco.id) in ('" . implode("', '", $productItemIds) . "' )";
+        // dd($data);
 
-    //     $sql = "
-    //     SELECT
-    //         CONCAT(p.slug, '-', LOWER(pco.color_name)) AS item_slug,
-    //         CONCAT(p.id, '-', pco.id) AS item_id,
-    //         pco.id AS color_id,
-    //         pco.color_name,
-    //         p.id AS product_id,
-    //         p.brand_id,
-    //         p.category_id,
-    //         p.product_sku,
-    //         p.product_name,
-    //         p.slug,
-    //         p.product_status,
-    //         p.product_availability,
-    //         p.rating,
-    //         pi2.file_name,
-    //         min_prices.base_price,
-    //         min_prices.disc,
-    //         min_prices.price
-    //     FROM
-    //         product_color_options pco
-    //     JOIN
-    //         products p ON p.id = pco.product_id
-    //     JOIN
-    //         product_tags pt ON pt.product_id = p.id
-    //     LEFT JOIN
-    //         product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
-    //     JOIN
-    //         (
-    //             SELECT
-    //                 product_id,
-    //                 MIN(price) AS price,
-    //                 disc,
-    //                 base_price
-    //             FROM
-    //                 product_options
-    //             GROUP BY
-    //                 product_id
-    //         ) AS min_prices ON p.id = min_prices.product_id
-    //     WHERE
-    //         pt.tag_id = 1
-    //         AND p.product_availability = 'y'
-    //         $result
-    //     GROUP BY item_id;";
+        if(empty($data)){
+            return redirect()->route('home');
+        }
 
-    //     $data_obj = DB::select($sql);
-    //     foreach ($data_obj as $key => $value) {
-    //         $data_obj[$key]->base_price = (int) $data_obj[$key]->base_price;
-    //         $data_obj[$key]->disc       = (int) $data_obj[$key]->disc;
-    //         $data_obj[$key]->price      = (int) $data_obj[$key]->price;
-    //     }
+        $result = [];
+        foreach ($data as $key => $value) {
+            $sql = "
+            select
+            po.id as opt_id,
+            p.id as product_id, p.product_name, pco.id as color_opt_id, pco.color_name , pso.id as size_opt_id, pso.`size`, po.price,
+            po.qty,
+            -- po.base_price, po.disc,
+            pi2.file_name
+            -- from product_options po
+            from carts po
+            join products p on p.id = po.product_id
+            join product_color_options pco on pco.id = po.color_opt_id
+            join product_size_options pso on pso.id = po.size_opt_id
+            LEFT JOIN
+                product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            where p.id = ? and pco.id = ? and pso.id = ?";
 
-    //     $data = $data_obj;
-    //     return view('wishlist', compact( 'data'));
-    // }
+            $data_obj = DB::select($sql, [$value['product_id'], $value['color_opt_id'], $value['size_opt_id']]);
+            array_push($result, $data_obj[0]);
+        }
 
-    // public function syncWishlist(Request $request)
+        foreach ($result as $key => $value) {
+            $result[$key]->price      = (int) $result[$key]->price;
+        }
+
+        $data = $result;
+        return view('cart', compact( 'data'));
+    }
+
+    // public function synccart(Request $request)
     // {
     //     // Perform synchronization logic for the authenticated user
     //     if (auth()->check()) {
-    //         // Get the wishlist items for the authenticated user
-    //         $wishlist = Wishlist::where('user_id', auth()->id())->get();
+    //         // Get the cart items for the authenticated user
+    //         $cart = Cart::where('user_id', auth()->id())->get();
 
     //         // Perform synchronization logic here
-    //         // Example pseudocode: Loop through $request->input('wishlist') and sync with $wishlist
+    //         // Example pseudocode: Loop through $request->input('cart') and sync with $cart
 
-    //         // Return the synchronized wishlist items as a response
-    //         return response()->json($wishlist);
+    //         // Return the synchronized cart items as a response
+    //         return response()->json($cart);
     //     } else {
-    //         // Retrieve the wishlist from localStorage
-    //         $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
+    //         // Retrieve the cart from localStorage
+    //         $cart = json_decode(request()->cookie('cart'), true) ?? [];
 
-    //         // Perform synchronization logic with the $wishlist array
-    //         // Example pseudocode: Loop through $request->input('wishlist') and sync with $wishlist
+    //         // Perform synchronization logic with the $cart array
+    //         // Example pseudocode: Loop through $request->input('cart') and sync with $cart
 
-    //         // Store the updated wishlist in localStorage
-    //         return response()->json($wishlist)->withCookie(cookie('wishlist', json_encode($wishlist)));
+    //         // Store the updated cart in localStorage
+    //         return response()->json($cart)->withCookie(cookie('cart', json_encode($cart)));
     //     }
     // }
 }

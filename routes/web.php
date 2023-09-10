@@ -16,7 +16,10 @@ Route::get('lang/{locale}', [App\Http\Controllers\LocalizationController::class 
 Route::get('/wishlist/show', [WishlistController::class, 'getWishlist'])->name('wishlist.index');
 Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
 
+Route::get('/cart/show', [CartController::class, 'getCart'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'addToCart']);
+
+Route::get('/checkout/', [CheckoutController::class, 'index'])->name('checkout');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
@@ -26,8 +29,6 @@ Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
 
 // Public routes
-
-
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {
