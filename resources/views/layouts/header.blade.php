@@ -70,25 +70,28 @@
                         <button
                             class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
                             data-bs-toggle="modal" data-bs-target="#searchModal">
-                            <i class="fa fa-search"></i></button>
-                            <a href="{{url('/wishlist/show')}}"
-                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
-                            <i class="fa fa-heart"></i>
-                            @php
-                                $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
-                                $count_wishlist = count($wishlist);
-                            @endphp
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
-                        </a>
-                        <button
-                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
-                            <i class="fa fa-shopping-bag"></i>
-                            @php
-                                $cart = json_decode(request()->cookie('cart'), true) ?? [];
-                                $count_cart = count($cart);
-                            @endphp
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_cart}}</span>
+                            <i class="fa fa-search"></i>
                         </button>
+                            <a href="{{url('/wishlist/show')}}"
+                                class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                                <i class="fa fa-heart"></i>
+                                @php
+                                    $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
+                                    $count_wishlist = count($wishlist);
+                                @endphp
+                                <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
+                            </a>
+
+                            <a href="{{url('/cart/show')}}"
+                                class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                                <i class="fa fa-shopping-bag"></i>
+                                @php
+                                    $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                    $count_cart = count($cart);
+                                @endphp
+                                <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_cart}}</span>
+                            </a>
+
                     </div>
                 </div>
 
@@ -203,12 +206,15 @@
                                 <a class="nav-link category-link" href="#"></a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link category-link" href="#">All Product</a>
+                                <a class="nav-link category-link"
+                                href="{{ route('allProducts', ['brandslug' => session('active-brand-name'), 'page' => 1]) }}">
+                                All Productsss </a>
                             </li>
                             @foreach ($categories as $index => $item)
                                 <li class="nav-item ">
                                     <a class="nav-link category-link"
-                                        href="#">{{ strtoupper($item->category_name) }}</a>
+                                    href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}">
+                                    {{ strtoupper($item->category_name) }}</a>
                                 </li>
                             @endforeach
 

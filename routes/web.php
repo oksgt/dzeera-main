@@ -27,6 +27,8 @@ Route::get('/product/{productslug}', [HomeController::class, 'product'])->name('
 
 Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
+Route::get('/{brandslug?}/all-products/', [HomeController::class, 'allProducts'])->name('allProducts');
+Route::get('/{brandslug?}/{categoryslug?}/', [HomeController::class, 'ProductByCategory'])->name('ProductByCategory');
 
 // Public routes
 

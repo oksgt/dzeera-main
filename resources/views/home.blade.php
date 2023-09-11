@@ -64,7 +64,12 @@
                                                                 style="width: 100% !important; ">Wishlist</button>
                                                         </form>
 
-                                                        <a href="#"
+                                                        @php
+                                                            $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                            $slug = strtolower($slug);
+                                                        @endphp
+
+                                                        <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                             class="float-right btn mt-1 btn-outline-transparent "
                                                             id="btn-buy"
                                                             style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
@@ -109,7 +114,8 @@
                                             height="70" alt="">
                                     </div>
                                     <div class="card-body  p-0 text-center">
-                                        <h6 class="card-title card-title-category mt-2 ">{{ $item->category_name }}</h6>
+                                        {{-- <h6 class="card-title card-title-category mt-2 ">{{ $item->category_name }}</h6> --}}
+                                        <a href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}" class="card-title card-title-category mt-2">{{ $item->category_name }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +248,13 @@
                                                                         class="float-left btn mt-1 btn-outline-transparent "
                                                                         style="width: 100% !important; ">Wishlist</button>
                                                                 </form>
-                                                                <a href="#"
+
+                                                                @php
+                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                    $slug = strtolower($slug);
+                                                                @endphp
+
+                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
                                                                 </a>
@@ -382,7 +394,13 @@
                                                                         class="float-left btn mt-1 btn-outline-transparent "
                                                                         style="width: 100% !important; ">Wishlist</button>
                                                                 </form>
-                                                                <a href="#"
+
+                                                                @php
+                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                    $slug = strtolower($slug);
+                                                                @endphp
+
+                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
                                                                 </a>
@@ -521,7 +539,13 @@
                                                                         class="float-left btn mt-1 btn-outline-transparent "
                                                                         style="width: 100% !important; ">Wishlist</button>
                                                                 </form>
-                                                                <a href="#"
+
+                                                                @php
+                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                    $slug = strtolower($slug);
+                                                                @endphp
+
+                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
                                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
                                                                 </a>

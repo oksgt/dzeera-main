@@ -101,6 +101,7 @@ function getNewArrivals()
     return $data_obj;
 }
 
+
 function getYouMightLike($pid)
 {
 

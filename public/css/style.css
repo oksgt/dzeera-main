@@ -84,7 +84,7 @@ body {
     }
 
     .mobile-navbar-nav-other a {
-        color: #212529;
+        color: #212529 !important;;
     }
 
     .mobile-navbar-nav > .nav-item > .nav-link:hover {
