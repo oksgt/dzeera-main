@@ -67,7 +67,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Total Items: {{ $total_items }}</h5>
                             <p class="card-text">Total Price: Rp. {{ formatnumber($total_price) }}</p>
-                            <a href="#" class="d-block btn btn-success">Checkout</a>
+                            <a href="{{ route('checkout') }}" class="d-block btn btn-success">Checkout</a>
                         </div>
                     </div>
                 </div>

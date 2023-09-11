@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
@@ -21,7 +22,12 @@ Route::post('/cart', [CartController::class, 'addToCart']);
 Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('removecart');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('updateCart');
 
-Route::get('/checkout/', [CheckoutController::class, 'index'])->name('checkout');
+Route::get('/checkout/', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::get('/getCities/{province_id}', [CheckoutController::class, 'getCities'])->name('getCities');
+Route::post('/ongkir/', [CheckoutController::class, 'check_ongkir'])->name('check_ongkir');
+
+// Route::post('/ongkir', 'CheckOngkirController@check_ongkir');
+// Route::get('/cities/{province_id}', 'CheckOngkirController@getCities');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
