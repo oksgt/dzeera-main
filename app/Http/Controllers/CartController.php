@@ -8,6 +8,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -195,13 +197,33 @@ class CartController extends Controller
         }
     }
 
+    public function updateCart(Request $request)
+    {
+        $cartId = $request->input('cart_id');
+        $qty = $request->input('qty');
+
+        // Find the cart item by ID
+        $cart = Cart::find($cartId);
+
+        if ($cart) {
+            // Update the 'qty' field
+            $cart->qty = $qty;
+            $cart->save();
+
+            // Redirect back with a success message
+            return back()->with('success', 'Cart updated successfully.');
+        }
+
+        // Redirect back with an error message if the cart item was not found
+        return back()->with('error', 'Cart item not found.');
+    }
+
     public function getCart()
     {
         $data_db = [];
         $data_cookie = [];
         $data = [];
         if (auth()->check()) {
-            echo "db";
             $cart = Cart::where('user_id', auth()->id())
             ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
             ->get();
@@ -222,9 +244,11 @@ class CartController extends Controller
         foreach ($data as $key => $value) {
             $sql = "
             select
+            po.id as cart_id,
             po.id as opt_id,
             p.id as product_id, p.product_name, pco.id as color_opt_id, pco.color_name , pso.id as size_opt_id, pso.`size`, po.price,
             po.qty,
+            po.qty * po.price as total_price,
             -- po.base_price, po.disc,
             pi2.file_name
             -- from product_options po
@@ -245,7 +269,24 @@ class CartController extends Controller
         }
 
         $data = $result;
+
+        // dd($data);
         return view('cart', compact( 'data'));
+    }
+
+    public function removeCart(Request $request){
+        $records = Cart::where('id', $request->input('cart_id'))->get();
+
+        // Permanently delete the records
+        $records->each(function ($record) {
+            $record->forceDelete();
+        });
+
+        // Add success message to the session
+        Session::flash('success', 'Records have been permanently deleted.');
+
+        // Redirect back
+        return Redirect::back();
     }
 
     // public function synccart(Request $request)

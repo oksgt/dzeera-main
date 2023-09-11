@@ -22,7 +22,7 @@
                             $image = $item->file_name == null || $item->file_name == '' ? 'images/no-image.png' : 'img_product/' . $item->file_name;
 
                             $total_items += $item->qty;
-                            $total_price += $item->price;
+                            $total_price += $item->total_price;
 
                         @endphp
 
@@ -38,22 +38,21 @@
                             <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                                 <div class="d-flex flex-column mt-0">
 
-                                    <div class="input-group mb-3">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                            id="button-addon1">
-                                            <i class="fa fa-arrow-up"></i>
-                                        </button>
-                                        <input type="number" class="form-control" placeholder="{{ $item->qty }}" value="{{ $item->qty }}"
-                                            aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                        <button class="btn btn-outline-secondary" type="button"
-                                            id="button-addon2"><i class="fa fa-arrow-down"></i></button>
-                                    </div>
-
-                                    </button>
+                                    <form action="{{ route('updateCart') }}" method="POST">
+                                        @csrf
+                                        <div class="input-group input-group-sm mb-3">
+                                            <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
+                                            <input type="text" class="form-control" name="qty" value="{{ $item->qty }}">
+                                            <button class="btn btn-sm btn-outline-secondary" type="submit" id="button-addon2">Update Qty</button>
+                                        </div>
+                                    </form>
 
 
-                                    <button class="btn btn-outline-danger btn-sm mt-2" type="button">Remove From
-                                        Cart</button>
+                                    <form action="{{ route('removecart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
+                                        <button class="btn btn-block btn-outline-danger btn-sm mt-2" type="submit">Remove From Cart</button>
+                                      </form>
                                 </div>
                             </div>
                         </div>
@@ -78,3 +77,53 @@
 
     </section>
 @endsection
+
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+      // Get the quantity input field and cart ID
+      var quantityInput = $('#quantity-input');
+      var cartId = "{{ $item->cart_id }}"; // Replace with the actual cart ID
+
+      // Increase button click handler
+      $('#button-increase').click(function() {
+        var currentQuantity = parseInt(quantityInput.val());
+        var newQuantity = currentQuantity + 1;
+        updateQuantity(newQuantity);
+      });
+
+      // Decrease button click handler
+      $('#button-decrease').click(function() {
+        var currentQuantity = parseInt(quantityInput.val());
+        console.log('s');
+        if (currentQuantity > 1) {
+          var newQuantity = currentQuantity - 1;
+          updateQuantity(newQuantity);
+        }
+      });
+
+      // Function to update the quantity via AJAX
+      function updateQuantity(newQuantity) {
+        $.ajax({
+          url: '/update-cart-quantity', // Replace with the actual route URL
+          method: 'POST',
+          data: {
+            cart_id: cartId,
+            quantity: newQuantity
+          },
+          success: function(response) {
+            // Update the quantity input field value
+            quantityInput.val(newQuantity);
+          },
+          error: function(xhr, status, error) {
+            // Handle error
+            console.log(error);
+          }
+        });
+      }
+    });
+  </script>
+@endpush

@@ -18,6 +18,8 @@ Route::post('/wishlist', [WishlistController::class, 'addToWishlist']);
 
 Route::get('/cart/show', [CartController::class, 'getCart'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'addToCart']);
+Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('removecart');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('updateCart');
 
 Route::get('/checkout/', [CheckoutController::class, 'index'])->name('checkout');
 
