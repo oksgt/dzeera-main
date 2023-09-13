@@ -12,25 +12,24 @@
             </div>
             <div class="d-flex justify-content-center row mb-4">
                 <div class="col-md-7">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                            placeholder="name@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                            placeholder="name@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                            placeholder="name@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Address</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
+                    <form action="{{ route('checkout.next') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                        </div>
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Province</label>
                         <select class="form-control provinsi-tujuan" name="province_destination" onchange="getCities(this.value)">
@@ -48,15 +47,30 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Postal Code</label>
+                        <input type="text" class="form-control" id="kode_pos" name="kode_pos" placeholder="Enter your Postal Code" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Ongkir</label>
                         <select class="form-control" name="ongkir_list" id="ongkir_list" >
                             <option value="">-- pilih layanan --</option>
                         </select>
                     </div>
-
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
                 </div>
                 <div class="col-md-3">
-
+                    <div class="card text-center mt-2">
+                        <div class="card-header">
+                            Summary
+                        </div>
+                        <div class="card-body">
+                            {{-- <h5 class="card-title">Total Items: {{ $total_items }}</h5> --}}
+                            {{-- <p class="card-text">Total Price: Rp. {{ formatnumber($total_price) }}</p> --}}
+                            <a href="{{ route('checkout') }}" class="d-block btn btn-success">Checkout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -70,31 +84,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
     <script>
-        // $(document).ready(function(){
-        //active select2
-        // $(".provinsi-asal , .kota-asal, .provinsi-tujuan, .kota-tujuan").select2({
-        //     theme:'bootstrap4',width:'style',
-        // });
-        // //ajax select kota asal
-        // $('select[name="province_origin"]').on('change', function () {
-        //     let provindeId = $(this).val();
-        //     if (provindeId) {
-        //         jQuery.ajax({
-        //             url: '/cities/'+provindeId,
-        //             type: "GET",
-        //             dataType: "json",
-        //             success: function (response) {
-        //                 $('select[name="city_origin"]').empty();
-        //                 $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-        //                 $.each(response, function (key, value) {
-        //                     $('select[name="city_origin"]').append('<option value="' + key + '">' + value + '</option>');
-        //                 });
-        //             },
-        //         });
-        //     } else {
-        //         $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-        //     }
-        // });
         //ajax select kota tujuan
         let isProcessing = false;
 
@@ -147,11 +136,6 @@
                     isProcessing = false;
                     if (response) {
                         console.log(response);
-                        // $('#ongkir').empty();
-                        // $('.ongkir').addClass('d-block');
-                        // $.each(response[0]['costs'], function (key, value) {
-                        //     $('#ongkir').append('<li class="list-group-item">' + response[0].code.toUpperCase() + ' : <strong>' + value.service + '</strong> - Rp. ' + value.cost[0].value + ' (' + value.cost[0].etd + ' hari)</li>');
-                        // });
                         var selectOptions = '';
 
                         response[0].costs.forEach(function(cost) {
@@ -160,7 +144,7 @@
                         var costValue = cost.cost[0].value;
 
                         var optionText = service + '\n' + '(' + description + ')' + '\t' + 'Rp. ' + costValue;
-                        selectOptions += '<option value="' + service + '">' + optionText + '</option>';
+                        selectOptions += '<option value="' + service+"_"+ costValue + '">JNE ' + optionText + '</option>';
                         });
 
                         $('#ongkir_list').append(selectOptions);

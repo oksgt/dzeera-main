@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -95,6 +95,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modal-home" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="card text-center border-0">
+                        <div class="card-body p-0 mb-3">
+                            <h5 class="card-title"><b>Penting!</b></h5>
+                            <p class="card-text">Batas waktu pembayaran adalah <b>1 Jam</b></p>
+                            <h5 class="card-title"><b>Happy Shopping!</b></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="https://api.whatsapp.com/send?phone=6282136667287" class="float" target="_blank">
+        <i class="fab fa-whatsapp my-float"></i>
+        </a>
+
+
 
     <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -114,13 +138,14 @@
 
                 var baseUrl = "{{ url('/') }}"; // Base URL from Laravel
                 var queryString = '_token=' + encodeURIComponent(tokenValue) +
-                                '&input_search=' + encodeURIComponent(inputSearchValue) +
-                                '&page=1';
+                    '&input_search=' + encodeURIComponent(inputSearchValue) +
+                    '&page=1';
 
                 var searchUrl = baseUrl + '/search?' + queryString;
                 window.open(searchUrl, '_self');
 
             });
+            $('#modal-home').modal('show');
         });
     </script>
 </body>

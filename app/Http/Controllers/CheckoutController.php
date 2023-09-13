@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 
 class CheckoutController extends Controller
@@ -38,5 +39,30 @@ class CheckoutController extends Controller
         ])->get();
 
         return response()->json($cost);
+    }
+
+    public function checkout_next(Request $request)
+    {
+        // Validate the form input
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'address' => 'required',
+            'province_destination' => 'required',
+            'city_destination' => 'required',
+            'ongkir_list' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Process the form data
+        // Retrieve the form values using $request->input('input_name')
+
+        // Redirect or perform further actions after processing
+        dump($request->all());
+        // return redirect()->route('success.page');
     }
 }

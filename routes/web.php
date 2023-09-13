@@ -25,9 +25,7 @@ Route::post('/cart/update', [CartController::class, 'updateCart'])->name('update
 Route::get('/checkout/', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get('/getCities/{province_id}', [CheckoutController::class, 'getCities'])->name('getCities');
 Route::post('/ongkir/', [CheckoutController::class, 'check_ongkir'])->name('check_ongkir');
-
-// Route::post('/ongkir', 'CheckOngkirController@check_ongkir');
-// Route::get('/cities/{province_id}', 'CheckOngkirController@getCities');
+Route::post('/checkout/next', [CheckoutController::class, 'checkout_next'])->name('checkout.next');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
@@ -37,8 +35,6 @@ Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
 Route::get('/{brandslug?}/all-products/', [HomeController::class, 'allProducts'])->name('allProducts');
 Route::get('/{brandslug?}/{categoryslug?}/', [HomeController::class, 'ProductByCategory'])->name('ProductByCategory');
-
-// Public routes
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {
