@@ -116,7 +116,7 @@
 
     <a href="https://api.whatsapp.com/send?phone=6282136667287" class="float" target="_blank">
         <i class="fab fa-whatsapp my-float"></i>
-        </a>
+    </a>
 
 
 
