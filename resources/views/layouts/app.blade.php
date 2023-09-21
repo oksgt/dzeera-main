@@ -145,7 +145,12 @@
                 window.open(searchUrl, '_self');
 
             });
-            $('#modal-home').modal('show');
+
+            var route = '{{ Route::currentRouteName() }}';
+            if(route == 'home'){
+                $('#modal-home').modal('show');
+            }
+
         });
     </script>
 </body>

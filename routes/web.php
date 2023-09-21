@@ -4,6 +4,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\LoginController;
+// use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,13 @@ Route::get('/checkout/', [CheckoutController::class, 'checkout'])->name('checkou
 Route::get('/getCities/{province_id}', [CheckoutController::class, 'getCities'])->name('getCities');
 Route::post('/ongkir/', [CheckoutController::class, 'check_ongkir'])->name('check_ongkir');
 Route::post('/checkout/next', [CheckoutController::class, 'checkout_next'])->name('checkout.next');
+
+Route::get('/getCityName/{provinceId}/{cityId}', [CheckoutController::class, 'getCityName'])->name('getCityName');
+Route::get('/getProvinceName/{id}', [CheckoutController::class, 'getProvinceName'])->name('getProvinceName');
+Route::get('/vouchers/{code}', [CheckoutController::class, 'getVouchersByCode'])->name('getVouchersByCode');
+
+Route::post('/store-session', [CheckoutController::class, 'store_voucher']);
+Route::get('/print-sessions', [CheckoutController::class, 'printSessions'])->name('printSessions');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 

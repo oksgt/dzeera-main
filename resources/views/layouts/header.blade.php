@@ -208,7 +208,7 @@
                             <li class="nav-item ">
                                 <a class="nav-link category-link"
                                 href="{{ route('allProducts', ['brandslug' => session('active-brand-name'), 'page' => 1]) }}">
-                                All Productsss </a>
+                                All Products </a>
                             </li>
                             @foreach ($categories as $index => $item)
                                 <li class="nav-item ">

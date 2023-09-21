@@ -258,9 +258,12 @@ class CartController extends Controller
             join product_size_options pso on pso.id = po.size_opt_id
             LEFT JOIN
                 product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
-            where p.id = ? and pco.id = ? and pso.id = ?";
+            where p.id = ? and pco.id = ? and pso.id = ? and po.user_id = ?";
 
-            $data_obj = DB::select($sql, [$value['product_id'], $value['color_opt_id'], $value['size_opt_id']]);
+            $data_obj = DB::select($sql, [$value['product_id'], $value['color_opt_id'], $value['size_opt_id'], auth()->id()]);
+            if(empty($data_obj[0])){
+                return redirect()->route('home');
+            }
             array_push($result, $data_obj[0]);
         }
 

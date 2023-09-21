@@ -603,3 +603,159 @@ img {
 .my-float{
 	margin-top:16px;
 }
+
+
+.wizard,
+.wizard .nav-tabs,
+.wizard .nav-tabs .nav-item {
+	position: relative;
+}
+.wizard .nav-tabs:after {
+	content: "";
+	width: 80%;
+	border-bottom: solid 2px #ccc;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	top: 38%;
+	z-index: -1;
+}
+.wizard .nav-tabs .nav-item .nav-link {
+	width: 70px;
+	height: 70px;
+	margin-bottom: 6%;
+	background: white;
+	border: 2px solid #ccc !important;
+    border-radius: 50% !important;
+	color: #ccc;
+	z-index: 10;
+}
+.wizard .nav-tabs .nav-item .nav-link:hover {
+	color: #333;
+	border: 2px solid #333;
+}
+.wizard .nav-tabs .nav-item .nav-link.active {
+	background: #fff;
+	border: 2px solid #e30c83 !important;
+	color: #e30c83;
+}
+.wizard .nav-tabs .nav-item .nav-link:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	opacity: 0;
+	margin: 0 auto;
+	bottom: 0px;
+	border: 5px solid transparent;
+	border-bottom-color: #e30c83;
+	transition: 0.1s ease-in-out;
+}
+
+.nav-tabs .nav-item .nav-link.active:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+	opacity: 1;
+	margin: 0 auto;
+	bottom: 0px;
+	border: 10px solid transparent;
+	border-bottom-color: #e30c83;
+}
+.wizard .nav-tabs .nav-item .nav-link svg {
+	font-size: 25px;
+}
+
+.next{
+    background-color: #e30c83 !important;
+    border: none !important;
+    color: white;
+}
+
+.previous{
+    background-color: #fbdce1 !important;
+    border: none !important;
+    color: #212529 !important;
+}
+
+
+.card-input-element {
+    display: none;
+}
+
+.card-input {
+    margin: 10px;
+    padding: 0px;
+}
+
+.card-input:hover {
+    cursor: pointer;
+}
+
+.card-input-element:checked + .card-input {
+    border: none !important;
+    background-color: #e30c83 !important;
+    color: white !important;
+}
+
+
+
+.invoice{
+    /* width:970px !important; */
+    margin:50px auto;
+    .invoice-header{
+      padding:25px 25px 15px;
+      h1{
+        margin:0
+      }
+      .media{
+        .media-body{
+          font-size:.9em;
+          margin:0;
+        }
+      }
+    }
+    .invoice-body{
+      border-radius:10px;
+      padding:25px;
+      background:#FFF;
+    }
+    .invoice-footer{
+      padding:15px;
+      font-size:0.9em;
+      text-align:center;
+      color:#999;
+    }
+  }
+  .logo{
+    max-height:70px;
+    border-radius:10px;
+  }
+  .dl-horizontal{
+    margin:0;
+    dt{
+          float: left;
+      width: 80px;
+      overflow: hidden;
+      clear: left;
+      text-align: right;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    dd{
+      margin-left:90px;
+    }
+  }
+  .rowamount{
+    padding-top:15px !important;
+  }
+  .rowtotal{
+    font-size:1.3em;
+  }
+  .colfix{
+    width:12%;
+  }
+  .mono{
+    font-family:monospace;
+  }
