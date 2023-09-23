@@ -6,11 +6,13 @@ use App\Models\Cart;
 use App\Models\City;
 use App\Models\Province;
 use App\Models\Voucher;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session as FacadesSession;
 use Illuminate\Support\Facades\Validator;
 use Kavist\RajaOngkir\Facades\RajaOngkir;
 
@@ -132,7 +134,9 @@ class CheckoutController extends Controller
 
     public function getVouchersByCode($code)
     {
-        $vouchers = Voucher::where('code', $code)->get();
+        $vouchers = Voucher::where('code', $code)
+                    ->where('is_active', 'y')
+                    ->get();
 
         if ($vouchers->isEmpty()) {
             return response()->json([
@@ -193,7 +197,13 @@ class CheckoutController extends Controller
 
     public function printSessions(Request $request)
     {
-        $sessions = $request->session()->all();
-        dd($sessions);
+        $sessions = FacadesSession::all();
+        dd($sessions['voucher']);
+    }
+
+    public function removeVoucher()
+    {
+        Session::forget('voucher');
+        return response()->json(['success' => true]);
     }
 }

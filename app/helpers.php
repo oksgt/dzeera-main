@@ -5,6 +5,8 @@ use App\Models\Category;
 use App\Models\SocialMedia;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Session as FacadesSession;
+
 if (!function_exists('formatCurrency')) {
     function formatCurrency($amount)
     {
@@ -341,4 +343,16 @@ function checkAllKeysNotEmpty($array)
         }
     }
     return true;
+}
+
+
+function getAppliedVoucher()
+{
+    $sessions = FacadesSession::all();
+
+    if (isset($sessions['voucher'])) {
+        return $sessions['voucher'];
+    } else {
+        return null;
+    }
 }

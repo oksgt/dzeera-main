@@ -38,7 +38,7 @@
                                 <i class="fas fa-money-check-alt"></i>
                             </a>
                         </li>
-                        <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top"
+                        <li id="ddd" class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="Summary">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
@@ -286,13 +286,35 @@
                                             </tr>
                                             <?php endforeach; ?>
 
-                                            <tr>
-                                                <td></td>
-                                                <td>Voucher Code</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
+                                            @php
+                                                $appliedVoucher = getAppliedVoucher();
+                                            @endphp
+
+                                            @if ($appliedVoucher !== null)
+                                                @php
+                                                    if($appliedVoucher['is_percent'] == 'y'){
+                                                        $label_value = $appliedVoucher['value']. "%";
+                                                    } else {
+                                                        $label_value = "Rp. ". formatNumber($appliedVoucher['value']);
+                                                    }
+
+                                                @endphp
+                                                <tr class="table-success">
+                                                    <td></td>
+                                                    <td>
+                                                        Applied Voucher : {{ $appliedVoucher['code'] }}
+                                                        <button id="btn-remove-voucher" class="btn btn-sm btn-warning"
+                                                        onclick="removeVoucher()"
+                                                        title="Remove Voucher">
+                                                            <i class="fa fa-remove"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td></td>
+                                                    <td>Disc.</td>
+                                                    <td>{{ $label_value }}</td>
+                                                </tr>
+                                            @endif
+
 
                                             <tr>
                                                 <td>
@@ -387,6 +409,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Get the hash from the current URL
+            var hash = window.location.hash;
+            console.log(hash);
+            // Check if the hash is "#step4"
+            if (hash === "#step4") {
+            // Get the tab element by its ID
+            var tab = document.querySelector('#step4-tab');
+
+            // Activate the tab using the Bootstrap Tab API
+            var tabTrigger = new bootstrap.Tab(tab);
+            tabTrigger.show();
+            }
+
             //Enable Tooltips
             var tooltipTriggerList = [].slice.call(
                 document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -447,7 +482,8 @@
                     'X-CSRF-TOKEN': csrfToken // Include the CSRF token as a header
                 },
                 success: function(response) {
-                    alert(response.message);
+                    window.location.href =  '/checkout#step4';
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     // Handle the error response
@@ -676,5 +712,21 @@
             console.log(inputs);
             // return inputs;
         }
+
+        function removeVoucher() {
+            $.ajax({
+                url: "/remove-voucher",
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href =  '/checkout#step4';
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error(error);
+                }
+            });
+    }
     </script>
 @endpush

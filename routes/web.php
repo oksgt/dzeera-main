@@ -34,6 +34,7 @@ Route::get('/vouchers/{code}', [CheckoutController::class, 'getVouchersByCode'])
 
 Route::post('/store-session', [CheckoutController::class, 'store_voucher']);
 Route::get('/print-sessions', [CheckoutController::class, 'printSessions'])->name('printSessions');
+Route::get('/remove-voucher', [CheckoutController::class, 'removeVoucher'])->name('remove.voucher');
 
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
