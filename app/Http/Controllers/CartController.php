@@ -28,7 +28,6 @@ class CartController extends Controller
             $qty        = $request->input('qty');
 
         if (auth()->check()) {
-            echo "here";
             $cek = Cart::where([
                 'product_id'   => $productId,
                 'color_opt_id' => $color,
@@ -37,24 +36,35 @@ class CartController extends Controller
             ])->first();
 
             if($cek){
-                //if exist, update qty in table
-                $cart = Cart::find($cek->id);
-
+                $cart = new Cart();
                 $cart->user_id = auth()->id();
-                $cart->qty     = $cart->qty + $qty;
+                $cart->product_id       = $productId;
+                $cart->color_opt_id     = $color;
+                $cart->size_opt_id      = $size;
+                $cart->qty              = $qty;
                 $cart->save();
 
-                //remove cookie
-                $deleteCookie = $this->removeCookie('cart');
+                return redirect()->back()->with('cart_added', true);
+                //if exist, update qty in table
+                // $cart = Cart::find($cek->id);
 
-                $cart = Cart::where('user_id', auth()->id())
-                ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
-                ->get();
-                $cart_arr = json_decode($cart, true);
-                // echo json_encode($cart_arr); die;;
-                $cookie = Cookie::make('cart', json_encode($cart_arr));
-                // dd($cookie);
-                return redirect()->back()->with('cart_added', true)->withCookie($cookie);
+                // $cart->user_id = auth()->id();
+                // $cart->qty     = $cart->qty + $qty;
+                // $cart->save();
+
+                // //remove cookie
+                // $deleteCookie = $this->removeCookie('cart');
+
+                // $cart = Cart::where('user_id', auth()->id())
+                // ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
+                // ->get();
+                // $cart_arr = json_decode($cart, true);
+                // // echo json_encode($cart_arr); die;;
+                // $cookie = Cookie::make('cart', json_encode($cart_arr));
+                // // dd($cookie);
+                // return redirect()->back()->with('cart_added', true)->withCookie($cookie);
+
+                // ----
 
                 // Check if the item already exists in the cart based on product_id, color_opt_id, and size_opt_id
                 // $item = [
@@ -145,19 +155,21 @@ class CartController extends Controller
                     'price'        => $price
                 ];
 
-                if (in_array($item, $cart)) {
-                    return redirect()->back()->with('cart_exists', true);
-                }
+                // if (in_array($item, $cart)) {
+                //     return redirect()->back()->with('cart_exists', true);
+                // }
 
                 $cart_arr = array_merge($cart, [$item]);
 
+
                 $cart = new Cart();
                 $cart->user_id = auth()->id();
-                $cart->data = json_encode($cart_arr);
+                // $cart->data = json_encode($cart_arr);
                 $cart->product_id       = $productId;
                 $cart->color_opt_id     = $color;
                 $cart->size_opt_id      = $size;
                 $cart->qty              = $qty;
+                $cart->price            = $price;
                 $cart->save();
 
                 $cookie = Cookie::make('cart', json_encode($cart_arr));
