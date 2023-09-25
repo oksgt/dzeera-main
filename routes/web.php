@@ -23,6 +23,9 @@ Route::post('/cart', [CartController::class, 'addToCart']);
 Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('removecart');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('updateCart');
 
+Route::get('/removeCookie/{cookiename}', [CartController::class, 'removeCookie'])->name('removeCookie');
+Route::get('/printCartFromCookie', [CartController::class, 'printCartFromCookie'])->name('printCartFromCookie');
+
 Route::get('/checkout/', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::get('/getCities/{province_id}', [CheckoutController::class, 'getCities'])->name('getCities');
 Route::post('/ongkir/', [CheckoutController::class, 'check_ongkir'])->name('check_ongkir');

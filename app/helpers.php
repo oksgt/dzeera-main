@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Brand;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\SocialMedia;
 use Illuminate\Support\Facades\DB;
@@ -355,4 +356,16 @@ function getAppliedVoucher()
     } else {
         return null;
     }
+}
+
+
+function getCartCount(){
+    $count_cart = 0;
+    if(auth()->check()){
+        $count_cart = Cart::where('user_id', auth()->id())->count();
+    } else {
+        $cart = json_decode(request()->cookie('cart'), true) ?? [];
+        $count_cart = count($cart);
+    }
+    return $count_cart;
 }

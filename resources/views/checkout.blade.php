@@ -151,7 +151,7 @@
                                 <div class="col-md-4 col-lg-4 col-sm-4">
 
                                     <label>
-                                        <input type="radio" name="payment_method" value="bank_transfer" selected
+                                        <input type="radio" name="payment_method" value="Bank Transfer" selected
                                             checked class="card-input-element" />
 
                                         <div class="card card-default card-input">
@@ -166,7 +166,7 @@
                                 <div class="col-md-4 col-lg-4 col-sm-4">
 
                                     <label>
-                                        <input type="radio" name="payment_method" value="merchant"
+                                        <input type="radio" name="payment_method" value="Merchant"
                                             class="card-input-element" />
 
                                         <div class="card card-default card-input">
@@ -288,14 +288,19 @@
 
                                             @php
                                                 $appliedVoucher = getAppliedVoucher();
+                                                $v_value = 0;
                                             @endphp
 
                                             @if ($appliedVoucher !== null)
                                                 @php
                                                     if($appliedVoucher['is_percent'] == 'y'){
                                                         $label_value = $appliedVoucher['value']. "%";
+                                                        $discountAmount = $grandTotal * ($appliedVoucher['value'] / 100);
+                                                        $grandTotal = $grandTotal - $discountAmount;
                                                     } else {
                                                         $label_value = "Rp. ". formatNumber($appliedVoucher['value']);
+                                                        $v_value = $appliedVoucher['value'];
+                                                        $grandTotal = $grandTotal - $v_value;
                                                     }
 
                                                 @endphp
@@ -309,7 +314,7 @@
                                                             <i class="fa fa-remove"></i>
                                                         </button>
                                                     </td>
-                                                    <td></td>
+                                                    <td><input type="hidden" name="appliedVoucherValue" id="appliedVoucherValue" value="{{ $v_value }}"></td>
                                                     <td>Disc.</td>
                                                     <td>{{ $label_value }}</td>
                                                 </tr>
@@ -318,18 +323,21 @@
 
                                             <tr>
                                                 <td>
-                                                    <a class="btn btn-info" onclick="openModalVoucher()">Voucher <i
+                                                    <a class="btn btn-outline-success" onclick="openModalVoucher()">Voucher <i
                                                             class="fas fa-ticket"></i></a>
                                                 </td>
                                                 <td colspan="3" style="text-align: right;">
-                                                    <h3><strong>Grand Total:</strong></h3>
+                                                    <h3 class="display-4" style="font-size: 35px"><strong>Grand Total:</strong></h3>
                                                 </td>
                                                 <td>
-                                                    <h3><strong><?php echo formatNumber($grandTotal); ?></strong></h3>
+                                                    <h3 class="display-4" style="font-size: 35px"><strong><?php echo formatNumber($grandTotal); ?></strong></h3>
+                                                    <input type="hidden" name="grandTotal" id="grandTotal" value="{{ $grandTotal}}">
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <small class="text-muted" id="label_payment_method"></small>
                                 </div>
                             </div>
 
@@ -371,7 +379,7 @@
 
                             <div class="d-flex justify-content-between mt-3">
                                 <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> Back</a>
-                                <a class="btn btn-info next">Bayar <i class="fas fa-angle-right"></i></a>
+                                <a class="btn btn-info next" onclick="paid()">Bayar <i class="fas fa-angle-right"></i></a>
                             </div>
 
                         </div>
@@ -682,7 +690,7 @@
 
             $('#_recp_postal_code').text(inputs.kode_pos);
             $('#_recp_shipping_service').text("JNE " + service);
-            // $('#paymentMethod').text(inputs.payment_method);
+            $('#label_payment_method').text("Selected payment method : "+inputs.payment_method);
 
             callGetCityName(inputs.province_destination, inputs.city_destination)
                 .then(function(cityResponse) {
@@ -727,6 +735,11 @@
                     console.error(error);
                 }
             });
-    }
+        }
+
+        function paid(){
+
+        }
     </script>
 @endpush
+

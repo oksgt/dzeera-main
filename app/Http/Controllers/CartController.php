@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Session;
 class CartController extends Controller
 {
 
-    private function removeCookie($cookieName){
-        Cookie::queue(Cookie::forget($cookieName));
+    public function removeCookie($cookiename){
+        Cookie::queue(Cookie::forget($cookiename));
         return ['ok' => true];
     }
 
@@ -194,6 +194,19 @@ class CartController extends Controller
 
             $cookie = Cookie::make('cart', json_encode($cart));
             return redirect()->back()->with('cart_added', true)->cookie($cookie);
+        }
+    }
+
+    function printCartFromCookie() {
+        $cartCookie = Cookie::get('cart');
+
+        if ($cartCookie) {
+            $cartArray = json_decode($cartCookie, true);
+
+            dd($cartArray);
+
+        } else {
+            echo "Cart cookie not found.";
         }
     }
 

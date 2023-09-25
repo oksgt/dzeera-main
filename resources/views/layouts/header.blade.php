@@ -33,17 +33,28 @@
 
                 @guest
                     <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" data-bs-toggle="modal"
+                    @if (Route::currentRouteName() !== 'home')
+                        style="color: black"
+                    @endif
                     data-bs-target="#loginModal" title="Login">
                         <i class="fa fa-sign-in"></i>
                         <small style="font-size: 14px"></small>
                     </button>
                 @else
-                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" >
+                    <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block"
+                    @if (Route::currentRouteName() !== 'home')
+                        style="color: black"
+                    @endif
+                    >
                         <i class="fa fa-user"></i>
                         <small style="font-size: 14px">{{ Auth::user()->name }}</small>
                     </button>
 
-                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout" href="{{ url('/signout') }}">
+                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout" href="{{ url('/signout') }}"
+                    @if (Route::currentRouteName() !== 'home')
+                        style="color: black"
+                    @endif
+                    >
                         <i class="fa fa-sign-out"></i>
                         <small style="font-size: 14px"></small>
                     </a>
@@ -86,8 +97,9 @@
                                 class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                                 <i class="fa fa-shopping-bag"></i>
                                 @php
-                                    $cart = json_decode(request()->cookie('cart'), true) ?? [];
-                                    $count_cart = count($cart);
+                                    // $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                    // $count_cart = count($cart);
+                                    $count_cart = getCartCount();
                                 @endphp
                                 <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_cart}}</span>
                             </a>
@@ -134,8 +146,9 @@
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-shopping-bag"></i>
                             @php
-                                $cart = json_decode(request()->cookie('cart'), true) ?? [];
-                                $count_cart = count($cart);
+                                // $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                // $count_cart = count($cart);
+                                $count_cart = getCartCount();
                             @endphp
                             <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
                         </button>

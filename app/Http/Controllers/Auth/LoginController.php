@@ -44,21 +44,11 @@ class LoginController extends Controller
 
             // sync cart
             $data = [];
-            // if (auth()->check()) {
-                // $cart = Cart::where('user_id', auth()->id())->get();
-                // $cart_arr = json_decode($cart[0]->data, true);
-            //     $data = $cart_arr;
-            // } else {
-            //     $cart = json_decode(request()->cookie('cart'), true) ?? [];
-            //     $data = $cart;
-            // }
-
-            // for
             $cart = json_decode(request()->cookie('cart'), true) ?? [];
-            $dataArray = $cart;
+            $dataCookie = $cart;
             $user_id = auth()->id();
 
-            foreach ($dataArray as $data) {
+            foreach ($dataCookie as $data) {
                 $existingRecord = DB::table('carts')
                     ->where('user_id', $user_id)
                     ->where('product_id', $data['product_id'])
@@ -74,7 +64,10 @@ class LoginController extends Controller
                         ->where('product_id', $data['product_id'])
                         ->where('color_opt_id', $data['color_opt_id'])
                         ->where('size_opt_id', $data['size_opt_id'])
-                        ->update(['qty' => $newQty]);
+                        ->update(['qty' => $data['qty']]);
+
+                    //remove cookie
+                    Cookie::queue(Cookie::forget('cart'));
                 } else {
                     $data['user_id'] = $user_id;
                     DB::table('carts')->insert($data);
@@ -87,7 +80,7 @@ class LoginController extends Controller
             $cart_arr = json_decode($cart, true);
             $cookie = Cookie::make('cart', json_encode($cart_arr));
 
-            return redirect()->route('home')->cookie($cookie);; // Redirect to the previous page after login
+            return redirect()->route('home')->cookie($cookie); // Redirect to the previous page after login
         } catch (InvalidStateException $e) {
             // $user = Socialite::driver('google')->stateless()->user();
             // dd($e);
