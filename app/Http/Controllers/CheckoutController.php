@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankAccount;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Province;
@@ -205,5 +206,20 @@ class CheckoutController extends Controller
     {
         Session::forget('voucher');
         return response()->json(['success' => true]);
+    }
+
+    public function checkout_finish(Request $request){
+        $responseData = [
+            'status' => 'success',
+            'message' => 'Checkout finished successfully',
+        ];
+
+        return response()->json($responseData);
+    }
+
+    public function finish(Request $request){
+        // get bank list
+        $bank = BankAccount::where('is_active', 'y')->get();
+        return view('checkout_finish', compact('bank'));
     }
 }

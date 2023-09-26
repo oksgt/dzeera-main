@@ -770,3 +770,10 @@ img {
     align-items: center;
     justify-content: center;
 } */
+
+
+.finish{
+    background-color: #e30c83 !important;
+    border: none !important;
+    color: white;
+}

@@ -2,6 +2,7 @@
 
 @section('content')
     <section class="" style="margin-top: 140px">
+
         <div class="container-fluid mt-3 ">
             <div class="row mt-4 mb-4">
                 <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
@@ -38,8 +39,8 @@
                                 <i class="fas fa-money-check-alt"></i>
                             </a>
                         </li>
-                        <li id="ddd" class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="Summary">
+                        <li id="ddd" class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip"
+                            data-bs-placement="top" title="Summary">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
                                 aria-selected="false" title="Step 4">
@@ -48,88 +49,87 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-
                         @csrf
                         <div class="tab-pane fade show active mt-3 text-center" role="tabpanel" id="step1"
                             aria-labelledby="step1-tab">
-                            <h5 style="color: #e30c83 ">Customer Information</h5>
+                            <h5 style="color: #e30c83 ">{{ __('general.customer_information') }} </h5>
                             <hr>
                             <div class="text-start">
                                 <div class="mb-3 mt-3">
-                                    <label for="name" class="form-label">Name</label>
+                                    <label for="name" class="form-label">{{ __('general.name') }}</label>
                                     <input type="text" class="form-control" id="cust_name" name="cust_name"
                                         placeholder="Enter your name" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email address</label>
+                                    <label for="email" class="form-label">{{ __('general.email_address') }}</label>
                                     <input type="email" class="form-control" id="cust_email" name="cust_email"
                                         placeholder="Enter your email address" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone</label>
+                                    <label for="phone" class="form-label">{{ __('general.phone') }}</label>
                                     <input type="text" class="form-control" id="cust_phone" name="cust_phone"
                                         placeholder="Enter your phone number" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
+                                    <label for="address" class="form-label">{{ __('general.address') }}</label>
                                     <textarea class="form-control" id="address" name="cust_address" rows="3" required></textarea>
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a class="btn btn-info next">Continue <i class="fas fa-angle-right"></i></a>
+                                    <a class="btn btn-info next">{{ __('general.continue') }} <i class="fas fa-angle-right"></i></a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-pane fade mt-3 text-center" role="tabpanel" id="step2"
                             aria-labelledby="step2-tab">
-                            <h5 style="color: #e30c83 ">Shipping Information</h5>
+                            <h5 style="color: #e30c83 ">{{ __('general.shipping_information') }}</h5>
                             <hr>
                             <div class="row text-start">
                                 <div class="col-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="name" class="form-label">Recipient's Name</label>
+                                        <label for="name" class="form-label">{{ __('general.recipient_name') }}</label>
                                         <input type="text" class="form-control" id="recp_name" name="recp_name"
                                             placeholder="Enter your name" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="phone" class="form-label">Recipient's Phone Number</label>
+                                        <label for="phone" class="form-label">{{ __('general.recipient_phone') }}</label>
                                         <input type="text" class="form-control" id="recp_phone" name="recp_phone"
                                             placeholder="Enter your phone number" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="address" class="form-label">Recipient's Address</label>
+                                        <label for="address" class="form-label">{{ __('general.recipient_address') }}</label>
                                         <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Province</label>
+                                        <label for="exampleFormControlInput1" class="form-label">{{ __('general.province') }}</label>
                                         <select class="form-control provinsi-tujuan" id="province_destination"
                                             name="province_destination" onchange="getCities(this.value)">
-                                            <option value="0">-- pilih provinsi tujuan --</option>
+                                            <option value="0">-- {{ __('general.choose_province') }} --</option>
                                             @foreach ($provinces as $province => $value)
                                                 <option value="{{ $province }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">City</label>
+                                        <label for="exampleFormControlInput1" class="form-label">{{ __('general.city') }}</label>
                                         <select class="form-control kota-tujuan" name="city_destination"
                                             id="city_destination" onchange="checkOngkir()">
-                                            <option value="">-- pilih kota tujuan --</option>
+                                            <option value="">-- {{ __('general.choose_city') }} --</option>
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Postal Code</label>
+                                        <label for="exampleFormControlInput1" class="form-label">{{ __('general.postal_code') }}</label>
                                         <input type="text" class="form-control" id="kode_pos" name="kode_pos"
                                             placeholder="Enter your Postal Code" required>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Shipping Service</label>
+                                        <label for="exampleFormControlInput1" class="form-label">{{ __('general.shipping_service') }}</label>
                                         <select class="form-control" name="ongkir_list" id="ongkir_list">
-                                            <option value="">-- pilih layanan --</option>
+                                            <option value="">-- {{ __('general.choose_service') }} --</option>
                                         </select>
                                     </div>
 
@@ -137,14 +137,14 @@
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> Back</a>
-                                <a class="btn btn-info next">Continue <i class="fas fa-angle-right"></i></a>
+                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> {{ __('general.back') }}</a>
+                                <a class="btn btn-info next">{{ __('general.continue') }} <i class="fas fa-angle-right"></i></a>
                             </div>
                         </div>
 
                         <div class="tab-pane fade mt-3 text-center " role="tabpanel" id="step3"
                             aria-labelledby="step3-tab">
-                            <h5 style="color: #e30c83 ">Payment Method</h5>
+                            <h5 style="color: #e30c83 ">{{ __('general.payment_method') }}</h5>
                             <hr>
                             <div class="row d-flex justify-content-center">
 
@@ -181,37 +181,37 @@
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> Back</a>
-                                <a class="btn btn-info next" onclick="getInputValues()">Continue <i
+                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> {{ __('general.back') }}</a>
+                                <a class="btn btn-info next" onclick="getInputValues()">{{ __('general.continue') }} <i
                                         class="fas fa-angle-right"></i></a>
                             </div>
                         </div>
 
                         <div class="tab-pane fade mt-3" role="tabpanel" id="step4" aria-labelledby="step4-tab">
                             <div class="row text-center mb-3">
-                                <h5 style="color: #e30c83 ">Summary</h5>
+                                <h5 style="color: #e30c83 ">{{ __('general.summary') }}</h5>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-6 table-responsive">
                                     <div class="card">
-                                        <div class="card-header">Customer Information</div>
+                                        <div class="card-header">{{ __('general.customer_information') }}</div>
                                         <div class="card-body">
                                             <table class="table table-sm small text-muted">
                                                 <tr>
-                                                    <td>Name</td>
+                                                    <td>{{ __('general.name') }}</td>
                                                     <td><label id="_cust_name" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Email</td>
+                                                    <td>{{ __('general.email_address') }}</td>
                                                     <td><label id="_cust_email" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Phone Number</td>
+                                                    <td>{{ __('general.phone') }}</td>
                                                     <td><label id="_cust_phone" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Address</td>
+                                                    <td>{{ __('general.address') }}</td>
                                                     <td><label id="_cust_address" for=""></label></td>
                                                 </tr>
                                             </table>
@@ -222,35 +222,35 @@
 
                                 <div class="col-6 table-responsive">
                                     <div class="card">
-                                        <div class="card-header">Shipping Information</div>
+                                        <div class="card-header">{{ __('general.shipping_information') }}</div>
                                         <div class="card-body">
                                             <table class="table table-sm small text-muted">
                                                 <tr>
-                                                    <td>Name</td>
+                                                    <td>{{ __('general.recipient_name') }}</td>
                                                     <td><label id="_recp_name" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Phone Number</td>
+                                                    <td>{{ __('general.recipient_phone') }}</td>
                                                     <td><label id="_recp_phone" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Address</td>
+                                                    <td>{{ __('general.recipient_address') }}</td>
                                                     <td><label id="_recp_add" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Province</td>
+                                                    <td>{{ __('general.province') }}</td>
                                                     <td><label id="_recp_prov" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>City</td>
+                                                    <td>{{ __('general.city') }}</td>
                                                     <td><label id="_recp_city" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Postal Code</td>
+                                                    <td>{{ __('general.postal_code') }}</td>
                                                     <td><label id="_recp_postal_code" for=""></label></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Shipping Service</td>
+                                                    <td>{{ __('general.shipping_service') }}</td>
                                                     <td><label id="_recp_shipping_service" for=""></label></td>
                                                 </tr>
                                             </table>
@@ -265,10 +265,10 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Product Name</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Total Price</th>
+                                                <th>{{ __('general.product_name') }}</th>
+                                                <th>{{ __('general.quantity') }}</th>
+                                                <th>{{ __('general.price') }}</th>
+                                                <th>{{ __('general.total_price') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -293,12 +293,12 @@
 
                                             @if ($appliedVoucher !== null)
                                                 @php
-                                                    if($appliedVoucher['is_percent'] == 'y'){
-                                                        $label_value = $appliedVoucher['value']. "%";
+                                                    if ($appliedVoucher['is_percent'] == 'y') {
+                                                        $label_value = $appliedVoucher['value'] . '%';
                                                         $discountAmount = $grandTotal * ($appliedVoucher['value'] / 100);
                                                         $grandTotal = $grandTotal - $discountAmount;
                                                     } else {
-                                                        $label_value = "Rp. ". formatNumber($appliedVoucher['value']);
+                                                        $label_value = 'Rp. ' . formatNumber($appliedVoucher['value']);
                                                         $v_value = $appliedVoucher['value'];
                                                         $grandTotal = $grandTotal - $v_value;
                                                     }
@@ -307,14 +307,14 @@
                                                 <tr class="table-success">
                                                     <td></td>
                                                     <td>
-                                                        Applied Voucher : {{ $appliedVoucher['code'] }}
+                                                        {{ __('general.applied_voucher') }} : {{ $appliedVoucher['code'] }}
                                                         <button id="btn-remove-voucher" class="btn btn-sm btn-warning"
-                                                        onclick="removeVoucher()"
-                                                        title="Remove Voucher">
+                                                            onclick="removeVoucher()" title="Remove Voucher">
                                                             <i class="fa fa-remove"></i>
                                                         </button>
                                                     </td>
-                                                    <td><input type="hidden" name="appliedVoucherValue" id="appliedVoucherValue" value="{{ $v_value }}"></td>
+                                                    <td><input type="hidden" name="appliedVoucherValue"
+                                                            id="appliedVoucherValue" value="{{ $v_value }}"></td>
                                                     <td>Disc.</td>
                                                     <td>{{ $label_value }}</td>
                                                 </tr>
@@ -323,15 +323,19 @@
 
                                             <tr>
                                                 <td>
-                                                    <a class="btn btn-outline-success" onclick="openModalVoucher()">Voucher <i
+                                                    <a class="btn btn-outline-success"
+                                                        onclick="openModalVoucher()">Voucher <i
                                                             class="fas fa-ticket"></i></a>
                                                 </td>
                                                 <td colspan="3" style="text-align: right;">
-                                                    <h3 class="display-4" style="font-size: 35px"><strong>Grand Total:</strong></h3>
+                                                    <h3 class="display-4" style="font-size: 35px"><strong>Grand
+                                                            Total:</strong></h3>
                                                 </td>
                                                 <td>
-                                                    <h3 class="display-4" style="font-size: 35px"><strong><?php echo formatNumber($grandTotal); ?></strong></h3>
-                                                    <input type="hidden" name="grandTotal" id="grandTotal" value="{{ $grandTotal}}">
+                                                    <h3 class="display-4" style="font-size: 35px">
+                                                        <strong><?php echo formatNumber($grandTotal); ?></strong></h3>
+                                                    <input type="hidden" name="grandTotal" id="grandTotal"
+                                                        value="{{ $grandTotal }}">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -378,12 +382,12 @@
                             </div>
 
                             <div class="d-flex justify-content-between mt-3">
-                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> Back</a>
-                                <a class="btn btn-info next" onclick="paid()">Bayar <i class="fas fa-angle-right"></i></a>
+                                <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i> {{ __('general.back') }}</a>
+                                <a class="btn btn-info finish" onclick="paid()">{{ __('general.finish_checkout') }} <i
+                                        class="fas fa-angle-right"></i></a>
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -422,12 +426,12 @@
             console.log(hash);
             // Check if the hash is "#step4"
             if (hash === "#step4") {
-            // Get the tab element by its ID
-            var tab = document.querySelector('#step4-tab');
+                // Get the tab element by its ID
+                var tab = document.querySelector('#step4-tab');
 
-            // Activate the tab using the Bootstrap Tab API
-            var tabTrigger = new bootstrap.Tab(tab);
-            tabTrigger.show();
+                // Activate the tab using the Bootstrap Tab API
+                var tabTrigger = new bootstrap.Tab(tab);
+                tabTrigger.show();
             }
 
             //Enable Tooltips
@@ -490,7 +494,7 @@
                     'X-CSRF-TOKEN': csrfToken // Include the CSRF token as a header
                 },
                 success: function(response) {
-                    window.location.href =  '/checkout#step4';
+                    window.location.href = '/checkout#step4';
                     location.reload();
                 },
                 error: function(xhr, status, error) {
@@ -507,7 +511,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        if(response.status){
+                        if (response.status) {
                             let current_date = getLocalDate();
                             start_date = response.data.start_date;
                             end_date = response.data.end_date;
@@ -539,7 +543,7 @@
                     // On success, populate the second select element with cities
                     var citiesSelect = $('.kota-tujuan');
                     // Clear existing options
-                    citiesSelect.html('<option value="">-- pilih kota tujuan --</option>');
+                    citiesSelect.html('<option value="">-- ' + '{{ __('general.choose_city')  }}' + ' --</option>');
                     // Add new options based on the response data
                     for (var cityId in response) {
                         var cityName = response[cityId];
@@ -606,7 +610,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     url: '/getCityName/' + provinceId + '/' +
-                    cityId, // Replace `/getCityName` with the actual URL of your route
+                        cityId, // Replace `/getCityName` with the actual URL of your route
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -623,7 +627,7 @@
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     url: '/getProvinceName/' +
-                    id, // Replace `/getProvinceName` with the actual URL of your route
+                        id, // Replace `/getProvinceName` with the actual URL of your route
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
@@ -690,7 +694,7 @@
 
             $('#_recp_postal_code').text(inputs.kode_pos);
             $('#_recp_shipping_service').text("JNE " + service);
-            $('#label_payment_method').text("Selected payment method : "+inputs.payment_method);
+            $('#label_payment_method').text("Selected payment method : " + inputs.payment_method);
 
             callGetCityName(inputs.province_destination, inputs.city_destination)
                 .then(function(cityResponse) {
@@ -727,7 +731,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href =  '/checkout#step4';
+                    window.location.href = '/checkout#step4';
                     location.reload();
                 },
                 error: function(xhr, status, error) {
@@ -737,9 +741,33 @@
             });
         }
 
-        function paid(){
+        function collectInputValues() {
+            var collectedValues = {};
+            $('input[name]').each(function() {
+                var inputName = $(this).attr('name');
+                var inputValue = $(this).val();
+                collectedValues[inputName] = inputValue;
+            });
+            return collectedValues;
+        }
 
+        function paid() {
+            var collectedInputs = collectInputValues();
+            fetch('/checkout/finish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(collectedInputs),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    window.location.href = '/finish';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+            });
         }
     </script>
 @endpush
-
