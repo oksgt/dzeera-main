@@ -185,7 +185,7 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body flex-column flex-sm-row mt-0">
-                        <ul
+                        <ul id="list-cat"
                             class="navbar-nav mx-auto {{ Route::currentRouteName() == 'home' ? 'mobile-navbar-nav' : 'mobile-navbar-nav-other' }}">
 
                             @guest
@@ -218,17 +218,18 @@
                             <li class="nav-item ">
                                 <a class="nav-link category-link" href="#"></a>
                             </li>
-                            <li class="nav-item ">
+                            <li class="nav-item cat-title-header">
                                 <a class="nav-link category-link"
                                 href="{{ route('allProducts', ['brandslug' => session('active-brand-name'), 'page' => 1]) }}">
                                 {{ __('general.all_products') }}</a>
                             </li>
+
                             @foreach ($categories as $index => $item)
-                                <li class="nav-item ">
-                                    <a class="nav-link category-link"
-                                    href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}">
-                                    {{ strtoupper($item->category_name) }}</a>
-                                </li>
+                            <li class="nav-item cat-title-header">
+                                <a class="nav-link category-link"
+                                href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}">
+                                {{ strtoupper($item->category_name) }} </a>
+                            </li>
                             @endforeach
 
 

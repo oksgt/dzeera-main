@@ -21,24 +21,57 @@ window.addEventListener("scroll", () => {
         header2.classList.add("is-scrolled");
         header3.classList.add("is-scrolled");
 
+        // if (myList) {
+        //     for (let i = 0; i < items.length; i++) {
+        //         myList.children[i].firstElementChild.classList.add(
+        //             "is-scrolled"
+        //         );
+        //     }
+        // }
+
         if (myList) {
             for (let i = 0; i < items.length; i++) {
-                myList.children[i].firstElementChild.classList.add(
-                    "is-scrolled"
-                );
+                if (myList.children[i] && myList.children[i].firstElementChild) {
+                    myList.children[i].firstElementChild.classList.add("is-scrolled");
+                } else {
+                    // console.error("Child element not found at index " + i);
+                }
             }
         }
+
+        var ulElement = document.getElementById('list-cat');
+        var aElements = ulElement.getElementsByTagName('a');
+        for (var i = 0; i < aElements.length; i++) {
+            aElements[i].classList.add('is-scrolled');
+        }
+
     } else {
         header.classList.remove("is-scrolled");
         header2.classList.remove("is-scrolled");
         header3.classList.remove("is-scrolled");
 
+        // if (myList) {
+        //     for (let i = 0; i < items.length; i++) {
+        //         myList.children[i].firstElementChild.classList.remove(
+        //             "is-scrolled"
+        //         );
+        //     }
+        // }
+
         if (myList) {
             for (let i = 0; i < items.length; i++) {
-                myList.children[i].firstElementChild.classList.remove(
-                    "is-scrolled"
-                );
+                if (myList.children[i] && myList.children[i].firstElementChild) {
+                    myList.children[i].firstElementChild.classList.remove("is-scrolled");
+                } else {
+                    // console.error("Child element not found at index " + i);
+                }
             }
+        }
+
+        var ulElement = document.getElementById('list-cat');
+        var aElements = ulElement.getElementsByTagName('a');
+        for (var i = 0; i < aElements.length; i++) {
+            aElements[i].classList.remove('is-scrolled');
         }
     }
 });
