@@ -748,26 +748,49 @@
                 var inputValue = $(this).val();
                 collectedValues[inputName] = inputValue;
             });
+            collectedValues['cust_address']         = $('textarea[name="cust_address"]').val();
+            collectedValues['recp_address']         = $('textarea[name="recp_address"]').val();
+            collectedValues['province_destination'] = $('#province_destination').val();
+            collectedValues['city_destination']     = $('#city_destination').val();
+            collectedValues['ongkir_list']          = $('#ongkir_list').val();
+
+            collectedValues['payment_method']       = $('input[name="payment_method"]:checked').val();
+
+            delete collectedValues['input_search'];
+
+            if (collectedValues['input_kupon'].trim() === "") {
+            collectedValues['input_kupon'] = "-";
+            }
+
             return collectedValues;
+        }
+
+        function validateObject(obj) {
+            return !Object.values(obj).some(value => {
+                return value === null || value === undefined || value === '';
+            });
         }
 
         function paid() {
             var collectedInputs = collectInputValues();
-            fetch('/checkout/finish', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
+            var validated = validateObject(collectedInputs);
+            console.log(collectedInputs);
+            console.log(validated);
+            if(validated){
+                $.ajax({
+                    url: '/checkout/finish',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(collectedInputs),
+                    success: function(data) {
+                        console.log(data);
+                        window.location.href = '/finish';
                     },
-                    body: JSON.stringify(collectedInputs),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    window.location.href = '/finish';
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-            });
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
         }
     </script>
 @endpush

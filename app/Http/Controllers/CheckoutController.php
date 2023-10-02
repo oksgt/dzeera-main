@@ -20,14 +20,15 @@ use Kavist\RajaOngkir\Facades\RajaOngkir;
 class CheckoutController extends Controller
 {
 
-    public function checkout(Request $request){
+    public function checkout(Request $request)
+    {
         $data_db = [];
         $data_cookie = [];
         $data = [];
         if (auth()->check()) {
             $cart = Cart::where('user_id', auth()->id())
-            ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
-            ->get();
+                ->select('product_id', 'color_opt_id', 'size_opt_id', 'qty', 'price')
+                ->get();
             $cart_arr = json_decode($cart, true);
             $data = $cart_arr;
         } else {
@@ -56,6 +57,9 @@ class CheckoutController extends Controller
             where p.id = ? and pco.id = ? and pso.id = ? and po.user_id = ?";
 
             $data_obj = DB::select($sql, [$value['product_id'], $value['color_opt_id'], $value['size_opt_id'], auth()->id()]);
+            if (!$data_obj) {
+                return redirect()->route('home');
+            }
             array_push($result, $data_obj[0]);
         }
 
@@ -66,10 +70,10 @@ class CheckoutController extends Controller
         $cart_list = $result;
         $provinces = Province::pluck('name', 'province_id');
         $activeAccounts = DB::table('bank_accounts')
-        ->where('is_active', 'y')
-        ->whereNull('deleted_at')
-        ->select('bank_name', 'account_number', 'account_name')
-        ->get();
+            ->where('is_active', 'y')
+            ->whereNull('deleted_at')
+            ->select('bank_name', 'account_number', 'account_name')
+            ->get();
         return view('checkout', compact('provinces', 'cart_list', 'activeAccounts'));
     }
 
@@ -82,8 +86,8 @@ class CheckoutController extends Controller
     public function getCityName($provinceId, $cityId)
     {
         $city = City::where('province_id', $provinceId)
-                    ->where('city_id', $cityId)
-                    ->pluck('name');
+            ->where('city_id', $cityId)
+            ->pluck('name');
 
         return response()->json($city);
     }
@@ -136,8 +140,8 @@ class CheckoutController extends Controller
     public function getVouchersByCode($code)
     {
         $vouchers = Voucher::where('code', $code)
-                    ->where('is_active', 'y')
-                    ->get();
+            ->where('is_active', 'y')
+            ->get();
 
         if ($vouchers->isEmpty()) {
             return response()->json([
@@ -208,7 +212,43 @@ class CheckoutController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function checkout_finish(Request $request){
+    public function checkout_finish(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $cust_name = $data['cust_name'];
+        $cust_email = $data['cust_email'];
+        $cust_phone = $data['cust_phone'];
+        $recp_name = $data['recp_name'];
+        $recp_phone = $data['recp_phone'];
+        $kode_pos = $data['kode_pos'];
+        $payment_method = $data['payment_method'];
+        $grandTotal = $data['grandTotal'];
+        $input_kupon = $data['input_kupon'];
+        $cust_address = $data['cust_address'];
+        $recp_address = $data['recp_address'];
+        $province_destination = $data['province_destination'];
+        $city_destination = $data['city_destination'];
+        $ongkir_list = $data['ongkir_list'];
+
+        // Output the extracted values
+        echo "cust_name: " . $cust_name . "<br>";
+        echo "cust_email: " . $cust_email . "<br>";
+        echo "cust_phone: " . $cust_phone . "<br>";
+        echo "recp_name: " . $recp_name . "<br>";
+        echo "recp_phone: " . $recp_phone . "<br>";
+        echo "kode_pos: " . $kode_pos . "<br>";
+        echo "payment_method: " . $payment_method . "<br>";
+        echo "grandTotal: " . $grandTotal . "<br>";
+        echo "input_kupon: " . $input_kupon . "<br>";
+        echo "cust_address: " . $cust_address . "<br>";
+        echo "recp_address: " . $recp_address . "<br>";
+        echo "province_destination: " . $province_destination . "<br>";
+        echo "city_destination: " . $city_destination . "<br>";
+        echo "ongkir_list: " . $ongkir_list . "<br>";
+
+        die;
+
         $responseData = [
             'status' => 'success',
             'message' => 'Checkout finished successfully',
@@ -217,8 +257,19 @@ class CheckoutController extends Controller
         return response()->json($responseData);
     }
 
-    public function finish(Request $request){
-        // get bank list
+    public function finish(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            // Define validation rules for the incoming data if necessary
+        ]);
+
+        if ($validator->fails()) {
+            // Handle validation errors
+        }
+
+        $data = json_decode($request->getContent(), true);
+        dd($data);
+
         $bank = BankAccount::where('is_active', 'y')->get();
         return view('checkout_finish', compact('bank'));
     }
