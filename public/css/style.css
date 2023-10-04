@@ -777,3 +777,10 @@ img {
     border: none !important;
     color: white;
 }
+
+
+.readonly-input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }

@@ -58,21 +58,21 @@
                                 <div class="mb-3 mt-3">
                                     <label for="name" class="form-label">{{ __('general.name') }}</label>
                                     <input type="text" class="form-control" id="cust_name" name="cust_name"
-                                        placeholder="Enter your name" required>
+                                        placeholder="Enter your name" required value="Oka Sigit">
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">{{ __('general.email_address') }}</label>
                                     <input type="email" class="form-control" id="cust_email" name="cust_email"
-                                        placeholder="Enter your email address" required>
+                                        placeholder="Enter your email address" required value="oka.sigit9@gmail.com">
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">{{ __('general.phone') }}</label>
                                     <input type="text" class="form-control" id="cust_phone" name="cust_phone"
-                                        placeholder="Enter your phone number" required>
+                                        placeholder="Enter your phone number" required value="087786010899">
                                 </div>
                                 <div class="mb-3">
                                     <label for="address" class="form-label">{{ __('general.address') }}</label>
-                                    <textarea class="form-control" id="address" name="cust_address" rows="3" required></textarea>
+                                    <textarea class="form-control" id="address" name="cust_address" rows="3" required>Desa Pamijen RT6/1 No. 58, Kec. Baturraden</textarea>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <a class="btn btn-info next">{{ __('general.continue') }} <i class="fas fa-angle-right"></i></a>
@@ -89,16 +89,16 @@
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">{{ __('general.recipient_name') }}</label>
                                         <input type="text" class="form-control" id="recp_name" name="recp_name"
-                                            placeholder="Enter your name" required>
+                                            placeholder="Enter your name" required value="Shinta Marma L.">
                                     </div>
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">{{ __('general.recipient_phone') }}</label>
                                         <input type="text" class="form-control" id="recp_phone" name="recp_phone"
-                                            placeholder="Enter your phone number" required>
+                                            placeholder="Enter your phone number" required value="087885195877">
                                     </div>
                                     <div class="mb-3">
                                         <label for="address" class="form-label">{{ __('general.recipient_address') }}</label>
-                                        <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required></textarea>
+                                        <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required>Desa Pamijen RT6/1 No. 58, Kec. Baturraden Juga</textarea>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -123,7 +123,7 @@
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">{{ __('general.postal_code') }}</label>
                                         <input type="text" class="form-control" id="kode_pos" name="kode_pos"
-                                            placeholder="Enter your Postal Code" required>
+                                            placeholder="Enter your Postal Code" required value="53151">
                                     </div>
 
                                     <div class="mb-3">
@@ -193,7 +193,104 @@
                             </div>
                             <hr>
                             <div class="row">
+
                                 <div class="col-6 table-responsive">
+                                    <div class="card">
+                                      <div class="card-header">{{ __('general.customer_information') }}</div>
+                                      <div class="card-body">
+                                        <table class="table table-sm small text-muted">
+                                          <tr>
+                                            <td>{{ __('general.name') }}</td>
+                                            <td>
+                                              <input type="text" id="_cust_name" name="_cust_name" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.email_address') }}</td>
+                                            <td>
+                                              <input type="text" id="_cust_email" name="_cust_email" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.phone') }}</td>
+                                            <td>
+                                              <input type="text" id="_cust_phone" name="_cust_phone" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.address') }}</td>
+                                            <td>
+                                              <input type="text" id="_cust_address" name="_cust_address" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-6 table-responsive">
+                                    <div class="card">
+                                      <div class="card-header">{{ __('general.shipping_information') }}</div>
+                                      <div class="card-body">
+                                        <table class="table table-sm small text-muted">
+                                          <tr>
+                                            <td>{{ __('general.recipient_name') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_name" name="_recp_name" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.recipient_phone') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_phone" name="_recp_phone" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.recipient_address') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_add" name="_recp_add" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.province') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_prov" name="_recp_prov" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.city') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_city" name="_recp_city" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.postal_code') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_postal_code" name="_recp_postal_code" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>{{ __('general.shipping_service') }}</td>
+                                            <td>
+                                              <input type="text" id="_recp_shipping_service" name="_recp_shipping_service" class="readonly-input" readonly>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td></td>
+                                            <td>
+                                              <input type="hidden" id="_service" name="_service" class="readonly-input" readonly>
+                                              <input type="hidden" id="_service_price" name="_service_price" class="readonly-input" readonly>
+                                              <input type="hidden" id="_city" name="_city" class="readonly-input" readonly>
+                                              <input type="hidden" id="_province" name="_province" class="readonly-input" readonly>
+                                              <input type="hidden" id="_voucher" name="_voucher" class="readonly-input" readonly value="-">
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                {{-- <div class="col-6 table-responsive">
                                     <div class="card">
                                         <div class="card-header">{{ __('general.customer_information') }}</div>
                                         <div class="card-body">
@@ -218,7 +315,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="col-6 table-responsive">
                                     <div class="card">
@@ -256,7 +352,8 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
+
                             </div>
 
                             <div class="card bg bg-white mt-3">
@@ -286,6 +383,10 @@
                                             </tr>
                                             <?php endforeach; ?>
 
+                                            <div id="exp_container">
+
+                                            </div>
+
                                             @php
                                                 $appliedVoucher = getAppliedVoucher();
                                                 $v_value = 0;
@@ -298,7 +399,7 @@
                                                         $discountAmount = $grandTotal * ($appliedVoucher['value'] / 100);
                                                         $grandTotal = $grandTotal - $discountAmount;
                                                     } else {
-                                                        $label_value = 'Rp. ' . formatNumber($appliedVoucher['value']);
+                                                        $label_value = formatNumber($appliedVoucher['value']);
                                                         $v_value = $appliedVoucher['value'];
                                                         $grandTotal = $grandTotal - $v_value;
                                                     }
@@ -338,6 +439,7 @@
                                                         value="{{ $grandTotal }}">
                                                 </td>
                                             </tr>
+
                                         </tbody>
                                     </table>
 
@@ -403,8 +505,12 @@
                 <div class="modal-body justify-content-center d-flex">
                     <div class="input-group">
 
+                        <input type="text" name="input_kupon_" id="input_kupon_" class="form-control"
+                            placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
+
                         <input type="text" name="input_kupon" id="input_kupon" class="form-control"
                             placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
+
                         <button class="btn btn-dark" type="button" id="button-voucher-apply"
                             onclick="callGetVouchersByCode()">
                             <i class="fa fa-check"></i>
@@ -467,6 +573,8 @@
         let isProcessing = false;
         let start_date;
         let end_date;
+        let voucher;
+        let service_;
 
         function openModalVoucher() {
             $('#kuponModal').modal('show');
@@ -504,7 +612,8 @@
         }
 
         function callGetVouchersByCode() {
-            let code = $('#input_kupon').val()
+            let code = $('#input_kupon_').val();
+            voucher = code;
             return new Promise(function(resolve, reject) {
                 $.ajax({
                     url: '/vouchers/' + code, // Replace `/vouchers` with the actual URL of your route
@@ -520,12 +629,11 @@
                                 alert('Voucher not valid');
                             } else {
                                 store_code(code);
+                                $('#_voucher').val(code);
                             }
                         } else {
                             alert('Voucher not found');
                         }
-
-
                     },
                     error: function(xhr, status, error) {
                         reject(error);
@@ -663,7 +771,9 @@
             var recpPhone = $('#recp_phone').val();
             var recpAddress = $('#recp_address').val();
             var provinceDestination = $('#province_destination').val();
+            $('#_province').val(provinceDestination);
             var cityDestination = $('#city_destination').val();
+            $('#_city').val(cityDestination);
             var postalCode = $('#kode_pos').val();
             var ongkirList = $('#ongkir_list').val();
             inputs.recp_name = recpName;
@@ -682,25 +792,43 @@
             const separatedValues = ongkirList_.split("_");
             const service = separatedValues[0];
             const service_price = separatedValues[1];
+            console.log(ongkirList_);
+            if (ongkirList_ !== null) {
+                $('#exp_container').html(`
+                    <tr class="table-info">
+                    <td></td>
+                    <td>
+                        JNE ${service}
+                    </td>
+                    <td>1</td>
+                    <td>${service_price}</td>
+                    <td>${service_price}</td>
+                    </tr>
+                `);
+            }
+
+            $('#_service').val(service);
+            $('#_service_price').val(service_price);
 
             // Update table cells with input values
-            $('#_cust_name').text(inputs.cust_name);
-            $('#_cust_email').text(inputs.cust_email);
-            $('#_cust_phone').text(inputs.cust_phone);
-            $('#_cust_address').text(inputs.cust_address);
-            $('#_recp_name').text(inputs.recp_name);
-            $('#_recp_phone').text(inputs.recp_phone);
-            $('#_recp_add').text(inputs.recp_address);
+            $('#_cust_name').val(inputs.cust_name);
+            $('#_cust_email').val(inputs.cust_email);
+            $('#_cust_phone').val(inputs.cust_phone);
+            $('#_cust_address').val(inputs.cust_address);
 
-            $('#_recp_postal_code').text(inputs.kode_pos);
-            $('#_recp_shipping_service').text("JNE " + service);
-            $('#label_payment_method').text("Selected payment method : " + inputs.payment_method);
+            $('#_recp_name').val(inputs.recp_name);
+            $('#_recp_phone').val(inputs.recp_phone);
+            $('#_recp_add').val(inputs.recp_address);
+
+            $('#_recp_postal_code').val(inputs.kode_pos);
+            $('#_recp_shipping_service').val("JNE " + service);
+            $('#label_payment_method').val("Selected payment method : " + inputs.payment_method);
 
             callGetCityName(inputs.province_destination, inputs.city_destination)
                 .then(function(cityResponse) {
                     // Handle the city response data
                     // console.log(cityResponse);
-                    $('#_recp_city').text(cityResponse.toString());
+                    $('#_recp_city').val(cityResponse.toString());
                 })
                 .catch(function(error) {
                     // Handle the error
@@ -711,18 +839,14 @@
                 .then(function(provinceResponse) {
                     // Handle the province response data
                     // console.log(provinceResponse);
-                    $('#_recp_prov').text(provinceResponse.toString());
+                    $('#_recp_prov').val(provinceResponse.toString());
                 })
                 .catch(function(error) {
                     // Handle the error
                     console.error(error);
                 });
 
-            // $('#_recp_prov').text(inputs.province_destination);
-            // $('#_recp_city').text(inputs.city_destination);
-
             console.log(inputs);
-            // return inputs;
         }
 
         function removeVoucher() {
@@ -731,6 +855,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
+                    $('#_voucher').val("-");
                     window.location.href = '/checkout#step4';
                     location.reload();
                 },
@@ -751,15 +876,23 @@
             collectedValues['cust_address']         = $('textarea[name="cust_address"]').val();
             collectedValues['recp_address']         = $('textarea[name="recp_address"]').val();
             collectedValues['province_destination'] = $('#province_destination').val();
-            collectedValues['city_destination']     = $('#city_destination').val();
+            collectedValues['']     = $('#city_destination').val();
             collectedValues['ongkir_list']          = $('#ongkir_list').val();
 
             collectedValues['payment_method']       = $('input[name="payment_method"]:checked').val();
 
             delete collectedValues['input_search'];
+            delete collectedValues['ongkir_list'];
+            delete collectedValues['province_destination'];
+            delete collectedValues['city_destination'];
+            delete collectedValues[''];
 
             if (collectedValues['input_kupon'].trim() === "") {
-            collectedValues['input_kupon'] = "-";
+                collectedValues['input_kupon'] = "-";
+            }
+
+            if (collectedValues['input_kupon_'].trim() === "") {
+                collectedValues['input_kupon_'] = "-";
             }
 
             return collectedValues;
@@ -784,7 +917,7 @@
                     data: JSON.stringify(collectedInputs),
                     success: function(data) {
                         console.log(data);
-                        window.location.href = '/finish';
+                        // window.location.href = '/finish';
                     },
                     error: function(error) {
                         console.error('Error:', error);

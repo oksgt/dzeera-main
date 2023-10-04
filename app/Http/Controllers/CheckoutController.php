@@ -6,6 +6,7 @@ use App\Models\BankAccount;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Province;
+use App\Models\Transaction;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -212,49 +213,238 @@ class CheckoutController extends Controller
         return response()->json(['success' => true]);
     }
 
+    // public function checkout_finish(Request $request)
+    // {
+    //     $data = json_decode($request->getContent(), true);
+
+    //     extract($data);
+
+    //     $cart_result = Cart::where('user_id', auth()->user()->id)
+    //         ->selectRaw('SUM(qty) as total_qty, SUM(price) as total_price')
+    //         ->first();
+
+    //     $transaction = new Transaction();
+    //     $transaction->user_id = auth()->user()->id;
+    //     $transaction->trans_number = substr(uniqid(), -6);
+
+    //     $transaction->qty = $cart_result->total_qty;;
+    //     $transaction->price = $cart_result->total_price;
+
+    //     $is_percent = false;
+
+    //     if ($input_kupon !== "-") {
+    //         $voucher = Voucher::where('code', $code)
+    //             ->whereNull('deleted_at')
+    //             ->first();
+
+    //         if (!$voucher) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Invalid voucher code.'
+    //             ]);
+    //         }
+
+    //         $start_date = $voucher->start_date;
+    //         $end_date = $voucher->end_date;
+
+    //         $current_date = date('Y-m-d');
+
+    //         if ($current_date < $start_date || $current_date > $end_date) {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Expired voucher code.'
+    //             ]);
+    //         }
+
+    //         if ($voucher->is_active !== 'y') {
+    //             return response()->json([
+    //                 'status' => false,
+    //                 'message' => 'Invalid voucher code.'
+    //             ]);
+    //         }
+
+    //         $transaction->voucher_id = $voucher->code;
+    //         $transaction->cut_off_value = $cut_off_value;
+
+    //         if ($voucher->is_percent === 'y') {
+    //             $is_percent = true;
+    //         }
+    //     } else {
+    //         $transaction->voucher_id = "-";
+    //         $transaction->cut_off_value = "0";
+    //     }
+
+    //     $ongkir_list_data = explode("_", $ongkir_list);
+
+    //     $transaction->expedition_id = 1; //JNE
+    //     $transaction->expedition_service_type = $ongkir_list_data[0];
+    //     $transaction->shipping_cost = $ongkir_list_data[1];
+    //     $transaction->shipping_code = "-";
+
+    //     if ($is_percent) {
+    //         $transaction->final_price = $transaction->price - ($transaction->price * $transaction->cut_off_value / 100);
+    //     } else {
+    //         $transaction->final_price = $transaction->price - $transaction->cut_off_value;
+    //     }
+
+    //     $transaction->shipping_address = $recp_address;
+    //     $transaction->city = $city;
+    //     $transaction->province = $province;
+    //     $transaction->postal_code = $postal_code;
+    //     $transaction->phone_number = $phone_number;
+    //     $transaction->notes = "_";
+    //     $transaction->trans_status = 'unpaid';
+
+    //     $transaction->cust_name = $cust_name;
+    //     $transaction->cust_email = $cust_email;
+    //     $transaction->cust_phone = $cust_phone;
+    //     $transaction->cust_address = $cust_address;
+
+    //     $transaction->recp_name  = $recp_name;
+    //     $transaction->recp_email = "-";
+    //     $transaction->recp_phone = $recp_phone;
+    //     $transaction->recp_address = $recp_address;
+
+    //     $transaction->payment_method = $payment_method;
+
+    //     $currentTimestamp = time();
+    //     $appSetting = DB::table('app_settings')
+    //         ->where('status', 1)
+    //         ->where('key', 'batas_transfer')
+    //         ->first();
+
+    //     if ($appSetting) {
+    //         $value = $appSetting->value;
+    //         $minute = $value;
+    //         $nextTimestamp = $currentTimestamp + ($minute * 60);
+    //         $nextDateTime = date('Y-m-d H:i:s', $nextTimestamp);
+    //         $transaction->max_time = $nextDateTime;
+
+    //     } else {
+    //         return response()->json([
+    //             'status' => false,
+    //             'message' => 'Max transfer time not set'
+    //         ]);
+    //     }
+
+    //     $transaction->save();
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Ok'
+    //     ]);
+    // }
+
     public function checkout_finish(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
+        $data = $request->json()->all();
 
-        $cust_name = $data['cust_name'];
-        $cust_email = $data['cust_email'];
-        $cust_phone = $data['cust_phone'];
-        $recp_name = $data['recp_name'];
-        $recp_phone = $data['recp_phone'];
-        $kode_pos = $data['kode_pos'];
-        $payment_method = $data['payment_method'];
-        $grandTotal = $data['grandTotal'];
-        $input_kupon = $data['input_kupon'];
-        $cust_address = $data['cust_address'];
-        $recp_address = $data['recp_address'];
-        $province_destination = $data['province_destination'];
-        $city_destination = $data['city_destination'];
-        $ongkir_list = $data['ongkir_list'];
+        $validator = Validator::make($data, [
+            'input_kupon' => 'required|string',
+        ]);
 
-        // Output the extracted values
-        echo "cust_name: " . $cust_name . "<br>";
-        echo "cust_email: " . $cust_email . "<br>";
-        echo "cust_phone: " . $cust_phone . "<br>";
-        echo "recp_name: " . $recp_name . "<br>";
-        echo "recp_phone: " . $recp_phone . "<br>";
-        echo "kode_pos: " . $kode_pos . "<br>";
-        echo "payment_method: " . $payment_method . "<br>";
-        echo "grandTotal: " . $grandTotal . "<br>";
-        echo "input_kupon: " . $input_kupon . "<br>";
-        echo "cust_address: " . $cust_address . "<br>";
-        echo "recp_address: " . $recp_address . "<br>";
-        echo "province_destination: " . $province_destination . "<br>";
-        echo "city_destination: " . $city_destination . "<br>";
-        echo "ongkir_list: " . $ongkir_list . "<br>";
+        $inputKupon = $data['_voucher'];
 
-        die;
+        if ($inputKupon === '-' && !array_key_exists('code', $data)) {
+            $validator->errors()->add('code', 'The code field is required when input kupon is -.');
+        }
 
-        $responseData = [
-            'status' => 'success',
-            'message' => 'Checkout finished successfully',
-        ];
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ]);
+        }
 
-        return response()->json($responseData);
+        $cartResult = Cart::where('user_id', auth()->user()->id)
+            ->selectRaw('SUM(qty) as total_qty, SUM(price) as total_price')
+            ->first();
+
+        $transaction = new Transaction();
+        $transaction->user_id = auth()->user()->id;
+        $transaction->trans_number = substr(uniqid(), -6);
+        $transaction->qty = $cartResult->total_qty;
+        $transaction->price = $cartResult->total_price;
+
+        $voucherCode = $data['_voucher'];
+        $voucher = Voucher::where('code', $voucherCode)
+            ->whereNull('deleted_at')
+            ->where('is_active', 'y')
+            ->where(function ($query) {
+                $query->whereDate('start_date', '<=', now())
+                    ->whereDate('end_date', '>=', now());
+            })
+            ->first();
+        // dd($voucher);
+        if ($voucher) {
+            $transaction->voucher_id = $voucher->code;
+            $transaction->cut_off_value = $voucher->value;
+
+            if($voucher->is_percent === 'y' && $voucher->value > 0)
+                $transaction->final_price = $transaction->price - ($transaction->price * $transaction->cut_off_value / 100);
+            else if($voucher->is_percent === 'n' && $voucher->value > 0)
+                $transaction->final_price = $transaction->price - $transaction->cut_off_value;
+            else if($voucher->is_percent === 'n' && $voucher->value == 0)
+                $transaction->final_price = $transaction->price;
+            else if($voucher->is_percent === 'y' && $voucher->value == 0)
+            $transaction->final_price = $transaction->price;
+
+        } else {
+            $transaction->voucher_id = "x";
+            $transaction->cut_off_value = 0;
+            $transaction->final_price = $transaction->price;
+        }
+
+        // $ongkirListData = explode("_", $data['ongkir_list']);
+        $transaction->expedition_id = 1; // JNE
+        $transaction->expedition_service_type = $data['_service'];
+        $transaction->shipping_cost = $data['_service_price'];
+        $transaction->shipping_code = "-";
+
+
+        $transaction->notes = "_";
+        $transaction->trans_status = 'unpaid';
+
+        $transaction->cust_name = $data['cust_name'];
+        $transaction->cust_email = $data['cust_email'];
+        $transaction->cust_phone = $data['cust_phone'];
+        $transaction->cust_address = $data['cust_address'];
+
+        $transaction->recp_name = $data['recp_name'];
+        $transaction->recp_email = "-";
+        $transaction->recp_phone = $data['recp_phone'];
+        $transaction->recp_address = $data['recp_address'];
+        $transaction->shipping_address = $data['recp_address'];
+        $transaction->city = $data['_city'];
+        $transaction->province = $data['_province'];
+        $transaction->postal_code = $data['kode_pos'];
+        $transaction->phone_number = $data['recp_phone'];
+
+        $transaction->payment_method = $data['payment_method'];
+
+        $appSetting = DB::table('app_settings')
+            ->where('status', 1)
+            ->where('key', 'batas_transfer')
+            ->first();
+
+        if ($appSetting) {
+            $value = $appSetting->value;
+            $minute = $value;
+            $nextDateTime = now()->addMinutes($minute);
+            $transaction->max_time = $nextDateTime;
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Max transfer time not set'
+            ]);
+        }
+
+        $transaction->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Ok'
+        ]);
     }
 
     public function finish(Request $request)
