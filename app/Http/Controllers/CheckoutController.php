@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\City;
 use App\Models\Province;
 use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -35,6 +36,10 @@ class CheckoutController extends Controller
         } else {
             $cart_cookie = json_decode(request()->cookie('cart'), true) ?? [];
             $data = $cart_cookie;
+        }
+
+        if(!$data){
+            return redirect()->route('home');
         }
 
         $result = [];
@@ -134,7 +139,7 @@ class CheckoutController extends Controller
         // Retrieve the form values using $request->input('input_name')
 
         // Redirect or perform further actions after processing
-        dump($request->all());
+        // dump($request->all());
         // return redirect()->route('success.page');
     }
 
@@ -360,91 +365,150 @@ class CheckoutController extends Controller
             ->selectRaw('SUM(qty) as total_qty, SUM(price) as total_price')
             ->first();
 
-        $transaction = new Transaction();
-        $transaction->user_id = auth()->user()->id;
-        $transaction->trans_number = substr(uniqid(), -6);
-        $transaction->qty = $cartResult->total_qty;
-        $transaction->price = $cartResult->total_price;
+        // if ($cartResult->isEmpty()) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'No cart data found for the user.',
+        //     ]);
+        // }
 
-        $voucherCode = $data['_voucher'];
-        $voucher = Voucher::where('code', $voucherCode)
-            ->whereNull('deleted_at')
-            ->where('is_active', 'y')
-            ->where(function ($query) {
-                $query->whereDate('start_date', '<=', now())
-                    ->whereDate('end_date', '>=', now());
-            })
-            ->first();
-        // dd($voucher);
-        if ($voucher) {
-            $transaction->voucher_id = $voucher->code;
-            $transaction->cut_off_value = $voucher->value;
+        // move cart data to transaction detail
+        $cartData = Cart::where('user_id', auth()->user()->id)->get();
 
-            if($voucher->is_percent === 'y' && $voucher->value > 0)
-                $transaction->final_price = $transaction->price - ($transaction->price * $transaction->cut_off_value / 100);
-            else if($voucher->is_percent === 'n' && $voucher->value > 0)
-                $transaction->final_price = $transaction->price - $transaction->cut_off_value;
-            else if($voucher->is_percent === 'n' && $voucher->value == 0)
-                $transaction->final_price = $transaction->price;
-            else if($voucher->is_percent === 'y' && $voucher->value == 0)
-            $transaction->final_price = $transaction->price;
-
-        } else {
-            $transaction->voucher_id = "x";
-            $transaction->cut_off_value = 0;
-            $transaction->final_price = $transaction->price;
-        }
-
-        // $ongkirListData = explode("_", $data['ongkir_list']);
-        $transaction->expedition_id = 1; // JNE
-        $transaction->expedition_service_type = $data['_service'];
-        $transaction->shipping_cost = $data['_service_price'];
-        $transaction->shipping_code = "-";
-
-
-        $transaction->notes = "_";
-        $transaction->trans_status = 'unpaid';
-
-        $transaction->cust_name = $data['cust_name'];
-        $transaction->cust_email = $data['cust_email'];
-        $transaction->cust_phone = $data['cust_phone'];
-        $transaction->cust_address = $data['cust_address'];
-
-        $transaction->recp_name = $data['recp_name'];
-        $transaction->recp_email = "-";
-        $transaction->recp_phone = $data['recp_phone'];
-        $transaction->recp_address = $data['recp_address'];
-        $transaction->shipping_address = $data['recp_address'];
-        $transaction->city = $data['_city'];
-        $transaction->province = $data['_province'];
-        $transaction->postal_code = $data['kode_pos'];
-        $transaction->phone_number = $data['recp_phone'];
-
-        $transaction->payment_method = $data['payment_method'];
-
-        $appSetting = DB::table('app_settings')
-            ->where('status', 1)
-            ->where('key', 'batas_transfer')
-            ->first();
-
-        if ($appSetting) {
-            $value = $appSetting->value;
-            $minute = $value;
-            $nextDateTime = now()->addMinutes($minute);
-            $transaction->max_time = $nextDateTime;
-        } else {
+        if ($cartData->isEmpty()) {
             return response()->json([
                 'status' => false,
-                'message' => 'Max transfer time not set'
+                'message' => 'No cart data found for the user.',
             ]);
         }
 
-        $transaction->save();
+        DB::beginTransaction();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Ok'
-        ]);
+        try {
+            $transaction = new Transaction();
+            $transaction->user_id = auth()->user()->id;
+            $transaction->trans_number = substr(uniqid(), -6);
+            $transaction->qty = $cartResult->total_qty;
+            $transaction->price = $cartResult->total_price;
+
+            $voucherCode = $data['_voucher'];
+            $voucher = Voucher::where('code', $voucherCode)
+                ->whereNull('deleted_at')
+                ->where('is_active', 'y')
+                ->where(function ($query) {
+                    $query->whereDate('start_date', '<=', now())
+                        ->whereDate('end_date', '>=', now());
+                })
+                ->first();
+
+            if ($voucher) {
+                $transaction->voucher_id = $voucher->code;
+                $transaction->cut_off_value = $voucher->value;
+
+                if ($voucher->is_percent === 'y' && $voucher->value > 0)
+                    $transaction->final_price = $transaction->price - ($transaction->price * $transaction->cut_off_value / 100);
+                else if ($voucher->is_percent === 'n' && $voucher->value > 0)
+                    $transaction->final_price = $transaction->price - $transaction->cut_off_value;
+                else if ($voucher->is_percent === 'n' && $voucher->value == 0)
+                    $transaction->final_price = $data['grandTotal'];
+                else if ($voucher->is_percent === 'y' && $voucher->value == 0)
+                    $transaction->final_price = $data['grandTotal'];
+            } else {
+                $transaction->voucher_id = "-";
+                $transaction->cut_off_value = 0;
+                $transaction->final_price = $data['grandTotal'];
+            }
+
+            $transaction->expedition_id = 1; // JNE
+            $transaction->expedition_service_type = $data['_service'];
+            $transaction->shipping_cost = $data['_service_price'];
+            $transaction->shipping_code = "-";
+
+
+            $transaction->notes = "_";
+            $transaction->trans_status = 'unpaid';
+
+            $transaction->cust_name = $data['cust_name'];
+            $transaction->cust_email = $data['cust_email'];
+            $transaction->cust_phone = $data['cust_phone'];
+            $transaction->cust_address = $data['cust_address'];
+
+            $transaction->recp_name = $data['recp_name'];
+            $transaction->recp_email = "-";
+            $transaction->recp_phone = $data['recp_phone'];
+            $transaction->recp_address = $data['recp_address'];
+            $transaction->shipping_address = $data['recp_address'];
+            $transaction->city = $data['_recp_city'];
+            $transaction->province = $data['_recp_prov'];
+            $transaction->postal_code = $data['kode_pos'];
+            $transaction->phone_number = $data['recp_phone'];
+
+            $transaction->payment_method = $data['payment_method'];
+
+            $appSetting = DB::table('app_settings')
+                ->where('status', 1)
+                ->where('key', 'batas_transfer')
+                ->first();
+
+            if ($appSetting) {
+                $value = $appSetting->value;
+                $minute = $value;
+                $nextDateTime = now()->addMinutes($minute);
+                $transaction->max_time = $nextDateTime;
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Max transfer time not set'
+                ]);
+            }
+
+            //insert transaction
+            $transaction->save();
+
+            // Insert cart data into transaction_details table
+            foreach ($cartData as $cartItem) {
+                $transactionDetail = new TransactionDetail([
+                    'trans_number' => $transaction->trans_number, // Replace with your logic to generate transaction number
+                    'user_id' => $cartItem->user_id,
+                    'product_id' => $cartItem->product_id,
+                    'color_opt_id' => $cartItem->color_opt_id,
+                    'size_opt_id' => $cartItem->size_opt_id,
+                    'qty' => $cartItem->qty,
+                    'price' => $cartItem->price,
+                    'is_gift' => false, // Replace with your logic to determine if it's a gift or not
+                ]);
+
+                $transactionDetail->save();
+            }
+
+            // Delete cart data from carts table
+            Cart::where('user_id', auth()->user()->id)->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'data' => [
+                    'trans_code' => $transaction->trans_number,
+                    'grand_total' => $transaction->final_price,
+                    'payment' => $data['payment_method'],
+                ],
+                'message' => 'Ok'
+            ]);
+        } catch (\Exception $e) {
+            // Rollback the transaction if an error occurred
+            DB::rollback();
+
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred while finishing checkout: ' . $e->getMessage(),
+            ]);
+        }
+
+        //send email notication to user
+
+
     }
 
     public function finish(Request $request)
@@ -458,9 +522,17 @@ class CheckoutController extends Controller
         }
 
         $data = json_decode($request->getContent(), true);
-        dd($data);
+        // dd($data);
 
         $bank = BankAccount::where('is_active', 'y')->get();
-        return view('checkout_finish', compact('bank'));
+        $code = $request->code;
+        $transaction = Transaction::where('trans_number', $code)
+        ->select('final_price', 'max_time')
+        ->first();
+
+        $finalPrice = $transaction->final_price;
+        $maxTime = $transaction->max_time;
+
+        return view('checkout_finish', compact('bank', 'code', 'finalPrice', 'maxTime'));
     }
 }

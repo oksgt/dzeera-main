@@ -15,20 +15,20 @@
             <div class="row ">
                 <div class="col  text-center">
                     <div class="col">
-                        <p>Invoice No. #123</p>
+                        <p>Invoice No. #{{ $code }}</p>
                         <p class="display-4 text-danger" style="font-size: 30px">Unpaid</p>
                     </div>
                 </div>
                 <div class="col  text-center">
                     <p>{{ __('general.total_transaction') }}</p>
-                    <p class="display-4 text-dark" style="font-size: 30px">Rp. 123.000,00</p>
+                    <p class="display-4 text-dark" style="font-size: 30px">Rp. {{ formatNumber($finalPrice) }}</p>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
                     <div class="alert alert-danger" role="alert">
-                        {{ __('general.payment_due_date') }} :
+                        {{ __('general.payment_due_date') }} : {{ $maxTime   }}
                     </div>
                 </div>
             </div>

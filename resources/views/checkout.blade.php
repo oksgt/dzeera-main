@@ -58,21 +58,21 @@
                                 <div class="mb-3 mt-3">
                                     <label for="name" class="form-label">{{ __('general.name') }}</label>
                                     <input type="text" class="form-control" id="cust_name" name="cust_name"
-                                        placeholder="Enter your name" required value="Oka Sigit">
+                                        placeholder="Enter your name" required >
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">{{ __('general.email_address') }}</label>
                                     <input type="email" class="form-control" id="cust_email" name="cust_email"
-                                        placeholder="Enter your email address" required value="oka.sigit9@gmail.com">
+                                        placeholder="Enter your email address" required >
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">{{ __('general.phone') }}</label>
                                     <input type="text" class="form-control" id="cust_phone" name="cust_phone"
-                                        placeholder="Enter your phone number" required value="087786010899">
+                                        placeholder="Enter your phone number" required >
                                 </div>
                                 <div class="mb-3">
                                     <label for="address" class="form-label">{{ __('general.address') }}</label>
-                                    <textarea class="form-control" id="address" name="cust_address" rows="3" required>Desa Pamijen RT6/1 No. 58, Kec. Baturraden</textarea>
+                                    <textarea class="form-control" id="address" name="cust_address" rows="3" required></textarea>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <a class="btn btn-info next">{{ __('general.continue') }} <i class="fas fa-angle-right"></i></a>
@@ -89,16 +89,16 @@
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">{{ __('general.recipient_name') }}</label>
                                         <input type="text" class="form-control" id="recp_name" name="recp_name"
-                                            placeholder="Enter your name" required value="Shinta Marma L.">
+                                            placeholder="Enter your name" required >
                                     </div>
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">{{ __('general.recipient_phone') }}</label>
                                         <input type="text" class="form-control" id="recp_phone" name="recp_phone"
-                                            placeholder="Enter your phone number" required value="087885195877">
+                                            placeholder="Enter your phone number" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="address" class="form-label">{{ __('general.recipient_address') }}</label>
-                                        <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required>Desa Pamijen RT6/1 No. 58, Kec. Baturraden Juga</textarea>
+                                        <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -123,12 +123,12 @@
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">{{ __('general.postal_code') }}</label>
                                         <input type="text" class="form-control" id="kode_pos" name="kode_pos"
-                                            placeholder="Enter your Postal Code" required value="53151">
+                                            placeholder="Enter your Postal Code" required >
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">{{ __('general.shipping_service') }}</label>
-                                        <select class="form-control" name="ongkir_list" id="ongkir_list">
+                                        <select class="form-control" name="ongkir_list" id="ongkir_list" onchange="getSelectedOngkirList()">
                                             <option value="">-- {{ __('general.choose_service') }} --</option>
                                         </select>
                                     </div>
@@ -273,18 +273,14 @@
                                             <td>{{ __('general.shipping_service') }}</td>
                                             <td>
                                               <input type="text" id="_recp_shipping_service" name="_recp_shipping_service" class="readonly-input" readonly>
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td></td>
-                                            <td>
                                               <input type="hidden" id="_service" name="_service" class="readonly-input" readonly>
                                               <input type="hidden" id="_service_price" name="_service_price" class="readonly-input" readonly>
-                                              <input type="hidden" id="_city" name="_city" class="readonly-input" readonly>
-                                              <input type="hidden" id="_province" name="_province" class="readonly-input" readonly>
+                                              {{-- <input type="hidden" id="_city" name="_city" class="readonly-input" readonly>
+                                              <input type="hidden" id="_province" name="_province" class="readonly-input" readonly> --}}
                                               <input type="hidden" id="_voucher" name="_voucher" class="readonly-input" readonly value="-">
                                             </td>
                                           </tr>
+
                                         </table>
                                       </div>
                                     </div>
@@ -358,7 +354,7 @@
 
                             <div class="card bg bg-white mt-3">
                                 <div class="card-body">
-                                    <table class="table table-sm small">
+                                    <table class="table table-sm small" id="table-summary">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -383,9 +379,9 @@
                                             </tr>
                                             <?php endforeach; ?>
 
-                                            <div id="exp_container">
+                                            <tr id="exp_container">
 
-                                            </div>
+                                            </tr>
 
                                             @php
                                                 $appliedVoucher = getAppliedVoucher();
@@ -434,7 +430,7 @@
                                                 </td>
                                                 <td>
                                                     <h3 class="display-4" style="font-size: 35px">
-                                                        <strong><?php echo formatNumber($grandTotal); ?></strong></h3>
+                                                        <strong id="display_grandtotal"><?php echo formatNumber($grandTotal); ?></strong></h3>
                                                     <input type="hidden" name="grandTotal" id="grandTotal"
                                                         value="{{ $grandTotal }}">
                                                 </td>
@@ -508,7 +504,7 @@
                         <input type="text" name="input_kupon_" id="input_kupon_" class="form-control"
                             placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
 
-                        <input type="text" name="input_kupon" id="input_kupon" class="form-control"
+                        <input type="hidden" name="input_kupon" id="input_kupon" class="form-control"
                             placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
 
                         <button class="btn btn-dark" type="button" id="button-voucher-apply"
@@ -529,7 +525,8 @@
         $(document).ready(function() {
             // Get the hash from the current URL
             var hash = window.location.hash;
-            console.log(hash);
+            // console.log(hash);
+
             // Check if the hash is "#step4"
             if (hash === "#step4") {
                 // Get the tab element by its ID
@@ -538,6 +535,7 @@
                 // Activate the tab using the Bootstrap Tab API
                 var tabTrigger = new bootstrap.Tab(tab);
                 tabTrigger.show();
+                getInputValues();
             }
 
             //Enable Tooltips
@@ -644,6 +642,8 @@
 
         function getCities(provinceId) {
             // Send an AJAX request to the getCities route
+            $('#ongkir_list').empty();
+            $('#ongkir_list').prop('readonly', true);
             $.ajax({
                 url: '/getCities/' + provinceId,
                 type: 'GET',
@@ -661,7 +661,7 @@
                 },
                 error: function(error) {
                     // Handle error if any
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         }
@@ -676,6 +676,8 @@
             }
 
             isProcessing = true;
+            $('#ongkir_list').empty();
+            $('#ongkir_list').prop('readonly', true);
             $.ajax({
                 url: "/ongkir",
                 data: {
@@ -690,7 +692,8 @@
                 success: function(response) {
                     isProcessing = false;
                     if (response) {
-                        console.log(response);
+                        // console.log(response);
+
                         var selectOptions = '';
 
                         response[0].costs.forEach(function(cost) {
@@ -705,11 +708,12 @@
                         });
 
                         $('#ongkir_list').append(selectOptions);
+                        $('#ongkir_list').prop('readonly', false);
                     }
                 },
                 error: function(error) {
                     isProcessing = false;
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         }
@@ -775,7 +779,7 @@
             var cityDestination = $('#city_destination').val();
             $('#_city').val(cityDestination);
             var postalCode = $('#kode_pos').val();
-            var ongkirList = $('#ongkir_list').val();
+            var ongkirList = localStorage.getItem('ongkirList'); //$('#ongkir_list').val();
             inputs.recp_name = recpName;
             inputs.recp_phone = recpPhone;
             inputs.recp_address = recpAddress;
@@ -788,24 +792,37 @@
             var paymentMethod = $('input[name="payment_method"]:checked').val();
             inputs.payment_method = paymentMethod;
 
+
             const ongkirList_ = inputs.ongkir_list;
             const separatedValues = ongkirList_.split("_");
             const service = separatedValues[0];
-            const service_price = separatedValues[1];
-            console.log(ongkirList_);
-            if (ongkirList_ !== null) {
-                $('#exp_container').html(`
-                    <tr class="table-info">
-                    <td></td>
-                    <td>
-                        JNE ${service}
-                    </td>
-                    <td>1</td>
-                    <td>${service_price}</td>
-                    <td>${service_price}</td>
-                    </tr>
-                `);
-            }
+            const service_price = parseInt(separatedValues[1]);
+
+            var targetTbody = $('#table-summary tbody');
+            var targetRow = targetTbody.find('#exp_container');
+            targetRow.empty();
+
+            var newRow = $('' +
+                '<td></td>' +
+                '<td>JNE ' + service + '</td>' +
+                '<td>1</td>' +
+                '<td>' + formatNumber(service_price) + '</td>' +
+                '<td>' + formatNumber(service_price) + '</td>' +
+                '');
+
+            //get grandtotal
+            var gt = <?php echo $grandTotal; ?>;
+            var gts = gt + service_price;
+            $('#grandTotal').val(gts);
+            $('#display_grandtotal').text(formatNumber(gts));
+            // Find the <tbody> element of the table with ID "table-summary"
+            var targetTbody = $('#table-summary tbody');
+
+            // Find the <tr> element with ID "exp_container" inside the target <tbody> element
+            var targetRow = targetTbody.find('#exp_container');
+
+            // Append the new row to the target <tr> element
+            targetRow.append(newRow);
 
             $('#_service').val(service);
             $('#_service_price').val(service_price);
@@ -827,7 +844,7 @@
             callGetCityName(inputs.province_destination, inputs.city_destination)
                 .then(function(cityResponse) {
                     // Handle the city response data
-                    // console.log(cityResponse);
+                    // // console.log(cityResponse);
                     $('#_recp_city').val(cityResponse.toString());
                 })
                 .catch(function(error) {
@@ -838,7 +855,7 @@
             callGetProvinceName(inputs.province_destination)
                 .then(function(provinceResponse) {
                     // Handle the province response data
-                    // console.log(provinceResponse);
+                    // // console.log(provinceResponse);
                     $('#_recp_prov').val(provinceResponse.toString());
                 })
                 .catch(function(error) {
@@ -846,7 +863,7 @@
                     console.error(error);
                 });
 
-            console.log(inputs);
+            // console.log(inputs);
         }
 
         function removeVoucher() {
@@ -907,8 +924,8 @@
         function paid() {
             var collectedInputs = collectInputValues();
             var validated = validateObject(collectedInputs);
-            console.log(collectedInputs);
-            console.log(validated);
+            // console.log(collectedInputs);
+            // console.log(validated);
             if(validated){
                 $.ajax({
                     url: '/checkout/finish',
@@ -916,14 +933,28 @@
                     contentType: 'application/json',
                     data: JSON.stringify(collectedInputs),
                     success: function(data) {
-                        console.log(data);
-                        // window.location.href = '/finish';
+                        // console.log(data);
+                        // console.log(data.data.payment);
+                        if(data.data.payment === "Bank Transfer"){
+                            window.location.href = '/finish/'+data.data.trans_code;
+                        }
+
                     },
                     error: function(error) {
                         console.error('Error:', error);
                     }
                 });
             }
+        }
+
+        function formatNumber(number) {
+            return number.toLocaleString('id-ID');
+        }
+
+
+        function getSelectedOngkirList(){
+            var data = $('#ongkir_list').val();
+            localStorage.setItem('ongkirList', data);
         }
     </script>
 @endpush

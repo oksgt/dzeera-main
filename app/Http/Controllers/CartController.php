@@ -36,13 +36,25 @@ class CartController extends Controller
             ])->first();
 
             if($cek){
-                $cart = new Cart();
-                $cart->user_id = auth()->id();
-                $cart->product_id       = $productId;
-                $cart->color_opt_id     = $color;
-                $cart->size_opt_id      = $size;
-                $cart->qty              = $qty;
-                $cart->save();
+                // $cart = new Cart();
+                // $cart->user_id = auth()->id();
+                // $cart->product_id       = $productId;
+                // $cart->color_opt_id     = $color;
+                // $cart->size_opt_id      = $size;
+                // $cart->qty              = $qty;
+                // $cart->save();
+
+                $cart = Cart::updateOrCreate(
+                    [
+                        'user_id' => auth()->id(),
+                        'product_id' => $productId,
+                        'color_opt_id' => $color,
+                        'size_opt_id' => $size,
+                    ],
+                    [
+                        'qty' => DB::raw('qty + ' . $qty),
+                    ]
+                );
 
                 return redirect()->back()->with('cart_added', true);
                 //if exist, update qty in table
