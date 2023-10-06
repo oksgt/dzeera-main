@@ -34,6 +34,8 @@ Route::post('/checkout/next', [CheckoutController::class, 'checkout_next'])->nam
 Route::post('/checkout/finish', [CheckoutController::class, 'checkout_finish'])->name('checkout.finish');
 Route::get('/finish/{code}', [CheckoutController::class, 'finish'])->name('finish');
 
+Route::post('/midtrans-callback', [CheckoutController::class, 'midtransCallback']);
+
 Route::get('/getCityName/{provinceId}/{cityId}', [CheckoutController::class, 'getCityName'])->name('getCityName');
 Route::get('/getProvinceName/{id}', [CheckoutController::class, 'getProvinceName'])->name('getProvinceName');
 Route::get('/vouchers/{code}', [CheckoutController::class, 'getVouchersByCode'])->name('getVouchersByCode');

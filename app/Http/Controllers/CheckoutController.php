@@ -539,47 +539,48 @@ class CheckoutController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
-        $params = array(
-            'transaction_details' => array(
-                'order_id' => $transaction->trans_number,
-                'gross_amount' => $transaction->final_price,
-            ),
-            'customer_details' => array(
-                'first_name' => $transaction->cust_name,
-                'last_name' => '-',
-                'email' => $transaction->cust_email,
-                'phone' => $transaction->cust_phone,
-            ),
-        );
+        try {
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $transaction->trans_number,
+                    'gross_amount' => $transaction->final_price,
+                ),
+                'customer_details' => array(
+                    'first_name' => $transaction->cust_name,
+                    'last_name' => '-',
+                    'email' => $transaction->cust_email,
+                    'phone' => $transaction->cust_phone,
+                ),
+            );
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            // Use the $snapToken variable as needed
+            // ...
+        } catch (\Exception $e) {
+            // Handle the exception
+            // Log the error, display an error message, or perform any necessary actions
+            // Example: log an error message
+            return redirect()->route('home');
+
+            // You can also throw the exception if you want to propagate it further
+            // throw $e;
+        }
+
         $payment_method = $transaction->payment_method;
 
         return view('checkout_finish', compact('bank', 'code', 'finalPrice', 'maxTime', 'snapToken', 'payment_method'));
     }
 
-    public function midtransCheckout(){
-//         \Midtrans\Config::$serverKey = 'YOUR_SERVER_KEY';
-// // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-// \Midtrans\Config::$isProduction = false;
-// // Set sanitization on (default)
-// \Midtrans\Config::$isSanitized = true;
-// // Set 3DS transaction for credit card to true
-// \Midtrans\Config::$is3ds = true;
-
-// $params = array(
-//     'transaction_details' => array(
-//         'order_id' => rand(),
-//         'gross_amount' => 10000,
-//     ),
-//     'customer_details' => array(
-//         'first_name' => 'budi',
-//         'last_name' => 'pratama',
-//         'email' => 'budi.pra@example.com',
-//         'phone' => '08111222333',
-//     ),
-// );
-
-// $snapToken = \Midtrans\Snap::getSnapToken($params);
+    public function midtransCallback(Request $request){
+        $serverKey = config('midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+        if($hashed == $request->signature_key){
+            if($request->transaction_status == "capture"){
+                $affectedRows = DB::table('transactions')
+                ->where('trans_number', $request->order_id )
+                ->update(['trans_status' => 'paid']);
+            }
+        }
     }
 }
