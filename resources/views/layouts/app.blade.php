@@ -129,9 +129,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/wrunner-native.js') }}"></script>
     <script type="text/javascript"
-        {{-- src="https://app.stg.midtrans.com/snap/snap.js" --}}
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
-        {{-- src="https://app.sandbox.midtrans.com/snap/v1/transactions"; --}}
+        src="{{ config('midtrans.snap_url') }}"
     data-client-key="{{ config('midtrans.client_key') }}"></script>
     @stack('scripts')
     <script>
