@@ -508,7 +508,6 @@ class CheckoutController extends Controller
 
         //send email notication to user
 
-
     }
 
     public function finish(Request $request)
@@ -527,12 +526,60 @@ class CheckoutController extends Controller
         $bank = BankAccount::where('is_active', 'y')->get();
         $code = $request->code;
         $transaction = Transaction::where('trans_number', $code)
-        ->select('final_price', 'max_time')
         ->first();
 
         $finalPrice = $transaction->final_price;
         $maxTime = $transaction->max_time;
 
-        return view('checkout_finish', compact('bank', 'code', 'finalPrice', 'maxTime'));
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');;
+// Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $transaction->trans_number,
+                'gross_amount' => $transaction->final_price,
+            ),
+            'customer_details' => array(
+                'first_name' => $transaction->cust_name,
+                'last_name' => '-',
+                'email' => $transaction->cust_email,
+                'phone' => $transaction->cust_phone,
+            ),
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $payment_method = $transaction->payment_method;
+
+        return view('checkout_finish', compact('bank', 'code', 'finalPrice', 'maxTime', 'snapToken', 'payment_method'));
+    }
+
+    public function midtransCheckout(){
+//         \Midtrans\Config::$serverKey = 'YOUR_SERVER_KEY';
+// // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+// \Midtrans\Config::$isProduction = false;
+// // Set sanitization on (default)
+// \Midtrans\Config::$isSanitized = true;
+// // Set 3DS transaction for credit card to true
+// \Midtrans\Config::$is3ds = true;
+
+// $params = array(
+//     'transaction_details' => array(
+//         'order_id' => rand(),
+//         'gross_amount' => 10000,
+//     ),
+//     'customer_details' => array(
+//         'first_name' => 'budi',
+//         'last_name' => 'pratama',
+//         'email' => 'budi.pra@example.com',
+//         'phone' => '08111222333',
+//     ),
+// );
+
+// $snapToken = \Midtrans\Snap::getSnapToken($params);
     }
 }

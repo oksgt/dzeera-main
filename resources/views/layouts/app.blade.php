@@ -18,6 +18,7 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
@@ -127,6 +128,9 @@
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/wrunner-native.js') }}"></script>
+    <script type="text/javascript"
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ config('midtrans.client_key') }}"></script>
     @stack('scripts')
     <script>
         $(document).ready(function() {
