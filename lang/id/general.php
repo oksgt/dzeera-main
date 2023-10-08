@@ -70,4 +70,7 @@ return [
     'all_products' => 'Semua Produk',
     'choose_province' => 'Pilih Provinsi',
     'choose_city' => 'Pilih Kota',
+    'myOrder' => 'Pesananku',
+    'order_cancel' => 'Pesananmu telah dibatalkan karena sudah melewati batas waktu pembayaran',
+    'cancelled' => 'Dibatalkan'
 ];

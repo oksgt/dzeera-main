@@ -188,6 +188,7 @@
                         </div>
 
                         <div class="tab-pane fade mt-3" role="tabpanel" id="step4" aria-labelledby="step4-tab">
+
                             <div class="row text-center mb-3">
                                 <h5 style="color: #e30c83 ">{{ __('general.summary') }}</h5>
                             </div>
@@ -286,70 +287,6 @@
                                     </div>
                                   </div>
 
-                                {{-- <div class="col-6 table-responsive">
-                                    <div class="card">
-                                        <div class="card-header">{{ __('general.customer_information') }}</div>
-                                        <div class="card-body">
-                                            <table class="table table-sm small text-muted">
-                                                <tr>
-                                                    <td>{{ __('general.name') }}</td>
-                                                    <td><label id="_cust_name" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.email_address') }}</td>
-                                                    <td><label id="_cust_email" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.phone') }}</td>
-                                                    <td><label id="_cust_phone" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.address') }}</td>
-                                                    <td><label id="_cust_address" for=""></label></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-6 table-responsive">
-                                    <div class="card">
-                                        <div class="card-header">{{ __('general.shipping_information') }}</div>
-                                        <div class="card-body">
-                                            <table class="table table-sm small text-muted">
-                                                <tr>
-                                                    <td>{{ __('general.recipient_name') }}</td>
-                                                    <td><label id="_recp_name" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.recipient_phone') }}</td>
-                                                    <td><label id="_recp_phone" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.recipient_address') }}</td>
-                                                    <td><label id="_recp_add" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.province') }}</td>
-                                                    <td><label id="_recp_prov" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.city') }}</td>
-                                                    <td><label id="_recp_city" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.postal_code') }}</td>
-                                                    <td><label id="_recp_postal_code" for=""></label></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ __('general.shipping_service') }}</td>
-                                                    <td><label id="_recp_shipping_service" for=""></label></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div> --}}
-
                             </div>
 
                             <div class="card bg bg-white mt-3">
@@ -372,7 +309,7 @@
                                             ?>
                                             <tr>
                                                 <td><?php echo $index + 1; ?></td>
-                                                <td><?php echo $row->product_name . ' - ' . $row->color_name; ?></td>
+                                                <td><?php echo $row->product_name . ' - ' . $row->color_name . ' - ' . $row->size; ?></td>
                                                 <td><?php echo $row->qty; ?></td>
                                                 <td><?php echo formatNumber($row->price); ?></td>
                                                 <td><?php echo formatNumber($row->total_price); ?></td>
@@ -486,6 +423,7 @@
                             </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>

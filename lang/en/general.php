@@ -70,4 +70,7 @@ return [
     'all_products' => 'All Products',
     'choose_province' => 'Choose Province',
     'choose_city' => 'Choose City',
+    'myOrder' => 'My Order',
+    'order_cancel' => 'Your order has been canceled due to reached the maximum time limit',
+    'cancelled' => 'Cancelled'
 ];

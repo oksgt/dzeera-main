@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
+use App\Models\Voucher;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -1244,5 +1249,63 @@ class HomeController extends Controller
         });
 
         return $data;
+    }
+
+    public function myOrder(){
+        if(!auth()->check()){
+            return redirect()->route('home');
+        }
+        $transactions = Transaction::where('user_id', Auth::user()->id)->get();
+            // dd( $transactions);
+        return view('my_order', compact('transactions'));
+    }
+
+
+    public function detailOrder(Request $req)
+    {
+        if(!auth()->check()){
+            return redirect()->route('home');
+        }
+
+        $code = $req->code;
+        if (empty($code)) {
+            return redirect()->route('home');
+        }
+
+        $transaction = Transaction::where('trans_number', $code)
+            ->where('user_id',Auth::user()->id)
+            ->first();
+
+        // dd($transaction)''
+
+
+        if (!$transaction) {
+            return redirect()->route('home');
+        }
+
+        $trans_detail = DB::select("
+        select
+            po.id as cart_id,
+            po.id as opt_id,
+            p.id as product_id, p.product_name, pco.id as color_opt_id, pco.color_name , pso.id as size_opt_id, pso.`size`, po.price,
+            po.qty,
+            po.qty * po.price as total_price,
+            pi2.file_name
+            from transaction_details po
+            join products p on p.id = po.product_id
+            join product_color_options pco on pco.id = po.color_opt_id
+            join product_size_options pso on pso.id = po.size_opt_id
+            LEFT JOIN
+                product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+                where po.trans_number = ?
+            ", [$code]);
+
+        if($transaction->voucher_id !== "-"){
+            $voucher = Voucher::where('code', $transaction->voucher_id)->first();
+        } else {
+            $voucher = [];
+        }
+
+        return view('my-order-details', ['transaction' => $transaction, 'trans_detail' => $trans_detail, 'voucher' => $voucher]);
     }
 }

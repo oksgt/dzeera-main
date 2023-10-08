@@ -33,28 +33,26 @@
 
                 @guest
                     <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" data-bs-toggle="modal"
-                    @if (Route::currentRouteName() !== 'home')
-                        style="color: black"
-                    @endif
-                    data-bs-target="#loginModal" title="Login">
+                        @if (Route::currentRouteName() !== 'home') style="color: black" @endif data-bs-target="#loginModal"
+                        title="Login">
                         <i class="fa fa-sign-in"></i>
                         <small style="font-size: 14px"></small>
                     </button>
                 @else
                     <button class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block"
-                    @if (Route::currentRouteName() !== 'home')
-                        style="color: black"
-                    @endif
-                    >
+                        @if (Route::currentRouteName() !== 'home') style="color: black" @endif>
                         <i class="fa fa-user"></i>
                         <small style="font-size: 14px">{{ Auth::user()->name }}</small>
                     </button>
 
-                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout" href="{{ url('/signout') }}"
-                    @if (Route::currentRouteName() !== 'home')
-                        style="color: black"
-                    @endif
-                    >
+                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout"
+                        href="{{ url('/my-order') }}" @if (Route::currentRouteName() !== 'home') style="color: black" @endif>
+                        <i class="fa fa-layer-group"></i>
+                        <small style="font-size: 14px">{{ __('general.myOrder') }}</small>
+                    </a>
+
+                    <a class="btn btn-lg btn-circle btn-outline-transparent d-none d-lg-block" title="Logout"
+                        href="{{ url('/signout') }}" @if (Route::currentRouteName() !== 'home') style="color: black" @endif>
                         <i class="fa fa-sign-out"></i>
                         <small style="font-size: 14px"></small>
                     </a>
@@ -83,26 +81,28 @@
                             data-bs-toggle="modal" data-bs-target="#searchModal">
                             <i class="fa fa-search"></i>
                         </button>
-                            <a href="{{url('/wishlist/show')}}"
-                                class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
-                                <i class="fa fa-heart"></i>
-                                @php
-                                    $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
-                                    $count_wishlist = count($wishlist);
-                                @endphp
-                                <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
-                            </a>
+                        <a href="{{ url('/wishlist/show') }}"
+                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                            <i class="fa fa-heart"></i>
+                            @php
+                                $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
+                                $count_wishlist = count($wishlist);
+                            @endphp
+                            <span
+                                class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_wishlist }}</span>
+                        </a>
 
-                            <a href="{{url('/cart/show')}}"
-                                class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
-                                <i class="fa fa-shopping-bag"></i>
-                                @php
-                                    // $cart = json_decode(request()->cookie('cart'), true) ?? [];
-                                    // $count_cart = count($cart);
-                                    $count_cart = getCartCount();
-                                @endphp
-                                <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_cart}}</span>
-                            </a>
+                        <a href="{{ url('/cart/show') }}"
+                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                            <i class="fa fa-shopping-bag"></i>
+                            @php
+                                // $cart = json_decode(request()->cookie('cart'), true) ?? [];
+                                // $count_cart = count($cart);
+                                $count_cart = getCartCount();
+                            @endphp
+                            <span
+                                class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
+                        </a>
 
                     </div>
                 </div>
@@ -140,7 +140,8 @@
                                 $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
                                 $count_wishlist = count($wishlist);
                             @endphp
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{$count_wishlist}}</span>
+                            <span
+                                class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_wishlist }}</span>
                         </button>
                         <button
                             class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
@@ -150,7 +151,8 @@
                                 // $count_cart = count($cart);
                                 $count_cart = getCartCount();
                             @endphp
-                            <span class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
+                            <span
+                                class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
                         </button>
                     </div>
                 </div>
@@ -166,7 +168,8 @@
                             <button class="btn dropdown-toggle ml-0" type="button" id="languageDropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ asset('asset_sample/img/' . __('general.flag') . '-flag.png') }}"
-                                    alt="{{ __('general.language') }}" width="20" height="20" class="me-2">
+                                    alt="{{ __('general.language') }}" width="20" height="20"
+                                    class="me-2">
                                 {{ strtoupper(Lang::locale()) == 'ID' ? 'Indonesia' : 'English' }}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="languageDropdown">
@@ -191,7 +194,7 @@
                             @guest
                                 <li class="nav-item d-block d-lg-none">
                                     <a class="nav-link category-link" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#loginModal" title="Login">
+                                        data-bs-target="#loginModal" title="Login">
                                         <i class="fa fa-sign-in"></i>
                                         <small style="font-size: 14px"> Login</small>
                                     </a>
@@ -200,6 +203,12 @@
                                 <li class="nav-item d-block d-lg-none ">
                                     <a class="nav-link category-link" href="#">
                                         <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                    </a>
+                                </li>
+
+                                <li class="nav-item d-block d-lg-none ">
+                                    <a class="nav-link category-link" href="{{ url('/my-order') }}">
+                                        <i class="fa fa-layer-group"></i> {{ __('general.myOrder') }}
                                     </a>
                                 </li>
 
@@ -220,16 +229,16 @@
                             </li>
                             <li class="nav-item cat-title-header">
                                 <a class="nav-link category-link"
-                                href="{{ route('allProducts', ['brandslug' => session('active-brand-name'), 'page' => 1]) }}">
-                                {{ __('general.all_products') }}</a>
+                                    href="{{ route('allProducts', ['brandslug' => session('active-brand-name'), 'page' => 1]) }}">
+                                    {{ __('general.all_products') }}</a>
                             </li>
 
                             @foreach ($categories as $index => $item)
-                            <li class="nav-item cat-title-header">
-                                <a class="nav-link category-link"
-                                href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}">
-                                {{ strtoupper($item->category_name) }} </a>
-                            </li>
+                                <li class="nav-item cat-title-header">
+                                    <a class="nav-link category-link"
+                                        href="{{ route('ProductByCategory', ['categoryslug' => $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}">
+                                        {{ strtoupper($item->category_name) }} </a>
+                                </li>
                             @endforeach
 
 
