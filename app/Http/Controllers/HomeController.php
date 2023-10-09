@@ -1256,7 +1256,11 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
         $transactions = Transaction::where('user_id', Auth::user()->id)->get();
-            // dd( $transactions);
+
+        if(!$transactions){
+            return redirect()->route('home');
+        }
+
         return view('my_order', compact('transactions'));
     }
 
