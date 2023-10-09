@@ -873,9 +873,9 @@
                     success: function(data) {
                         // console.log(data);
                         // console.log(data.data.payment);
-                        if(data.data.payment === "Bank Transfer"){
+                        // if(data.data.payment === "Bank Transfer"){
                             window.location.href = '/finish/'+data.data.trans_code;
-                        }
+                        // }
 
                     },
                     error: function(error) {

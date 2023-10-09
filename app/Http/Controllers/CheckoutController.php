@@ -375,12 +375,14 @@ class CheckoutController extends Controller
         // move cart data to transaction detail
         $cartData = Cart::where('user_id', auth()->user()->id)->get();
 
-        if ($cartData->isEmpty()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No cart data found for the user.',
-            ]);
-        }
+        // dd($$cartData);
+
+        // if ($cartData->isEmpty()) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'No cart data found for the user.',
+        //     ]);
+        // }
 
         DB::beginTransaction();
 
