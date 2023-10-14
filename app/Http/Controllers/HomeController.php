@@ -108,7 +108,7 @@ class HomeController extends Controller
             product_color_options pco
         JOIN
             products p ON p.id = pco.product_id
-        JOIN
+        left JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
             product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
@@ -125,8 +125,7 @@ class HomeController extends Controller
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
-            pt.tag_id = 1
-            AND p.product_availability = 'y'
+             p.product_availability = 'y'
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -158,7 +157,7 @@ class HomeController extends Controller
             product_color_options pco
         JOIN
             products p ON p.id = pco.product_id
-        JOIN
+        left JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
             product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
@@ -175,8 +174,7 @@ class HomeController extends Controller
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
-            pt.tag_id = 1
-            AND p.product_availability = 'y'
+            p.product_availability = 'y'
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -186,6 +184,7 @@ class HomeController extends Controller
         $sql .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
         $sql_2 .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
 
+        // echo $sql; die;
         if (!empty($request->get('use_filter'))) {
             $filtered_['use_filter'] = 1;
 

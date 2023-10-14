@@ -16,7 +16,8 @@
     {{-- <script src="https://use.fontawesome.com/3ada90b5cb.js"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -65,7 +66,7 @@
                         <input type="text" name="input_search" class="form-control"
                             placeholder="{{ __('general.searchProduct') }}"
                             aria-label="{{ __('general.searchProduct') }}" aria-describedby="button-addon2">
-                        <button class="btn btn-dark" type="submit" id="button-search">
+                        <button class="btn btn-dark" type="button" id="button-search">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -101,7 +102,8 @@
             <div class="modal-content">
                 <div class="modal-body p-0">
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn-close m-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close m-2" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="card text-center border-0">
                         <div class="card-body p-0 mb-3">
@@ -128,30 +130,54 @@
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/wrunner-native.js') }}"></script>
-    <script type="text/javascript"
-        src="{{ config('midtrans.snap_url') }}"
-    data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script type="text/javascript" src="{{ config('midtrans.snap_url') }}"
+        data-client-key="{{ config('midtrans.client_key') }}"></script>
     @stack('scripts')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputField = document.querySelector('input[name="input_search"]');
+
+            inputField.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    performSearch();
+                }
+            });
+        });
+
+        function performSearch() {
+            var inputSearchValue = $('input[name="input_search"]').val();
+            var tokenValue = $('input[name="_token"]').val();
+
+            var baseUrl = "{{ url('/') }}";
+            var queryString = '_token=' + encodeURIComponent(tokenValue) +
+                '&input_search=' + encodeURIComponent(inputSearchValue) +
+                '&page=1';
+
+            var searchUrl = baseUrl + '/search?' + queryString;
+            alert(searchUrl);
+            window.open(searchUrl, '_self');
+        }
+
         $(document).ready(function() {
             // Attach a click event handler to the search button
             $('#button-search').click(function() {
-                // alert('s');
                 var inputSearchValue = $('input[name="input_search"]').val();
                 var tokenValue = $('input[name="_token"]').val();
 
-                var baseUrl = "{{ url('/') }}"; // Base URL from Laravel
+                var baseUrl = "{{ url('/') }}";
                 var queryString = '_token=' + encodeURIComponent(tokenValue) +
                     '&input_search=' + encodeURIComponent(inputSearchValue) +
                     '&page=1';
 
                 var searchUrl = baseUrl + '/search?' + queryString;
+                alert(searchUrl);
                 window.open(searchUrl, '_self');
 
             });
 
             var route = '{{ Route::currentRouteName() }}';
-            if(route == 'home'){
+            if (route == 'home') {
                 $('#modal-home').modal('show');
             }
 
