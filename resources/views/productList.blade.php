@@ -34,20 +34,28 @@
                                 @php
                                     $categories = getAllCategoriesByBrand();
                                 @endphp
-                                <div class="form-check mx-3 p-2">
+                                {{-- <div class="form-check mx-3 p-2">
                                     <input class="form-check-input" type="radio" name="input_category" id="all"
                                         value="" checked>
                                     <label class="form-check-label" for="all">
                                         {{ __('general.all') }}
                                     </label>
-                                </div>
+                                </div> --}}
                                 @foreach ($categories as $item)
                                     <div class="form-check mx-3 p-2">
-                                        <input class="form-check-input" type="radio" name="input_category"
-                                            id="{{ $item->id }}" value="{{ $item->id }}">
-                                        <label class="form-check-label" for="{{ $item->id }}">
+                                        {{-- <input class="form-check-input" type="radio" name="input_category"
+                                            id="{{ $item->id }}" value="{{ $item->id }}"> --}}
+                                        {{-- <label class="form-check-label" for="{{ $item->id }}">
                                             {{ $item->category_name }}
-                                        </label>
+                                        </label> --}}
+
+                                        <a class="nav-link category-link"
+                                            href="{{ route('ProductByCategory', ['categoryslug' => $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}"
+                                            style="color: #212529; text-decoration: none;"
+                                            onmouseover="this.style.color='#e30c83';"
+                                            onmouseout="this.style.color='#212529';">
+                                            {{ strtoupper($item->category_name) }}
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
@@ -386,20 +394,22 @@
                                     @php
                                         $categories = getAllCategoriesByBrand();
                                     @endphp
-                                    <div class="form-check mx-3 p-2">
+                                    {{-- <div class="form-check mx-3 p-2">
                                         <input class="form-check-input" type="radio" name="input_category"
                                             id="all" value="" checked>
                                         <label class="form-check-label" for="all">
                                             {{ __('general.all') }}
                                         </label>
-                                    </div>
+                                    </div> --}}
                                     @foreach ($categories as $item)
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="input_category"
-                                                id="{{ $item->id }}" value="{{ $item->id }}">
-                                            <label class="form-check-label" for="{{ $item->id }}">
-                                                {{ $item->category_name }}
-                                            </label>
+                                            <a class="nav-link category-link"
+                                                href="{{ route('ProductByCategory', ['categoryslug' => $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}"
+                                                style="color: #212529; text-decoration: none;"
+                                                onmouseover="this.style.color='#e30c83';"
+                                                onmouseout="this.style.color='#212529';">
+                                                {{ strtoupper($item->category_name) }}
+                                            </a>
                                         </div>
                                     @endforeach
 
