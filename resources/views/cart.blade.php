@@ -3,8 +3,8 @@
 @section('content')
     <section class="" style="margin-top: 140px">
         <div class="container-fluid mt-3 mb-4 ">
-            <div class="row mt-3 mb-3 border">
-                <div class="col-lg-12 col-md-12 col-12 d-flex justify-content-center border">
+            <div class="row mt-3 mb-3">
+                <div class="col-lg-12 col-md-12 col-12 d-flex justify-content-center">
                     <h3>{{ __('general.cart') }}</h3>
                 </div>
             </div>
