@@ -85,7 +85,7 @@
                             <h5 style="color: #e30c83 ">{{ __('general.shipping_information') }}</h5>
                             <hr>
                             <div class="row text-start">
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3 mt-3">
                                         <label for="name" class="form-label">{{ __('general.recipient_name') }}</label>
                                         <input type="text" class="form-control" id="recp_name" name="recp_name"
@@ -101,7 +101,7 @@
                                         <textarea class="form-control" id="recp_address" name="recp_address" rows="3" required></textarea>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3 mt-3">
                                         <label for="exampleFormControlInput1" class="form-label">{{ __('general.province') }}</label>
                                         <select class="form-control provinsi-tujuan" id="province_destination"
@@ -187,18 +187,14 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade mt-3" role="tabpanel" id="step4" aria-labelledby="step4-tab">
-
-                            <div class="row text-center mb-3">
-                                <h5 style="color: #e30c83 ">{{ __('general.summary') }}</h5>
-                            </div>
+                        <div class="tab-pane fade mt-3 text-center" role="tabpanel" id="step4" aria-labelledby="step4-tab">
+                            <h5 style="color: #e30c83 ">{{ __('general.summary') }}</h5>
                             <hr>
                             <div class="row">
-
-                                <div class="col-6 table-responsive">
+                                <div class="col-sm-12 col-md-6 col-lg-6  mb-2">
                                     <div class="card">
                                       <div class="card-header">{{ __('general.customer_information') }}</div>
-                                      <div class="card-body">
+                                      <div class="card-body table-responsive">
                                         <table class="table table-sm small text-muted">
                                           <tr>
                                             <td>{{ __('general.name') }}</td>
@@ -229,10 +225,10 @@
                                     </div>
                                   </div>
 
-                                  <div class="col-6 table-responsive">
+                                  <div class="col-sm-12 col-md-6 col-lg-6 ">
                                     <div class="card">
                                       <div class="card-header">{{ __('general.shipping_information') }}</div>
-                                      <div class="card-body">
+                                      <div class="card-body table-responsive">
                                         <table class="table table-sm small text-muted">
                                           <tr>
                                             <td>{{ __('general.recipient_name') }}</td>
@@ -290,7 +286,7 @@
                             </div>
 
                             <div class="card bg bg-white mt-3">
-                                <div class="card-body">
+                                <div class="card-body  table-responsive">
                                     <table class="table table-sm small" id="table-summary">
                                         <thead>
                                             <tr>
