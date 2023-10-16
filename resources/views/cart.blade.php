@@ -3,11 +3,9 @@
 @section('content')
     <section class="" style="margin-top: 140px">
         <div class="container-fluid mt-3 mb-4 ">
-            <div class="row mt-4 mb-4">
-                <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
-                    <div class="text-center">
-                        <h3>{{ __('general.cart') }}</h3>
-                    </div>
+            <div class="row mt-3 mb-3 border">
+                <div class="col-lg-12 col-md-12 col-12 d-flex justify-content-center border">
+                    <h3>{{ __('general.cart') }}</h3>
                 </div>
             </div>
             <div class="d-flex justify-content-center row mb-4">

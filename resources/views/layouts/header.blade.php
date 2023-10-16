@@ -133,8 +133,8 @@
                             class="btn {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }}"
                             data-bs-toggle="modal" data-bs-target="#searchModal">
                             <i class="fa fa-search"></i></button>
-                        <button
-                            class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                        <a href="{{ url('/wishlist/show') }}"
+                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-heart"></i>
                             @php
                                 $wishlist = json_decode(request()->cookie('wishlist'), true) ?? [];
@@ -142,9 +142,10 @@
                             @endphp
                             <span
                                 class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_wishlist }}</span>
-                        </button>
-                        <button
-                            class="btn btn-lg {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
+                        </a>
+
+                        <a href="{{ url('/cart/show') }}"
+                            class="btn btn-lg  {{ Route::currentRouteName() == 'home' ? 'btn-outline-transparent' : 'btn-outline-transparent-other' }} position-relative">
                             <i class="fa fa-shopping-bag"></i>
                             @php
                                 // $cart = json_decode(request()->cookie('cart'), true) ?? [];
@@ -153,7 +154,7 @@
                             @endphp
                             <span
                                 class="position-absolute top-0 end-0 badge rounded-pill text-danger">{{ $count_cart }}</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
 
