@@ -187,6 +187,11 @@ function getHighlightedProduct()
     return $data;
 }
 
+function getModalHomePopUp(){
+    $data = DB::select("select * from app_modal_popup amp where name = 'home'");
+    return $data;
+}
+
 function seeMore($content, $maxLength = 100)
 {
     $content_decoded = htmlspecialchars_decode($content);

@@ -97,25 +97,31 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-home" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body p-0">
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn-close m-2" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="card text-center border-0">
-                        <div class="card-body p-0 mb-3">
-                            <h5 class="card-title"><b>Penting!</b></h5>
-                            <p class="card-text">Batas waktu pembayaran adalah <b>1 Jam</b></p>
-                            <h5 class="card-title"><b>Happy Shopping!</b></h5>
+    @php
+        $popUp = getModalHomePopUp();
+    @endphp
+
+    @if ($popUp[0]->show == 1)
+        <div class="modal fade" id="modal-home" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn-close m-2" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="card text-center border-0">
+                            <div class="card-body p-0 mb-3">
+                                {!! $popUp[0]->modal_text !!}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
+
 
     <a href="https://api.whatsapp.com/send?phone=6282136667287" class="float" target="_blank">
         <i class="fab fa-whatsapp my-float"></i>
@@ -128,7 +134,7 @@
     <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js "></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="!!{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/wrunner-native.js') }}"></script>
     <script type="text/javascript" src="{{ config('midtrans.snap_url') }}"
         data-client-key="{{ config('midtrans.client_key') }}"></script>
