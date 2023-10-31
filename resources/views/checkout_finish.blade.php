@@ -5,8 +5,8 @@
 
         <div class="container-fluid mt-3  ">
             <div class="row mt-4 mb-4 ">
-                <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
-                    <div class="text-center">
+                <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center">
+                    <div class="text-center ">
                         <h3>{{ __('general.payment_info') }}</h3>
                     </div>
                 </div>
@@ -59,13 +59,19 @@
 
                 <div class="row mb-4">
                     <div class="col d-flex justify-content-center">
-                        <a href="./" class="btn btn-sm btn-primary finish">{{ __('general.back_to_home') }}</a>
+                        <a href="{{ route('home') }}" class="btn btn-sm btn-primary finish">{{ __('general.back_to_home') }}</a>
                     </div>
                 </div>
             @else
                 <div class="row">
-                    <div class="col-md-6 offset-md-3 text-center">
-                        <div id="snap-container" class="w-100"></div>
+                    <div class="col-md-6 offset-md-3 text-center  p-3">
+                        <div id="snap-container" class="w-100" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border-radius: 10px; "></div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col d-flex justify-content-center">
+                        <a href="{{ route('home') }}" class="btn btn-sm btn-primary finish">{{ __('general.back_to_home') }}</a>
                     </div>
                 </div>
             @endif

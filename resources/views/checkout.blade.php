@@ -286,13 +286,12 @@
                             </div>
 
                             <div class="card bg bg-white mt-3">
-                                <div class="card-body  table-responsive">
-                                    <table class="table table-sm small" id="table-summary">
+                                <div class="card-body table-responsive border p-0">
+                                    <table class="table table-bordered table-sm w-100 text-start" id="table-summary" style="font-size: 15px">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>{{ __('general.product_name') }}</th>
-                                                <th>{{ __('general.quantity') }}</th>
+                                                {{-- <th>{{ __('general.quantity') }}</th> --}}
                                                 <th>{{ __('general.price') }}</th>
                                                 <th>{{ __('general.total_price') }}</th>
                                             </tr>
@@ -304,9 +303,13 @@
                                                 $grandTotal += $row->total_price; // Accumulate the total price for each row
                                             ?>
                                             <tr>
-                                                <td><?php echo $index + 1; ?></td>
-                                                <td><?php echo $row->product_name . ' - ' . $row->color_name . ' - ' . $row->size; ?></td>
-                                                <td><?php echo $row->qty; ?></td>
+                                                {{-- <td><?php echo $index + 1; ?></td> --}}
+                                                <td>
+                                                    <?php echo $row->product_name . ' - ' . $row->color_name . ' - (Size ' . $row->size . ')'; ?>
+                                                    <br/>
+                                                    <?php echo "Qty ". $row->qty . " item"; ?>
+                                                </td>
+                                                {{-- <td><?php echo $row->qty; ?></td> --}}
                                                 <td><?php echo formatNumber($row->price); ?></td>
                                                 <td><?php echo formatNumber($row->total_price); ?></td>
                                             </tr>
@@ -335,7 +338,6 @@
 
                                                 @endphp
                                                 <tr class="table-success">
-                                                    <td></td>
                                                     <td>
                                                         {{ __('general.applied_voucher') }} : {{ $appliedVoucher['code'] }}
                                                         <button id="btn-remove-voucher" class="btn btn-sm btn-warning"
@@ -344,8 +346,9 @@
                                                         </button>
                                                     </td>
                                                     <td><input type="hidden" name="appliedVoucherValue"
-                                                            id="appliedVoucherValue" value="{{ $v_value }}"></td>
-                                                    <td>Disc.</td>
+                                                            id="appliedVoucherValue" value="{{ $v_value }}">
+                                                            Disc.
+                                                    </td>
                                                     <td>{{ $label_value }}</td>
                                                 </tr>
                                             @endif
@@ -353,17 +356,16 @@
 
                                             <tr>
                                                 <td>
-                                                    <a class="btn btn-outline-success"
+                                                    <a class="btn btn-sm btn-outline-success"
                                                         onclick="openModalVoucher()">Voucher <i
                                                             class="fas fa-ticket"></i></a>
                                                 </td>
-                                                <td colspan="3" style="text-align: right;">
-                                                    <h3 class="display-4" style="font-size: 35px"><strong>Grand
-                                                            Total:</strong></h3>
+                                                <td>
+                                                    <h4><strong>Grand Total:</strong></h4>
                                                 </td>
                                                 <td>
-                                                    <h3 class="display-4" style="font-size: 35px">
-                                                        <strong id="display_grandtotal"><?php echo formatNumber($grandTotal); ?></strong></h3>
+                                                    <h4>
+                                                        <strong id="display_grandtotal"><?php echo formatNumber($grandTotal); ?></strong></h4>
                                                     <input type="hidden" name="grandTotal" id="grandTotal"
                                                         value="{{ $grandTotal }}">
                                                 </td>
@@ -737,10 +739,8 @@
             targetRow.empty();
 
             var newRow = $('' +
-                '<td></td>' +
                 '<td>JNE ' + service + '</td>' +
-                '<td>1</td>' +
-                '<td>' + formatNumber(service_price) + '</td>' +
+                '<td></td>' +
                 '<td>' + formatNumber(service_price) + '</td>' +
                 '');
 

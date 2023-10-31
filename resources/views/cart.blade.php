@@ -44,12 +44,15 @@
                                             <button class="btn btn-sm btn-outline-secondary" type="submit" id="button-addon2">Update Qty</button>
                                         </div>
                                     </form>
+                                </div>
 
-
+                                <div class="d-flex justify-content-end">
                                     <form action="{{ route('removecart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
-                                        <button class="btn btn-block btn-outline-danger btn-sm mt-2" type="submit">Remove From Cart</button>
+                                        <button class="btn btn-block btn-outline-danger btn-sm" type="submit">
+                                            <b class="fa fa-trash"></b> Remove
+                                        </button>
                                       </form>
                                 </div>
                             </div>
