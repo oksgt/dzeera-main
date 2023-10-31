@@ -3,23 +3,23 @@
 @section('content')
     <section class="" style="margin-top: 140px">
 
-        <div class="container-fluid mt-3 ">
-            <div class="row mt-4 mb-4">
-                <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
+        <div class="container-fluid mt-3 mb-4">
+            <div class="row mt-4 mb-2 ">
+                <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center">
                     <div class="text-center">
                         <h3>Checkout</h3>
                     </div>
                 </div>
             </div>
 
-            <div class="container">
-                <div class="wizard my-5">
+            <div class="container ">
+                <div class="wizard ">
                     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                         <li class="nav-item flex-fill" role="presentation" data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="Customer Information">
+                            title="Customer Information" >
                             <a class="nav-link active mx-auto d-flex align-items-center justify-content-center"
                                 href="#step1" id="step1-tab" data-bs-toggle="tab" role="tab" aria-controls="step1"
-                                aria-selected="true">
+                                aria-selected="true"  @disabled(true)>
                                 <i class="fas fa-user"></i>
                             </a>
                         </li>
@@ -27,7 +27,7 @@
                             title="Shipping Information">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
-                                aria-selected="false" title="Step 2">
+                                aria-selected="false" title="Step 2" @disabled(true)    >
                                 <i class="fas fa-shipping-fast"></i>
                             </a>
                         </li>
@@ -35,7 +35,7 @@
                             title="Payment Method">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step3" id="step3-tab" data-bs-toggle="tab" role="tab" aria-controls="step3"
-                                aria-selected="false" title="Step 3">
+                                aria-selected="false" title="Step 3"  @disabled(true)>
                                 <i class="fas fa-money-check-alt"></i>
                             </a>
                         </li>
@@ -43,7 +43,7 @@
                             data-bs-placement="top" title="Summary">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
-                                aria-selected="false" title="Step 4">
+                                aria-selected="false" title="Step 4"  @disabled(true)>
                                 <i class="fas fa-flag-checkered"></i>
                             </a>
                         </li>
