@@ -4,14 +4,14 @@
     <section class="" style="margin-top: 140px">
         <div class="container-fluid mt-3 mb-4 ">
             <div class="row mt-4 mb-4 ">
-                <div class="col-lg-12 col-md-6 col-6 d-flex align-items-center justify-content-center">
+                <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center">
                     <div class="text-center">
                         <h3>{{ __('general.myOrder') }} Code: {{ $transaction->trans_number }}</h3>
                     </div>
                 </div>
             </div>
-            <div class="row ">
-                <div class="d-flex justify-content-center row mb-4">
+            <div class="row border">
+                <div class="">
                     <div class="tab-pane show" role="tabpanel" id="step4" aria-labelledby="step4-tab">
 
                         @php
@@ -60,14 +60,12 @@
 
 
                         @endif
-
-                        <hr>
                         <div class="row">
 
-                            <div class="col-6 table-responsive">
+                            <div class="col-lg-6 col-md-12 col-sm-12 table-responsive mt-3">
                                 <div class="card">
                                     <div class="card-header">{{ __('general.customer_information') }}</div>
-                                    <div class="card-body">
+                                    <div class="card-body table-responsive">
                                         <table class="table table-sm small text-muted">
                                             <tr>
                                                 <td>{{ __('general.name') }}</td>
@@ -102,10 +100,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-6 table-responsive">
+                            <div class="col-lg-6 col-md-12 col-sm-12 table-responsive mt-3">
                                 <div class="card">
                                     <div class="card-header">{{ __('general.shipping_information') }}</div>
-                                    <div class="card-body">
+                                    <div class="card-body table-responsive">
                                         <table class="table table-sm small text-muted">
                                             <tr>
                                                 <td>{{ __('general.recipient_name') }}</td>
