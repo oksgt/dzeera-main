@@ -65,7 +65,7 @@ return [
     'price' => 'Harga',
     'total_price' => 'Total Harga',
     'applied_voucher' => 'Voucher yang Digunakan',
-    'finish_checkout' => 'Selesaikan Pembayaran',
+    'finish_checkout' => 'Bayar',
     'selected_payment_method' => 'Metode pembayaran yang dipilih',
     'all_products' => 'Semua Produk',
     'choose_province' => 'Pilih Provinsi',

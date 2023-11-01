@@ -65,7 +65,7 @@ return [
     'price' => 'Price',
     'total_price' => 'Total Price',
     'applied_voucher' => 'Applied Voucher',
-    'finish_checkout' => 'Finish Checkout',
+    'finish_checkout' => 'Payment',
     'selected_payment_method' => 'Selected payment method',
     'all_products' => 'All Products',
     'choose_province' => 'Choose Province',
