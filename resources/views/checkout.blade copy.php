@@ -296,13 +296,13 @@
                                                     <td>
                                                         <input type="text" id="_recp_shipping_service"
                                                             name="_recp_shipping_service" class="readonly-input" readonly>
-                                                        <input type="hidden" id="_service" name="_service"
+                                                        <input type="text" id="_service" name="_service"
                                                             class="readonly-input" readonly>
-                                                        <input type="hidden" id="_service_price" name="_service_price"
+                                                        <input type="text" id="_service_price" name="_service_price"
                                                             class="readonly-input" readonly>
-                                                        {{-- <input type="hidden" id="_city" name="_city" class="readonly-input" readonly>
-                                              <input type="hidden" id="_province" name="_province" class="readonly-input" readonly> --}}
-                                                        <input type="hidden" id="_voucher" name="_voucher"
+                                                        {{-- <input type="text" id="_city" name="_city" class="readonly-input" readonly>
+                                              <input type="text" id="_province" name="_province" class="readonly-input" readonly> --}}
+                                                        <input type="text" id="_voucher" name="_voucher"
                                                             class="readonly-input" readonly value="-">
                                                     </td>
                                                 </tr>
@@ -398,7 +398,7 @@
                                                     <h4>
                                                         <strong id="display_grandtotal"><?php echo formatNumber($grandTotal); ?></strong>
                                                     </h4>
-                                                    <input type="hidden" name="grandTotal" id="grandTotal"
+                                                    <input type="text" name="grandTotal" id="grandTotal"
                                                         value="{{ $grandTotal }}">
                                                 </td>
                                             </tr>
@@ -968,33 +968,24 @@
             var validated = validateObject(collectedInputs);
             // console.log(collectedInputs);
             // console.log(validated);
-            // Email validation regex pattern
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const custEmailInput = document.getElementById('cust_email');
-            const custEmailValue = custEmailInput.value.trim();
-
             if (validated) {
-                if(emailRegex.test(custEmailValue)){
-                    $.ajax({
-                        url: '/checkout/finish',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(collectedInputs),
-                        success: function(data) {
-                            // console.log(data);
-                            // console.log(data.data.payment);
-                            // if(data.data.payment === "Bank Transfer"){
-                            window.location.href = '/finish/' + data.data.trans_code;
-                            // }
+                $.ajax({
+                    url: '/checkout/finish',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(collectedInputs),
+                    success: function(data) {
+                        // console.log(data);
+                        // console.log(data.data.payment);
+                        // if(data.data.payment === "Bank Transfer"){
+                        window.location.href = '/finish/' + data.data.trans_code;
+                        // }
 
-                        },
-                        error: function(error) {
-                            console.error('Error:', error);
-                        }
-                    });
-                } else {
-                    alert('Email not valid');
-                }
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
             }
         }
 

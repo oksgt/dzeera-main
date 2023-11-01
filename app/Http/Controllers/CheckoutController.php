@@ -541,6 +541,8 @@ class CheckoutController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
+        $error = [];
+
         try {
             $params = array(
                 'transaction_details' => array(
@@ -566,7 +568,9 @@ class CheckoutController extends Controller
             return redirect()->route('home');
 
             // You can also throw the exception if you want to propagate it further
-            // throw $e;
+
+            // $error[] = $e->getMessage();
+            // dd($error);
         }
 
         $payment_method = $transaction->payment_method;
