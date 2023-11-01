@@ -21,7 +21,7 @@
                 </div>
                 <div class="col  text-center">
                     <p>{{ __('general.total_transaction') }}</p>
-                    <p class="display-4 text-dark" style="font-size: 20px">Rp. {{ formatNumber($finalPrice) }}</p>
+                    <p class="display-4 text-dark" style="font-size: 25px">Rp. {{ formatNumber($finalPrice) }}</p>
                 </div>
             </div>
 
