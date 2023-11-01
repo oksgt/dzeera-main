@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-4">
+                <div class="row mt-4 mb-4">
                     <div class="col d-flex justify-content-center">
                         <a href="{{ route('home') }}" class="btn btn-sm btn-primary finish">{{ __('general.back_to_home') }}</a>
                     </div>
