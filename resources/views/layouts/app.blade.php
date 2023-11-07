@@ -161,7 +161,6 @@
                 '&page=1';
 
             var searchUrl = baseUrl + '/search?' + queryString;
-            alert(searchUrl);
             window.open(searchUrl, '_self');
         }
 
@@ -177,7 +176,6 @@
                     '&page=1';
 
                 var searchUrl = baseUrl + '/search?' + queryString;
-                alert(searchUrl);
                 window.open(searchUrl, '_self');
 
             });
