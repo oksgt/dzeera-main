@@ -111,7 +111,9 @@ class HomeController extends Controller
         left JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -125,7 +127,7 @@ class HomeController extends Controller
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
-             p.product_availability = 'y'
+             p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -160,7 +162,9 @@ class HomeController extends Controller
         left JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -174,7 +178,7 @@ class HomeController extends Controller
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
-            p.product_availability = 'y'
+            p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -385,7 +389,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -400,7 +406,7 @@ class HomeController extends Controller
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
             pt.tag_id = 1
-            AND p.product_availability = 'y'
+            AND p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -435,7 +441,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -450,7 +458,7 @@ class HomeController extends Controller
             ) AS min_prices ON p.id = min_prices.product_id
         WHERE
             pt.tag_id = 1
-            AND p.product_availability = 'y'
+            AND p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -665,7 +673,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -678,7 +688,7 @@ class HomeController extends Controller
                 GROUP BY
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
-        WHERE p.product_availability = 'y'
+        WHERE p.product_availability = 'y'  and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -713,7 +723,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -726,7 +738,7 @@ class HomeController extends Controller
                 GROUP BY
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
-        WHERE p.product_availability = 'y'
+        WHERE p.product_availability = 'y'  and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
             item_id
@@ -942,7 +954,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -955,7 +969,7 @@ class HomeController extends Controller
                 GROUP BY
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
-        WHERE p.product_availability = 'y'
+        WHERE p.product_availability = 'y'  and pco.deleted_at is null
         and c.slug = ?
             AND p.brand_id = ?
         GROUP BY
@@ -993,7 +1007,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -1006,7 +1022,7 @@ class HomeController extends Controller
                 GROUP BY
                     product_id
             ) AS min_prices ON p.id = min_prices.product_id
-        WHERE p.product_availability = 'y'
+        WHERE p.product_availability = 'y'  and pco.deleted_at is null
             and c.slug = ?
             AND p.brand_id = ?
         GROUP BY
@@ -1162,7 +1178,9 @@ class HomeController extends Controller
         JOIN
             product_tags pt ON pt.product_id = p.id
         LEFT JOIN
-            product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            product_images pi2 ON pi2.product_id = p.id
+            and pi2.color_id = pco.id
+            AND pi2.is_thumbnail = 1
         JOIN
             (
                 SELECT
@@ -1178,7 +1196,7 @@ class HomeController extends Controller
         WHERE
         p.slug = ? and
         pco.color_name = ?
-            AND p.product_availability = 'y'
+            AND p.product_availability = 'y'  and pco.deleted_at is null
         GROUP BY
             item_id
         ) as product_view
@@ -1202,10 +1220,8 @@ class HomeController extends Controller
         ", [$color_id, $product_id]);
 
         $images = DB::select("
-        select * from product_images pi2 where product_id = ? order by is_thumbnail desc
-        ", [$product_id]);
-
-        // dd($images);
+        select * from product_images pi2 where product_id = ? and color_id = ? order by is_thumbnail desc
+        ", [$product_id, $color_id ]);
 
         return view('product_detail', compact('product_detail', 'options', 'images'));
 

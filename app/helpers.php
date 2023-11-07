@@ -71,7 +71,9 @@ function getNewArrivals()
     JOIN
         product_tags pt ON pt.product_id = p.id
     LEFT JOIN
-        product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+        product_images pi2 ON pi2.product_id = p.id
+        and pi2.color_id = pco.id
+        AND pi2.is_thumbnail = 1
     JOIN
         (
             SELECT
@@ -87,7 +89,7 @@ function getNewArrivals()
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.brand_id = ?
+        AND p.brand_id = ?  and pco.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
@@ -136,7 +138,9 @@ function getYouMightLike($pid)
     JOIN
         product_tags pt ON pt.product_id = p.id
     LEFT JOIN
-        product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+    product_images pi2 ON pi2.product_id = p.id
+        and pi2.color_id = pco.id
+        AND pi2.is_thumbnail = 1
     JOIN
         (
             SELECT
@@ -152,7 +156,7 @@ function getYouMightLike($pid)
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.id  = ?
+        AND p.id  = ?  and pco.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
@@ -255,7 +259,9 @@ function getProductByCategoryIndex($category_id)
     JOIN
         product_tags pt ON pt.product_id = p.id
     LEFT JOIN
-        product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+        product_images pi2 ON pi2.product_id = p.id
+        and pi2.color_id = pco.id
+        AND pi2.is_thumbnail = 1
     JOIN
         (
             SELECT
@@ -271,7 +277,7 @@ function getProductByCategoryIndex($category_id)
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.brand_id = ? and p.category_id = ?
+        AND p.brand_id = ? and p.category_id = ?  and pco.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
