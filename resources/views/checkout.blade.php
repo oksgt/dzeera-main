@@ -376,7 +376,7 @@
                                                             <i class="fa fa-remove"></i>
                                                         </button>
                                                     </td>
-                                                    <td><input type="text" name="appliedVoucherValue"
+                                                    <td><input type="hidden" name="appliedVoucherValue"
                                                             id="appliedVoucherValue" value="{{ $v_value }}">
                                                         Disc.
                                                     </td>
