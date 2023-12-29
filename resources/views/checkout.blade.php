@@ -473,7 +473,7 @@
                         <input type="text" name="input_kupon_" id="input_kupon_" class="form-control"
                             placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
 
-                        <input type="text" name="input_kupon" id="input_kupon" class="form-control"
+                        <input type="hidden" name="input_kupon" id="input_kupon" class="form-control"
                             placeholder="Voucher Code" aria-label="Voucher Code" aria-describedby="button-addon2">
 
                         <button class="btn btn-dark" type="button" id="button-voucher-apply"

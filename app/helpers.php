@@ -15,8 +15,6 @@ if (!function_exists('formatCurrency')) {
     }
 }
 
-
-
 function getAllActiveBrand()
 {
     $brand = Brand::orderBy('main_brand', 'desc')->get();
