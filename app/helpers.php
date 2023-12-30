@@ -318,7 +318,7 @@ function getVids()
 {
     $data = DB::select("
     select* from video_embeds ve where is_active = 1
-    and brand_id  = ?
+    and brand_id  = ? and deleted_at is null
     ", [session('active-brand')]);
     return $data;
 }
