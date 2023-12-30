@@ -118,14 +118,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
              p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
@@ -169,14 +171,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
             p.product_availability = 'y' and pco.deleted_at is null
             AND p.brand_id = ?
@@ -188,7 +192,6 @@ class HomeController extends Controller
         $sql .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
         $sql_2 .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
 
-        // echo $sql; die;
         if (!empty($request->get('use_filter'))) {
             $filtered_['use_filter'] = 1;
 
@@ -283,7 +286,7 @@ class HomeController extends Controller
         $totalItems = count($data_obj_2);
 
         $totalPages = ceil($totalItems / $perPage);
-
+        // dd($data);
         // $view = View::make('search_result', compact('data', 'filtered_', 'page', 'totalPages'))->render();
         // return response()->json(['view' => $view]);
 
@@ -396,14 +399,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
             pt.tag_id = 1
             AND p.product_availability = 'y' and pco.deleted_at is null
@@ -448,14 +453,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
             pt.tag_id = 1
             AND p.product_availability = 'y' and pco.deleted_at is null
@@ -680,14 +687,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE p.product_availability = 'y'  and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
@@ -730,14 +739,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE p.product_availability = 'y'  and pco.deleted_at is null
             AND p.brand_id = ?
         GROUP BY
@@ -961,14 +972,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE p.product_availability = 'y'  and pco.deleted_at is null
         and c.slug = ?
             AND p.brand_id = ?
@@ -1014,14 +1027,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE p.product_availability = 'y'  and pco.deleted_at is null
             and c.slug = ?
             AND p.brand_id = ?
@@ -1185,14 +1200,16 @@ class HomeController extends Controller
             (
                 SELECT
                     product_id,
-                    MIN(price) AS price,
+                    color,
+                    price,
                     disc,
                     base_price
                 FROM
                     product_options
-                GROUP BY
-                    product_id
-            ) AS min_prices ON p.id = min_prices.product_id
+                where deleted_at is null
+                -- GROUP BY
+                    -- product_id, color
+            ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
         p.slug = ? and
         pco.color_name = ?

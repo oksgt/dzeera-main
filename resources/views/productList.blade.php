@@ -200,11 +200,16 @@
                                                 <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
                                                     {{ $item->product_name . ' - ' . $item->color_name }}
                                                 </h5>
-                                                <span class="d-inline-block text-muted "
-                                                    style="text-decoration: line-through; ">Rp.
-                                                    {{ formatNumber($item->base_price) }}</span>
-                                                <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
-                                                    {{ formatNumber($item->price) }}</span>
+                                                @if ($item->disc > 0)
+                                                    <span class="d-inline-block text-muted "
+                                                        style="text-decoration: line-through; ">Rp.
+                                                        {{ formatNumber($item->base_price) }}</span>
+                                                    <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
+                                                        {{ formatNumber($item->price) }}</span>
+                                                @else
+                                                    <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
+                                                        {{ formatNumber($item->price) }}</span>
+                                                @endif
                                             </div>
 
                                             <div class="d-flex justify-content-between">
