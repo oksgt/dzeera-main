@@ -188,6 +188,9 @@
                             @php
                                 $image = $item->file_name == null || $item->file_name == '' ? 'images/no-image.png' : 'img_product/' . $item->file_name;
                             @endphp
+                            <?php
+                                $slug = $item->slug."__".strtolower($item->color_name);
+                            ?>
                             @if ($item->base_price > 0)
                                 <div class="col ">
                                     <div class="product-card ">
@@ -197,9 +200,11 @@
                                         </div>
                                         <div class="justify-content-center p-2 product-card-info mt-1 mb-3">
                                             <div style="text-align: center">
-                                                <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
-                                                    {{ $item->product_name . ' - ' . $item->color_name }}
-                                                </h5>
+                                                <a href="{{ route('product', [ 'productslug' => $slug]) }}" style="text-decoration: none; color: black">
+                                                    <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100; cursor: pointer">
+                                                        {{ $item->product_name . ' - ' . $item->color_name }}
+                                                    </h5>
+                                                </a>
                                                 @if ($item->disc > 0)
                                                     <span class="d-inline-block text-muted "
                                                         style="text-decoration: line-through; ">Rp.
