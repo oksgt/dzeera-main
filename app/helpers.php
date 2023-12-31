@@ -185,7 +185,7 @@ function getHighlightedProduct()
     join product_images pi2 on p.id = pi2.product_id
     where highlight = 1 and pi2.is_thumbnail = 1
     and p.brand_id = ?
-    order by updated_at desc  limit 3", [session('active-brand')]);
+    order by updated_at desc limit 3", [session('active-brand')]);
     return $data;
 }
 

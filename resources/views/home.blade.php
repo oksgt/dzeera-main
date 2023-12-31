@@ -256,7 +256,7 @@
 
                                                                 <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
+                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -402,7 +402,7 @@
 
                                                                 <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
+                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -547,7 +547,7 @@
 
                                                                 <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
                                                                     class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">Buy
+                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                                 </a>
                                                             </div>
                                                         </div>

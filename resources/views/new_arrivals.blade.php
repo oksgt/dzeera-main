@@ -232,7 +232,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col">
-                            <nav aria-label="Page navigation example">
+                            <nav aria-label="Page navigation">
                                 <ul class="pagination pagination-sm justify-content-end">
                                     @if ($totalPages > 1)
                                         @php
@@ -252,6 +252,10 @@
                                                     $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
                                                 }
 
+                                                if($filtered_['sort'] !== ''){
+                                                    $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
+                                                }
+
                                             @endphp
                                             <a class="page-link"
                                                 href="{{ $updatedUrl }}">{{ __('general.first') }}</a>
@@ -268,6 +272,10 @@
                                                     unset($queryParameters['page']);
                                                     $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page - 1;
                                                 }
+
+                                                if($filtered_['sort'] !== ''){
+                                                    $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
+                                                }
                                             @endphp
                                             <a class="page-link"
                                                 href="{{ $updatedUrl }}">{{ __('general.previous') }}</a>
@@ -282,6 +290,10 @@
                                                     $queryParameters = Request::query();
                                                     unset($queryParameters['page']);
                                                     $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=1';
+                                                }
+
+                                                if($filtered_['sort'] !== ''){
+                                                    $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
                                                 }
                                             @endphp
                                             <a class="page-link" href="{{ $updatedUrl }}">1</a>
@@ -309,6 +321,9 @@
                                                         unset($queryParameters['page']);
                                                         $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $i;
                                                     }
+                                                    if($filtered_['sort'] !== ''){
+                                                        $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
+                                                    }
                                                 @endphp
                                                 <a class="page-link" href="{{ $updatedUrl }}">{{ $i }}</a>
                                             </li>
@@ -330,6 +345,9 @@
                                                     unset($queryParameters['page']);
                                                     $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $page + 1;
                                                 }
+                                                if($filtered_['sort'] !== ''){
+                                                    $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
+                                                }
                                             @endphp
                                             <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.next') }}</a>
                                         </li>
@@ -343,6 +361,9 @@
                                                     $queryParameters = Request::query();
                                                     unset($queryParameters['page']);
                                                     $updatedUrl = URL::to($currentUrl) . '?' . http_build_query($queryParameters) . '&page=' . $totalPages;
+                                                }
+                                                if($filtered_['sort'] !== ''){
+                                                    $updatedUrl = $updatedUrl . '&sort='. $filtered_['sort'];
                                                 }
                                             @endphp
                                             <a class="page-link" href="{{ $updatedUrl }}">{{ __('general.last') }}</a>
