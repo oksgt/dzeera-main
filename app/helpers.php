@@ -87,7 +87,7 @@ function getNewArrivals()
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.brand_id = ?  and pco.deleted_at is null
+        AND p.brand_id = ?  and pco.deleted_at is null and p.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
@@ -154,7 +154,7 @@ function getYouMightLike($pid)
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.id  = ?  and pco.deleted_at is null
+        AND p.id  = ?  and pco.deleted_at is null and p.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
@@ -275,7 +275,7 @@ function getProductByCategoryIndex($category_id)
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
-        AND p.brand_id = ? and p.category_id = ?  and pco.deleted_at is null
+        AND p.brand_id = ? and p.category_id = ?  and pco.deleted_at is null and p.deleted_at is null
     GROUP BY
         item_id
     ) as product_view limit 10
