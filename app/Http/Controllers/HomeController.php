@@ -130,7 +130,7 @@ class HomeController extends Controller
             ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
              p.product_availability = 'y' and pco.deleted_at is null
-            AND p.brand_id = ?
+            AND p.brand_id = ? and p.deleted_at is null
         GROUP BY
             item_id
         ) as product_view
@@ -183,7 +183,7 @@ class HomeController extends Controller
             ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
         WHERE
             p.product_availability = 'y' and pco.deleted_at is null
-            AND p.brand_id = ?
+            AND p.brand_id = ? and p.deleted_at is null
         GROUP BY
             item_id
         ) as product_view
