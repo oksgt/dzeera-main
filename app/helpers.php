@@ -76,14 +76,16 @@ function getNewArrivals()
         (
             SELECT
                 product_id,
-                MIN(price) AS price,
+                color,
+                price,
                 disc,
                 base_price
             FROM
                 product_options
-            GROUP BY
-                product_id
-        ) AS min_prices ON p.id = min_prices.product_id
+            where deleted_at is null
+            -- GROUP BY
+                -- product_id, color
+        ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
@@ -143,14 +145,16 @@ function getYouMightLike($pid)
         (
             SELECT
                 product_id,
-                MIN(price) AS price,
+                color,
+                price,
                 disc,
                 base_price
             FROM
                 product_options
-            GROUP BY
-                product_id
-        ) AS min_prices ON p.id = min_prices.product_id
+            where deleted_at is null
+            -- GROUP BY
+                -- product_id, color
+        ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
@@ -264,14 +268,16 @@ function getProductByCategoryIndex($category_id)
         (
             SELECT
                 product_id,
-                MIN(price) AS price,
+                color,
+                price,
                 disc,
                 base_price
             FROM
                 product_options
-            GROUP BY
-                product_id
-        ) AS min_prices ON p.id = min_prices.product_id
+            where deleted_at is null
+            -- GROUP BY
+                -- product_id, color
+        ) AS min_prices ON p.id = min_prices.product_id and min_prices.color = pi2.color_id
     WHERE
         pt.tag_id = 1
         AND p.product_availability = 'y'
