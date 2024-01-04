@@ -1325,14 +1325,13 @@ class HomeController extends Controller
             po.id as opt_id,
             p.id as product_id, p.product_name, pco.id as color_opt_id, pco.color_name , pso.id as size_opt_id, pso.`size`, po.price,
             po.qty,
-            po.qty * po.price as total_price,
-            pi2.file_name
+            po.qty * po.price as total_price
+            -- pi2.file_name
             from transaction_details po
             join products p on p.id = po.product_id
             join product_color_options pco on pco.id = po.color_opt_id
             join product_size_options pso on pso.id = po.size_opt_id
-            LEFT JOIN
-                product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+            -- LEFT JOIN product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
                 where po.trans_number = ?
             ", [$code]);
 
