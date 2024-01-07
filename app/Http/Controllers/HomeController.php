@@ -1344,4 +1344,13 @@ class HomeController extends Controller
 
         return view('my-order-details', ['transaction' => $transaction, 'trans_detail' => $trans_detail, 'voucher' => $voucher]);
     }
+
+    public function aboutUs($brandslug){
+        $brand = Brand::where('slug', $brandslug)->first();
+        $brand_id = $brand->id;
+        $brand_name = $brand->brand_name;
+
+        $about_us = DB::select("select * from about_us where brand_id =? order by id desc", [$brand_id]);
+        return view('about-us', compact('brand_id', 'brand_name', 'about_us'));
+    }
 }
