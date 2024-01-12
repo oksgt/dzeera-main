@@ -36,8 +36,8 @@
                                                     <img src="{!! imageDir() . $image !!}" class="w-100">
                                                 </div>
                                                 <div class="justify-content-center p-2 product-card-info mt-1 mb-3">
-                                                    <div style="text-align: center">
-                                                        <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100">
+                                                    <div style="text-align: left;">
+                                                        <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 300">
                                                             {{ $item->product_name . ' - ' . $item->color_name }}
                                                         </h5>
                                                         <span class="d-inline-block text-muted "
@@ -48,32 +48,35 @@
                                                             {{ formatNumber($item->price) }}</span>
                                                     </div>
 
-                                                    <div class="d-flex justify-content-between">
-                                                        <form action="{{ url('/wishlist') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="product_item_id"
-                                                                value="{{ $item->item_id }}">
-                                                            <input type="hidden" name="product_item_slug"
-                                                                value="{{ $item->item_slug }}">
-                                                            <input type="hidden" name="product_name"
-                                                                value="{{ $item->product_name }}">
-                                                            <input type="hidden" name="color_name"
-                                                                value="{{ $item->color_name }}">
-                                                            <button type="submit"
-                                                                class="float-left btn mt-1 btn-outline-transparent "
-                                                                style="width: 100% !important; ">Wishlist</button>
-                                                        </form>
+                                                    <div class="col-12 d-flex justify-content-between">
+                                                        <div class="col-6">
+                                                            <form action="{{ url('/wishlist') }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="product_item_id"
+                                                                    value="{{ $item->item_id }}">
+                                                                <input type="hidden" name="product_item_slug"
+                                                                    value="{{ $item->item_slug }}">
+                                                                <input type="hidden" name="product_name"
+                                                                    value="{{ $item->product_name }}">
+                                                                <input type="hidden" name="color_name"
+                                                                    value="{{ $item->color_name }}">
+                                                                <button type="submit"
+                                                                    class="float-left btn mt-1 btn-outline-transparent "
+                                                                    style="width: 100% !important; ">Wishlist</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            @php
+                                                                $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                $slug = strtolower($slug);
+                                                            @endphp
 
-                                                        @php
-                                                            $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                            $slug = strtolower($slug);
-                                                        @endphp
-
-                                                        <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
-                                                            class="float-right btn mt-1 btn-outline-transparent "
-                                                            id="btn-buy"
-                                                            style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
-                                                        </a>
+                                                            <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
+                                                                class="float-right btn mt-1 btn-outline-transparent "
+                                                                id="btn-buy"
+                                                                style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,7 +97,7 @@
         </div>
     </section>
 
-    <div class="container mt-4">
+    <div class="container mt-4 p-1">
         <div class="row">
             <div class="splide" aria-labelledby="carousel-heading" id="slide_category">
                 <div class="splide__track">
@@ -115,7 +118,7 @@
                                     </div>
                                     <div class="card-body  p-0 text-center">
                                         {{-- <h6 class="card-title card-title-category mt-2 ">{{ $item->category_name }}</h6> --}}
-                                        <a href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}" class="card-title card-title-category mt-2">{{ $item->category_name }}</a>
+                                        <a style="text-decoration: none" href="{{ route('ProductByCategory', ['categoryslug'=> $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}" class="card-title card-title-category mt-2">{{ $item->category_name }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -138,14 +141,14 @@
             $image = $highlighted_product[0]->file_name == null || $highlighted_product[0]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[0]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-4 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
-                    <div class="row g-0">
+                    <div class="row">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-sm-none">
                             <div class="card-body">
 
                             </div>
@@ -158,7 +161,7 @@
 
     @if ($highlighted_categories && isset($highlighted_categories[0]))
         <section id="special" class="">
-            <div class="container mt-3">
+            <div class="container">
                 <div class="title text-center py-3">
                     <h3 class="position-relative d-inline-block">{{ $highlighted_categories[0]->category_name }}</h3>
                 </div>
@@ -215,7 +218,7 @@
                                                             <i class="text-small text-muted"
                                                                 style="font-size: 12px !important;">({{ $item->rating }})</i>
 
-                                                            <div style="text-align: center">
+                                                            <div style="text-align: left">
                                                                 <h5 class="text-capitalize mt-1 mb-1"
                                                                     style="font-weight: 100">
                                                                     {{ $item->product_name . ' - ' . $item->color_name }}
@@ -233,31 +236,34 @@
                                                             </div>
 
 
-                                                            <div class="d-flex justify-content-between">
-                                                                <form action="{{ url('/wishlist') }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_item_id"
-                                                                        value="{{ $item->item_id }}">
-                                                                    <input type="hidden" name="product_item_slug"
-                                                                        value="{{ $item->item_slug }}">
-                                                                    <input type="hidden" name="product_name"
-                                                                        value="{{ $item->product_name }}">
-                                                                    <input type="hidden" name="color_name"
-                                                                        value="{{ $item->color_name }}">
-                                                                    <button type="submit"
-                                                                        class="float-left btn mt-1 btn-outline-transparent "
-                                                                        style="width: 100% !important; ">Wishlist</button>
-                                                                </form>
+                                                            <div class="col-12 d-flex justify-content-between">
+                                                                <div class="col-6">
+                                                                    <form action="{{ url('/wishlist') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_item_id"
+                                                                            value="{{ $item->item_id }}">
+                                                                        <input type="hidden" name="product_item_slug"
+                                                                            value="{{ $item->item_slug }}">
+                                                                        <input type="hidden" name="product_name"
+                                                                            value="{{ $item->product_name }}">
+                                                                        <input type="hidden" name="color_name"
+                                                                            value="{{ $item->color_name }}">
+                                                                        <button type="submit"
+                                                                            class="float-left btn mt-1 btn-outline-transparent "
+                                                                            style="width: 100% !important; ">Wishlist</button>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @php
+                                                                        $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                        $slug = strtolower($slug);
+                                                                    @endphp
 
-                                                                @php
-                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                                    $slug = strtolower($slug);
-                                                                @endphp
-
-                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
-                                                                    class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
-                                                                </a>
+                                                                    <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
+                                                                        class="float-right btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -285,12 +291,12 @@
             $image = $highlighted_product[1]->file_name == null || $highlighted_product[1]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[1]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-4 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -362,7 +368,7 @@
                                                             <i class="text-small text-muted"
                                                                 style="font-size: 12px !important;">({{ $item->rating }})</i>
 
-                                                            <div style="text-align: center">
+                                                            <div style="text-align: left">
                                                                 <h5 class="text-capitalize mt-1 mb-1"
                                                                     style="font-weight: 100">
                                                                     {{ $item->product_name . ' - ' . $item->color_name }}
@@ -379,31 +385,34 @@
                                                                 </span>
                                                             </div>
 
-                                                            <div class="d-flex justify-content-between">
-                                                                <form action="{{ url('/wishlist') }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_item_id"
-                                                                        value="{{ $item->item_id }}">
-                                                                    <input type="hidden" name="product_item_slug"
-                                                                        value="{{ $item->item_slug }}">
-                                                                    <input type="hidden" name="product_name"
-                                                                        value="{{ $item->product_name }}">
-                                                                    <input type="hidden" name="color_name"
-                                                                        value="{{ $item->color_name }}">
-                                                                    <button type="submit"
-                                                                        class="float-left btn mt-1 btn-outline-transparent "
-                                                                        style="width: 100% !important; ">Wishlist</button>
-                                                                </form>
+                                                            <div class="col-12 d-flex justify-content-between">
+                                                                <div class="col-6">
+                                                                    <form action="{{ url('/wishlist') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_item_id"
+                                                                            value="{{ $item->item_id }}">
+                                                                        <input type="hidden" name="product_item_slug"
+                                                                            value="{{ $item->item_slug }}">
+                                                                        <input type="hidden" name="product_name"
+                                                                            value="{{ $item->product_name }}">
+                                                                        <input type="hidden" name="color_name"
+                                                                            value="{{ $item->color_name }}">
+                                                                        <button type="submit"
+                                                                            class="float-left btn mt-1 btn-outline-transparent "
+                                                                            style="width: 100% !important; ">Wishlist</button>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @php
+                                                                        $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                        $slug = strtolower($slug);
+                                                                    @endphp
 
-                                                                @php
-                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                                    $slug = strtolower($slug);
-                                                                @endphp
-
-                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
-                                                                    class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
-                                                                </a>
+                                                                    <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
+                                                                        class="float-right btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -431,12 +440,12 @@
             $image = $highlighted_product[2]->file_name == null || $highlighted_product[2]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[2]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-4 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -508,7 +517,7 @@
                                                             <i class="text-small text-muted"
                                                                 style="font-size: 12px !important;">({{ $item->rating }})</i>
 
-                                                            <div style="text-align: center">
+                                                            <div style="text-align: left">
                                                                 <h5 class="text-capitalize mt-1 mb-1"
                                                                     style="font-weight: 100">
                                                                     {{ $item->product_name . ' - ' . $item->color_name }}
@@ -524,31 +533,34 @@
                                                                     {{ formatNumber($item->price) }}
                                                                 </span>
                                                             </div>
-                                                            <div class="d-flex justify-content-between">
-                                                                <form action="{{ url('/wishlist') }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_item_id"
-                                                                        value="{{ $item->item_id }}">
-                                                                    <input type="hidden" name="product_item_slug"
-                                                                        value="{{ $item->item_slug }}">
-                                                                    <input type="hidden" name="product_name"
-                                                                        value="{{ $item->product_name }}">
-                                                                    <input type="hidden" name="color_name"
-                                                                        value="{{ $item->color_name }}">
-                                                                    <button type="submit"
-                                                                        class="float-left btn mt-1 btn-outline-transparent "
-                                                                        style="width: 100% !important; ">Wishlist</button>
-                                                                </form>
+                                                            <div class="col-12 d-flex justify-content-between">
+                                                                <div class="col-6">
+                                                                    <form action="{{ url('/wishlist') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_item_id"
+                                                                            value="{{ $item->item_id }}">
+                                                                        <input type="hidden" name="product_item_slug"
+                                                                            value="{{ $item->item_slug }}">
+                                                                        <input type="hidden" name="product_name"
+                                                                            value="{{ $item->product_name }}">
+                                                                        <input type="hidden" name="color_name"
+                                                                            value="{{ $item->color_name }}">
+                                                                        <button type="submit"
+                                                                            class="float-left btn mt-1 btn-outline-transparent "
+                                                                            style="width: 100% !important; ">Wishlist</button>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @php
+                                                                        $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                        $slug = strtolower($slug);
+                                                                    @endphp
 
-                                                                @php
-                                                                    $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                                    $slug = strtolower($slug);
-                                                                @endphp
-
-                                                                <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
-                                                                    class="float-right btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
-                                                                </a>
+                                                                    <a href="{{ route('product', [ 'productslug' => $slug ]) }}"
+                                                                        class="float-right btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
