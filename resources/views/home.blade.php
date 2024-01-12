@@ -96,7 +96,7 @@
             </div>
         </div>
     </section>
-
+    <hr class="style14">
     <div class="container mt-4 p-1">
         <div class="row">
             <div class="splide" aria-labelledby="carousel-heading" id="slide_category">
@@ -129,7 +129,7 @@
             </div>
         </div>
     </div>
-
+    <hr class="style14">
     @php
         $highlighted_product = getHighlightedProduct();
         $highlighted_categories = getHighlightedCategories();
@@ -141,14 +141,14 @@
             $image = $highlighted_product[0]->file_name == null || $highlighted_product[0]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[0]->file_name;
         @endphp
 
-        <div class="container mt-4 p-3">
+        <div class="container mt-0 p-3">
             <div class="row col">
-                <div class="card mb-3 border-0">
+                <div class="card mb-0 border-0">
                     <div class="row">
                         <div class="col-md-4">
                             <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8 d-sm-none">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -158,7 +158,7 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[0]))
         <section id="special" class="">
             <div class="container">
@@ -285,20 +285,20 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_product && isset($highlighted_product[1]))
         @php
             $image = $highlighted_product[1]->file_name == null || $highlighted_product[1]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[1]->file_name;
         @endphp
 
-        <div class="container mt-4 p-3">
+        <div class="container mt-0 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -308,7 +308,7 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[1]))
         <section id="special" class="">
             <div class="container mt-3">
@@ -434,20 +434,20 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_product && isset($highlighted_product[2]))
         @php
             $image = $highlighted_product[2]->file_name == null || $highlighted_product[2]->file_name == '' ? 'images/no-image.png' : 'img_product/' . $highlighted_product[2]->file_name;
         @endphp
 
-        <div class="container mt-4 p-3">
+        <div class="container mt-0 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -457,7 +457,7 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[2]))
         <section id="special" class="">
             <div class="container mt-3">
@@ -582,11 +582,11 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($videos)
         @foreach ($videos as $item)
             <div class="container">
-                <div class="row mt-3  p-1">
+                <div class="row mt-0 p-1">
                 <div class="text-center my-5 ratio ratio-16x9">
                     <iframe src="{!! $item->url !!}" allowfullscreen>
                     </iframe>
