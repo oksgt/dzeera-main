@@ -72,21 +72,28 @@
                                                             {{ formatNumber($item->price) }}</span>
                                                     </div>
 
-                                                    <div class="d-flex justify-content-between">
-                                                        <form action="{{ url('/wishlist') }}" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="product_item_id"
-                                                                value="{{ $item->item_id }}">
-                                                            <input type="hidden" name="product_item_slug"
-                                                                value="{{ $item->item_slug }}">
-                                                            <input type="hidden" name="product_name"
-                                                                value="{{ $item->product_name }}">
-                                                            <input type="hidden" name="color_name"
-                                                                value="{{ $item->color_name }}">
-                                                            <button type="submit"
-                                                                class="float-left btn mt-1 btn-outline-transparent "
-                                                                style="width: 100% !important; ">Wishlist</button>
-                                                        </form>
+                                                    <div class="col-12 d-flex justify-content-between">
+                                                        <div class="col-6">
+                                                            <form action="{{ url('/wishlist') }}" method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="product_item_id"
+                                                                    value="{{ $item->item_id }}">
+                                                                <input type="hidden" name="product_item_slug"
+                                                                    value="{{ $item->item_slug }}">
+                                                                <input type="hidden" name="product_name"
+                                                                    value="{{ $item->product_name }}">
+                                                                <input type="hidden" name="color_name"
+                                                                    value="{{ $item->color_name }}">
+                                                                <button type="submit"
+                                                                    class="float-left btn mt-1 btn-outline-transparent "
+                                                                    style="width: 100% !important; ">Wishlist</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            @php
+                                                                $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                $slug = strtolower($slug);
+                                                            @endphp
 
                                                         @php
                                                             $slug =
@@ -120,8 +127,8 @@
             </div>
         </div>
     </section>
-
-    <div class="container mt-4">
+    <hr class="style14">
+    <div class="container mt-4 p-1">
         <div class="row">
             <div class="splide" aria-labelledby="carousel-heading" id="slide_category">
                 <div class="splide__track">
@@ -158,7 +165,7 @@
             </div>
         </div>
     </div>
-
+    <hr class="style14">
     @php
         $highlighted_product = getHighlightedProduct();
         $highlighted_categories = getHighlightedCategories();
@@ -173,14 +180,14 @@
                     : 'img_product/' . $highlighted_product[0]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-0 p-3">
             <div class="row col">
-                <div class="card mb-3 border-0">
-                    <div class="row g-0">
+                <div class="card mb-0 border-0">
+                    <div class="row">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -190,10 +197,10 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[0]))
         <section id="special" class="">
-            <div class="container mt-3">
+            <div class="container">
                 <div class="title text-center py-3">
                     <h3 class="position-relative d-inline-block">{{ $highlighted_categories[0]->category_name }}</h3>
                 </div>
@@ -290,21 +297,28 @@
                                                             </div>
 
 
-                                                            <div class="d-flex justify-content-between">
-                                                                <form action="{{ url('/wishlist') }}" method="POST">
-                                                                    @csrf
-                                                                    <input type="hidden" name="product_item_id"
-                                                                        value="{{ $item->item_id }}">
-                                                                    <input type="hidden" name="product_item_slug"
-                                                                        value="{{ $item->item_slug }}">
-                                                                    <input type="hidden" name="product_name"
-                                                                        value="{{ $item->product_name }}">
-                                                                    <input type="hidden" name="color_name"
-                                                                        value="{{ $item->color_name }}">
-                                                                    <button type="submit"
-                                                                        class="float-left btn mt-1 btn-outline-transparent "
-                                                                        style="width: 100% !important; ">Wishlist</button>
-                                                                </form>
+                                                            <div class="col-12 d-flex justify-content-between">
+                                                                <div class="col-6">
+                                                                    <form action="{{ url('/wishlist') }}" method="POST">
+                                                                        @csrf
+                                                                        <input type="hidden" name="product_item_id"
+                                                                            value="{{ $item->item_id }}">
+                                                                        <input type="hidden" name="product_item_slug"
+                                                                            value="{{ $item->item_slug }}">
+                                                                        <input type="hidden" name="product_name"
+                                                                            value="{{ $item->product_name }}">
+                                                                        <input type="hidden" name="color_name"
+                                                                            value="{{ $item->color_name }}">
+                                                                        <button type="submit"
+                                                                            class="float-left btn mt-1 btn-outline-transparent "
+                                                                            style="width: 100% !important; ">Wishlist</button>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    @php
+                                                                        $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
+                                                                        $slug = strtolower($slug);
+                                                                    @endphp
 
                                                                 @php
                                                                     $slug =
@@ -338,7 +352,7 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_product && isset($highlighted_product[1]))
         @php
             $image =
@@ -347,14 +361,14 @@
                     : 'img_product/' . $highlighted_product[1]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-0 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -364,7 +378,7 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[1]))
         <section id="special" class="">
             <div class="container mt-3">
@@ -513,7 +527,7 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_product && isset($highlighted_product[2]))
         @php
             $image =
@@ -522,14 +536,14 @@
                     : 'img_product/' . $highlighted_product[2]->file_name;
         @endphp
 
-        <div class="container mt-4">
+        <div class="container mt-0 p-3">
             <div class="row col">
                 <div class="card mb-3 border-0">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded-start" alt="...">
+                            <img src="{!! imageDir() . $image !!}" class="img-fluid rounded" alt="...">
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 d-none d-md-block">
                             <div class="card-body">
 
                             </div>
@@ -539,7 +553,7 @@
             </div>
         </div>
     @endif
-
+    <hr class="style14">
     @if ($highlighted_categories && isset($highlighted_categories[2]))
         <section id="special" class="">
             <div class="container mt-3">
@@ -688,7 +702,7 @@
             </div>
         </section>
     @endif
-
+    <hr class="style14">
     @if ($videos)
         @foreach ($videos as $item)
             <div class="container-fluid">

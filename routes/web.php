@@ -56,9 +56,11 @@ Route::get('/product/{productslug}', [HomeController::class, 'product'])->name('
 Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
 Route::get('/{brandslug?}/all-products/', [HomeController::class, 'allProducts'])->name('allProducts');
+Route::get('/about-us/{brandslug}', [HomeController::class, 'aboutUs'])->name('about-us');
 Route::get('/{brandslug?}/{categoryslug?}/', [HomeController::class, 'ProductByCategory'])->name('ProductByCategory');
 
 Route::post('/checkout-data-session', [CheckoutController::class, 'setCheckoutSession']);
+
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {

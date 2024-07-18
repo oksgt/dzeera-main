@@ -84,10 +84,10 @@ var slide_category_3 = 6;
 
 var slide_category_item = 10;
 if (isMobile) {
-    slide_new_arrivals_item = 3;
-    slide_category_1 = 3;
-    slide_category_2 = 3;
-    slide_category_3 = 3;
+    slide_new_arrivals_item = 2;
+    slide_category_1 = 2;
+    slide_category_2 = 2;
+    slide_category_3 = 2;
     slide_category_item = 6;
 }
 

@@ -21,7 +21,7 @@
                         $SocialMedia = getSocialMedia();
                     @endphp
                     @foreach ($SocialMedia as $index => $item)
-                        <li><a target="_blank" class="link-secondary" href="{!! $item->url !!}"><i
+                        <li><a  style="text-decoration: none" target="_blank" class="link-secondary" href="{!! $item->url !!}"><i
                                     class="{{ $item->icon }} link-secondary"></i> {{ $item->social_media }}</a></li>
                     @endforeach
 
@@ -33,11 +33,11 @@
             <div class="col-sm">
                 <h5>{{ __('general.paymentMethods') }}</h5>
                 <ul class="payment-method-list">
-                    <li><a class="link-secondary" href="#">Bank Transfer</a></li>
+                    <li><a class="link-secondary"  style="text-decoration: none" href="#">Bank Transfer</a></li>
                 </ul>
             </div>
             <div class="col-sm">
-                <h5>Copyright D'zeera @ 2023</h5>
+                <h5>Copyright D'zeera @ <?= Date('Y')?></h5>
             </div>
         </div>
     </div>
