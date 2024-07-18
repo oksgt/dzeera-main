@@ -34,8 +34,12 @@ Route::post('/checkout/next', [CheckoutController::class, 'checkout_next'])->nam
 Route::post('/checkout/finish', [CheckoutController::class, 'checkout_finish'])->name('checkout.finish');
 Route::get('/finish/{code}', [CheckoutController::class, 'finish'])->name('finish');
 
+Route::get('/thank-you', [CheckoutController::class, 'thankYou'])->name('thankYou');
+
 Route::get('/my-order/', [HomeController::class, 'myOrder'])->name('my-order');
 Route::get('/my-order/details/{code}', [HomeController::class, 'detailOrder'])->name('my-order-detail');
+Route::get('/test-api/{id}', [HomeController::class, 'getTransactionStatus'])->name('getTransactionStatus');
+
 
 Route::get('/getCityName/{provinceId}/{cityId}', [CheckoutController::class, 'getCityName'])->name('getCityName');
 Route::get('/getProvinceName/{id}', [CheckoutController::class, 'getProvinceName'])->name('getProvinceName');
@@ -53,6 +57,8 @@ Route::get('/{brandslug?}', [HomeController::class, 'index'])->name('home');
 Route::get('/{brandslug?}/new-arrivals/', [HomeController::class, 'newArrivals'])->name('newArrivals');
 Route::get('/{brandslug?}/all-products/', [HomeController::class, 'allProducts'])->name('allProducts');
 Route::get('/{brandslug?}/{categoryslug?}/', [HomeController::class, 'ProductByCategory'])->name('ProductByCategory');
+
+Route::post('/checkout-data-session', [CheckoutController::class, 'setCheckoutSession']);
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {

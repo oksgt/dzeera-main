@@ -34,20 +34,27 @@
                                 @php
                                     $categories = getAllCategoriesByBrand();
                                 @endphp
-                                <div class="form-check mx-3 p-2">
+                                {{-- <div class="form-check mx-3 p-2">
                                     <input class="form-check-input" type="radio" name="input_category" id="all"
                                         value="" checked>
                                     <label class="form-check-label" for="all">
                                         {{ __('general.all') }}
                                     </label>
-                                </div>
+                                </div> --}}
                                 @foreach ($categories as $item)
-                                    <div class="form-check mx-3 p-2">
-                                        <input class="form-check-input" type="radio" name="input_category"
+                                    <div class="form-check p-2">
+                                        {{-- <input class="form-check-input" type="radio" name="input_category"
                                             id="{{ $item->id }}" value="{{ $item->id }}">
                                         <label class="form-check-label" for="{{ $item->id }}">
                                             {{ $item->category_name }}
-                                        </label>
+                                        </label> --}}
+                                        <a class="nav-link category-link"
+                                            href="{{ route('ProductByCategory', ['categoryslug' => $item->slug, 'brandslug' => session('active-brand-name'), 'page' => 1]) }}"
+                                            style="color: #212529; text-decoration: none;"
+                                            onmouseover="this.style.color='#e30c83';"
+                                            onmouseout="this.style.color='#212529';">
+                                            {{ strtoupper($item->category_name) }}
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
@@ -189,27 +196,74 @@
                                         <div class="special-img position-relative overflow-hidden "
                                             style="border-radius: 10px 10px 0px 0px; z-index: 1 !important;">
                                             <img src="{!! imageDir() . $image !!}" class="w-100">
-                                        </div>
-                                        <div class="justify-content-center p-2 product-card-info mt-1 mb-3">
-                                            <div style="text-align: center">
-                                                <a href="{{ route('product', [ 'productslug' => $slug]) }}" style="text-decoration: none; color: black">
-                                                    <h5 class="text-capitalize mt-1 mb-1" style="font-weight: 100; cursor: pointer">
-                                                        {{ $item->product_name . ' - ' . $item->color_name }}
-                                                    </h5>
-                                                </a>
 
-                                                @if ($item->disc > 0)
-                                                    <span class="d-inline-block text-muted "
-                                                        style="text-decoration: line-through; ">Rp.
-                                                        {{ formatNumber($item->base_price) }}</span>
-                                                    <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
-                                                        {{ formatNumber($item->price) }}</span>
-                                                @else
-                                                    <span class="d-inline-block" style="font-weight: 200; color: #e5345b;">Rp.
-                                                        {{ formatNumber($item->price) }}</span>
+                                            @php
+                                                $colorBg = ($item->product_status == 'po') ? 'bg-secondary' : 'bg-warning';
+                                            @endphp
+
+                                            <div class="badge position-absolute top-0 end-0 {{ $colorBg }} opacity-85 text-capitalize"
+                                                style="border-radius: 10px;">
+                                                {{ $item->product_status }}
+                                            </div>
+                                        </div>
+
+                                        <div class="p-2 product-card-info mt-1 mb-3">
+
+                                            @php
+                                                $rate = $item->rating;
+                                            @endphp
+
+                                            @if ($rate > 0)
+                                                @php
+                                                    $has_half = false;
+                                                    if ($rate != floor($rate)) {
+                                                        $roundedValue = floor($rate);
+                                                        $has_half = true;
+                                                    } else {
+                                                        $roundedValue = $rate;
+                                                        $has_half = false;
+                                                    }
+                                                    $rate_rounded = $roundedValue;
+                                                @endphp
+
+                                                @for ($i = 1; $i <= $rate_rounded; $i++)
+                                                    <i class="fa fa-star text-warning"
+                                                        style="font-size: 10px"></i>
+                                                @endfor
+
+                                                @if ($has_half)
+                                                    <i class="fa fa-star-half text-warning"
+                                                        style="font-size: 10px"></i>
                                                 @endif
 
+                                                <i class="text-small text-muted"
+                                                    style="font-size: 12px !important;">({{ $item->rating }})</i>
+                                            @endif
+
+                                            <div style="text-align: left; cursor: pointer;">
+                                                <p class="text-capitalize mt-1 mb-1"
+                                                    style="font-weight: 100; font-size: 16px;"
+                                                    title="oke">
+                                                    {{ $item->product_name . ' - ' . $item->color_name }}
+                                                </p>
+                                                @php
+                                                    $colorStyle = '';
+                                                @endphp
+                                                @if ($item->disc !== 0)
+                                                    <span class="d-inline-block text-muted "
+                                                        style="text-decoration: line-through; font-size: 14px; ">Rp
+                                                        {{ formatNumber($item->base_price) }}</span>
+                                                    <br>
+                                                    @php
+                                                        $colorStyle = 'color: #e5345b !important;';
+                                                    @endphp
+                                                @endif
+
+                                                <span class="d-inline-block text-dark"
+                                                    style="font-weight: normal; font-size: 16px; {{ $colorStyle }} ">Rp
+                                                    {{ formatNumber($item->price) }}</span>
                                             </div>
+
 
                                             <div class="d-flex justify-content-between">
                                                 <form action="{{ url('/wishlist') }}" method="POST">
@@ -227,7 +281,16 @@
                                                         style="width: 100% !important; ">Wishlist</button>
                                                 </form>
 
-                                                <a href="{{ route('product', [ 'productslug' => $slug]) }}" class="float-right btn mt-1 btn-outline-transparent " id="btn-buy"
+                                                @php
+                                                    $slug =
+                                                        $item->slug .
+                                                        '__' .
+                                                        preg_replace('/\s+/', '_', $item->color_name);
+                                                    $slug = strtolower($slug);
+                                                @endphp
+
+                                                <a href="{{ route('product', ['productslug' => $slug]) }}"
+                                                    class="float-right btn mt-1 btn-outline-transparent "
                                                     style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
                                                 </a>
                                             </div>

@@ -183,6 +183,15 @@ if (!function_exists('formatNumber')) {
     }
 }
 
+
+function trimText($text, $maxLength = 200) {
+    $trimmed = substr($text, 0, $maxLength) . '...';
+    return array(
+        0 => $text,
+        1 => $trimmed
+    );
+}
+
 function getHighlightedProduct()
 {
     $data = DB::select("select p.*, pi2.is_thumbnail, pi2.file_name   from products p

@@ -88,6 +88,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             if('{{ $payment_method  }}' == 'Merchant'){
+                console.log('snap token','{{ $snapToken }}');
                 window.snap.embed('{{ $snapToken }}', {
                     embedId: 'snap-container',
                     onSuccess: function(result) {

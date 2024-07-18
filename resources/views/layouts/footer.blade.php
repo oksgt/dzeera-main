@@ -9,7 +9,7 @@
                     @endphp
 
                     @foreach ($brands as $index => $item)
-                        <li><a class="link-secondary" href="{{ route('home', ['brandslug' => $item->slug]) }}">{{ $item->brand_name }}</a></li>
+                        <li><a style="text-decoration: none !important" class="btn btn-link" href="{{ route('home', ['brandslug' => $item->slug]) }}">{{ $item->brand_name }}</a></li>
                     @endforeach
 
                 </ul>

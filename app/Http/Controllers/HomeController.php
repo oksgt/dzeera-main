@@ -20,6 +20,7 @@ use App\Models\TransactionDetail;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -54,7 +55,7 @@ class HomeController extends Controller
     {
         $input_search = $request->get('input_search', '');
 
-        if(!$input_search){
+        if (!$input_search) {
             return redirect()->back();
         }
 
@@ -189,12 +190,11 @@ class HomeController extends Controller
         ) as product_view
         ";
 
-        $sql .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
-        $sql_2 .= " where product_view.product_availability = 'y' and product_view.product_name like '%".$input_search."%'";
+        $sql .= " where product_view.product_availability = 'y' and product_view.product_name like '%" . $input_search . "%'";
+        $sql_2 .= " where product_view.product_availability = 'y' and product_view.product_name like '%" . $input_search . "%'";
 
         if (!empty($request->get('use_filter'))) {
             $filtered_['use_filter'] = 1;
-
         }
 
         if (!empty($request->get('search'))) {
@@ -1156,7 +1156,8 @@ class HomeController extends Controller
         return view('productList', compact('brand_id', 'data', 'filtered_', 'page', 'totalPages', 'pageTitle'));
     }
 
-    public function product(Request $request){
+    public function product(Request $request)
+    {
         $slug = $request->productslug;
 
         // Separate the string using the delimiter "__"
@@ -1238,10 +1239,9 @@ class HomeController extends Controller
 
         $images = DB::select("
         select * from product_images pi2 where product_id = ? and color_id = ? order by is_thumbnail desc
-        ", [$product_id, $color_id ]);
+        ", [$product_id, $color_id]);
 
         return view('product_detail', compact('product_detail', 'options', 'images'));
-
     }
 
     private function sortByName(array $data, string $order = 'asc'): array
@@ -1283,23 +1283,87 @@ class HomeController extends Controller
         return $data;
     }
 
-    public function myOrder(){
-        if(!auth()->check()){
-            return redirect()->route('home');
-        }
-        $transactions = Transaction::where('user_id', Auth::user()->id)->get();
-
-        if(!$transactions){
+    public function myOrder()
+    {
+        if (!auth()->check()) {
             return redirect()->route('home');
         }
 
+        $result = [];
+        $transactions = Transaction::where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get()->toArray();
+
+        if (!$transactions) {
+            return redirect()->route('home');
+        }
+
+        foreach ($transactions as $key => $transaction) {
+            $trans_detail = DB::select("select
+            po.id as cart_id,
+            po.id as opt_id,
+            p.id as product_id, p.product_name, pco.id as color_opt_id, pco.color_name , pso.id as size_opt_id, pso.`size`, po.price,
+            po.qty,
+            po.qty * po.price as total_price,
+            pi2.file_name
+            from transaction_details po
+            join products p on p.id = po.product_id
+            join product_color_options pco on pco.id = po.color_opt_id
+            join product_size_options pso on pso.id = po.size_opt_id
+            JOIN
+                product_images pi2 ON pi2.product_id = p.id AND pi2.is_thumbnail = 1
+                and pi2.color_id = po.color_opt_id
+                where po.trans_number = ? ", [$transaction['trans_number']]);
+            if ($trans_detail) {
+                $transactions[$key]['detail'] = $trans_detail;
+            } else {
+                $transactions[$key]['detail'] = [];
+            }
+
+            $transactions[$key]['payment_status_code'] = '200';
+            $transactions[$key]['payment_status']      = $transactions[$key]['trans_status'];
+
+            if($transactions[$key]['payment_method'] == 'Merchant'){
+                $paymentResponse = $this->getTransactionStatus($transactions[$key]['trans_number']);
+                if($paymentResponse){
+                    $transactions[$key]['payment_status_code'] = $paymentResponse->status_code;
+                    if($paymentResponse->status_code == 404){
+                        $transactions[$key]['payment_status']  = 'Not Found';
+                    } else {
+                        $transactions[$key]['payment_status']  = $paymentResponse->transaction_status;
+                    }
+                }
+            }
+
+            if($transactions[$key]['payment_status'] == 'expire'){
+                $transactions[$key]['payment_status'] = 'Expired';
+            } else if ($transactions[$key]['payment_status'] == 'cancel'){
+                $transactions[$key]['payment_status'] = 'Cancelled';
+            } else if ($transactions[$key]['payment_status'] == 'capture' || $transactions[$key]['payment_status'] == 'settlement'){
+                $transactions[$key]['payment_status'] = 'Success';
+            }
+        }
+        // dd($transactions);
         return view('my_order', compact('transactions'));
     }
 
+    public function getTransactionStatus($id){
+        $client = new Client();
+        $options = [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'auth' => [
+                env('MIDTRANS_SERVERKEY'),
+                ''
+            ]
+        ];
+        $response = $client->get(env('MIDTRANS_API_URL') . '/' . $id . '/status', $options)->getBody()->getContents();
+        return json_decode($response);
+    }
 
     public function detailOrder(Request $req)
     {
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return redirect()->route('home');
         }
 
@@ -1309,7 +1373,7 @@ class HomeController extends Controller
         }
 
         $transaction = Transaction::where('trans_number', $code)
-            ->where('user_id',Auth::user()->id)
+            ->where('user_id', Auth::user()->id)
             ->first();
 
         // dd($transaction)''
@@ -1335,7 +1399,7 @@ class HomeController extends Controller
                 where po.trans_number = ?
             ", [$code]);
 
-        if($transaction->voucher_id !== "-"){
+        if ($transaction->voucher_id !== "-") {
             $voucher = Voucher::where('code', $transaction->voucher_id)->first();
         } else {
             $voucher = [];
