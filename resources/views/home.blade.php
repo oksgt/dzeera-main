@@ -32,86 +32,112 @@
                                                 : 'img_product/' . $item->file_name;
                                     @endphp
                                     @if ($item->base_price > 0)
-                                        <div class="col-sm-4 splide__slide m-2">
-                                            <div class="product-card ">
-                                                <div class="special-img position-relative overflow-hidden "
-                                                    style="border-radius: 10px 10px 0px 0px; z-index: 1 !important;">
-                                                    <img src="{!! imageDir() . $image !!}" class="w-100">
+                                    <div class="splide__slide m-2">
+                                        <div class="product-card ">
+                                            <div class="special-img position-relative overflow-hidden "
+                                                style="border-radius: 10px 10px 0px 0px; z-index: 1 !important;">
+                                                <img src="{!! imageDir() . $image !!}" class="w-100">
 
+                                                @php
+                                                    $colorBg = ($item->product_status == 'po') ? 'bg-secondary' : 'bg-warning';
+                                                @endphp
+
+                                                <div class="badge position-absolute top-0 end-0 {{ $colorBg }} opacity-85 text-capitalize"
+                                                    style="border-radius: 10px;">
+                                                    {{ $item->product_status }}
+                                                </div>
+                                            </div>
+
+                                            <div class="p-2 product-card-info mt-1 mb-3">
+
+                                                @php
+                                                    $rate = $item->rating;
+                                                @endphp
+
+                                                @if ($rate > 0)
                                                     @php
-                                                        $colorBg = ($item->product_status == 'po') ? 'bg-secondary' : 'bg-warning';
+                                                        $has_half = false;
+                                                        if ($rate != floor($rate)) {
+                                                            $roundedValue = floor($rate);
+                                                            $has_half = true;
+                                                        } else {
+                                                            $roundedValue = $rate;
+                                                            $has_half = false;
+                                                        }
+                                                        $rate_rounded = $roundedValue;
                                                     @endphp
 
-                                                    <div class="badge position-absolute top-0 end-0 {{ $colorBg }} opacity-85 text-capitalize"
-                                                        style="border-radius: 10px;">
-                                                        {{ $item->product_status }}
-                                                    </div>
+                                                    @for ($i = 1; $i <= $rate_rounded; $i++)
+                                                        <i class="fa fa-star text-warning"
+                                                            style="font-size: 10px"></i>
+                                                    @endfor
+
+                                                    @if ($has_half)
+                                                        <i class="fa fa-star-half text-warning"
+                                                            style="font-size: 10px"></i>
+                                                    @endif
+
+                                                    <i class="text-small text-muted"
+                                                        style="font-size: 12px !important;">({{ $item->rating }})</i>
+                                                @endif
+
+                                                <div style="text-align: left; cursor: pointer;">
+                                                    <p class="text-capitalize mt-1 mb-1"
+                                                        style="font-weight: 100; font-size: 16px;"
+                                                        title="oke">
+                                                        {{ $item->product_name . ' - ' . $item->color_name }}
+                                                    </p>
+                                                    @php
+                                                        $colorStyle = '';
+                                                    @endphp
+                                                    @if ($item->disc !== 0)
+                                                        <span class="d-inline-block text-muted "
+                                                            style="text-decoration: line-through; font-size: 14px; ">Rp
+                                                            {{ formatNumber($item->base_price) }}</span>
+                                                        <br>
+                                                        @php
+                                                            $colorStyle = 'color: #e5345b !important;';
+                                                        @endphp
+                                                    @endif
+
+                                                    <span class="d-inline-block text-dark"
+                                                        style="font-weight: normal; font-size: 16px; {{ $colorStyle }} ">Rp
+                                                        {{ formatNumber($item->price) }}</span>
                                                 </div>
-                                                <div class="justify-content-center p-2 product-card-info mt-1 mb-3">
 
-                                                    <div style="text-align: left; cursor: pointer;">
-                                                        <p class="text-capitalize mt-1 mb-1"
-                                                            style="font-weight: 100; font-size: 16px;" title="oke">
-                                                            {{ $item->product_name . ' - ' . $item->color_name }}
-                                                        </p>
-                                                        @php
-                                                            $colorStyle = '';
-                                                        @endphp
-                                                        @if ($item->disc !== 0)
-                                                            <span class="d-inline-block text-muted "
-                                                                style="text-decoration: line-through; font-size: 14px; ">Rp
-                                                                {{ formatNumber($item->base_price) }}</span>
-                                                            <br>
-                                                            @php
-                                                                $colorStyle = 'color: #e5345b !important;';
-                                                            @endphp
-                                                        @endif
 
-                                                        <span class="d-inline-block text-dark"
-                                                            style="font-weight: normal; font-size: 16px; {{ $colorStyle }} ">Rp
-                                                            {{ formatNumber($item->price) }}</span>
-                                                    </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <form action="{{ url('/wishlist') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="product_item_id"
+                                                            value="{{ $item->item_id }}">
+                                                        <input type="hidden" name="product_item_slug"
+                                                            value="{{ $item->item_slug }}">
+                                                        <input type="hidden" name="product_name"
+                                                            value="{{ $item->product_name }}">
+                                                        <input type="hidden" name="color_name"
+                                                            value="{{ $item->color_name }}">
+                                                        <button type="submit"
+                                                            class="float-left btn mt-1 btn-outline-transparent "
+                                                            style="width: 100% !important; ">Wishlist</button>
+                                                    </form>
 
-                                                    <div class="col-12 d-flex justify-content-between">
-                                                        <div class="col-6">
-                                                            <form action="{{ url('/wishlist') }}" method="POST">
-                                                                @csrf
-                                                                <input type="hidden" name="product_item_id"
-                                                                    value="{{ $item->item_id }}">
-                                                                <input type="hidden" name="product_item_slug"
-                                                                    value="{{ $item->item_slug }}">
-                                                                <input type="hidden" name="product_name"
-                                                                    value="{{ $item->product_name }}">
-                                                                <input type="hidden" name="color_name"
-                                                                    value="{{ $item->color_name }}">
-                                                                <button type="submit"
-                                                                    class="float-left btn mt-1 btn-outline-transparent "
-                                                                    style="width: 100% !important; ">Wishlist</button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            @php
-                                                                $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                                $slug = strtolower($slug);
-                                                            @endphp
+                                                    @php
+                                                        $slug =
+                                                            $item->slug .
+                                                            '__' .
+                                                            preg_replace('/\s+/', '_', $item->color_name);
+                                                        $slug = strtolower($slug);
+                                                    @endphp
 
-                                                        @php
-                                                            $slug =
-                                                                $item->slug .
-                                                                '__' .
-                                                                preg_replace('/\s+/', '_', $item->color_name);
-                                                            $slug = strtolower($slug);
-                                                        @endphp
-
-                                                        <a href="{{ route('product', ['productslug' => $slug]) }}"
-                                                            class="float-right btn mt-1 btn-outline-transparent "
-                                                            id="btn-buy"
-                                                            style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
-                                                        </a>
-                                                    </div>
+                                                    <a href="{{ route('product', ['productslug' => $slug]) }}"
+                                                        class="float-right btn mt-1 btn-outline-transparent "
+                                                        style="width: 100% !important; font-weight: bolder; color: #e5345b;">{{ __('general.buy') }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     @endif
                                 @endforeach
 
@@ -297,28 +323,21 @@
                                                             </div>
 
 
-                                                            <div class="col-12 d-flex justify-content-between">
-                                                                <div class="col-6">
-                                                                    <form action="{{ url('/wishlist') }}" method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="product_item_id"
-                                                                            value="{{ $item->item_id }}">
-                                                                        <input type="hidden" name="product_item_slug"
-                                                                            value="{{ $item->item_slug }}">
-                                                                        <input type="hidden" name="product_name"
-                                                                            value="{{ $item->product_name }}">
-                                                                        <input type="hidden" name="color_name"
-                                                                            value="{{ $item->color_name }}">
-                                                                        <button type="submit"
-                                                                            class="float-left btn mt-1 btn-outline-transparent "
-                                                                            style="width: 100% !important; ">Wishlist</button>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    @php
-                                                                        $slug = $item->slug."__".preg_replace("/\s+/", "_", $item->color_name);
-                                                                        $slug = strtolower($slug);
-                                                                    @endphp
+                                                            <div class="d-flex justify-content-between">
+                                                                <form action="{{ url('/wishlist') }}" method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="product_item_id"
+                                                                        value="{{ $item->item_id }}">
+                                                                    <input type="hidden" name="product_item_slug"
+                                                                        value="{{ $item->item_slug }}">
+                                                                    <input type="hidden" name="product_name"
+                                                                        value="{{ $item->product_name }}">
+                                                                    <input type="hidden" name="color_name"
+                                                                        value="{{ $item->color_name }}">
+                                                                    <button type="submit"
+                                                                        class="float-left btn mt-1 btn-outline-transparent "
+                                                                        style="width: 100% !important; ">Wishlist</button>
+                                                                </form>
 
                                                                 @php
                                                                     $slug =
