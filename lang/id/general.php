@@ -72,5 +72,11 @@ return [
     'choose_city' => 'Pilih Kota',
     'myOrder' => 'Pesananku',
     'order_cancel' => 'Pesananmu telah dibatalkan karena sudah melewati batas waktu pembayaran',
-    'cancelled' => 'Dibatalkan'
+    'cancelled' => 'Dibatalkan',
+    'confirm' => 'Konfirmasi',
+    'confirm_payment_question' => 'Apakah data yang anda masukan sudah benar?',
+    'recheck' => 'Periksa kembali',
+    'continue_finish_payment' => 'Lanjutkan Pembayaran',
+    'please_fill_in_the_form' => 'Silahkan isi form dengan benar',
+    'payment_success' => 'Pembayaran berhasil',
 ];

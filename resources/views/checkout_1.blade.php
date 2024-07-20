@@ -27,7 +27,7 @@
                             title="Shipping Information">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step2" id="step2-tab" data-bs-toggle="tab" role="tab" aria-controls="step2"
-                                aria-selected="false" title="Step 2" @disabled(true)    >
+                                aria-selected="false" title="Step 2" @disabled(true)>
                                 <i class="fas fa-shipping-fast"></i>
                             </a>
                         </li>
@@ -43,7 +43,7 @@
                             data-bs-placement="top" title="Summary">
                             <a class="nav-link rounded-circle mx-auto d-flex align-items-center justify-content-center"
                                 href="#step4" id="step4-tab" data-bs-toggle="tab" role="tab" aria-controls="step4"
-                                aria-selected="false" title="Step 4"  @disabled(true)>
+                                aria-selected="false" title="Step 4" @disabled(true) >
                                 <i class="fas fa-flag-checkered"></i>
                             </a>
                         </li>
@@ -204,7 +204,7 @@
                             </div>
                         </div>
 
-                            <div class="tab-pane fade mt-3" role="tabpanel" id="step4"
+                            <div class="tab-pane fade mt-3 text-center" role="tabpanel" id="step4"
                             aria-labelledby="step4-tab">
                             <h5 style="color: #e30c83 ">{{ __('general.summary') }}</h5>
                             <hr>
@@ -218,14 +218,14 @@
                                                     <td>{{ __('general.name') }}</td>
                                                     <td>
                                                         <input type="text" id="_cust_name" name="_cust_name"
-                                                            class="readonly-input" readonly>
+                                                            class="readonly-input" readonly value="{{ auth()->user()->name }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>{{ __('general.email_address') }}</td>
                                                     <td>
                                                         <input type="text" id="_cust_email" name="_cust_email"
-                                                            class="readonly-input" readonly>
+                                                            class="readonly-input" readonly value="{{ auth()->user()->email }}">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -453,7 +453,7 @@
                             <div class="d-flex justify-content-between mt-3">
                                 <a class="btn btn-secondary previous"><i class="fas fa-angle-left"></i>
                                     {{ __('general.back') }}</a>
-                                <a class="btn btn-info finish" onclick="paid()">{{ __('general.finish_checkout') }} <i
+                                <a class="btn btn-info finish" onclick="validateInputs()">{{ __('general.finish_checkout') }} <i
                                         class="fas fa-angle-right"></i></a>
                             </div>
 
@@ -484,6 +484,57 @@
                             onclick="callGetVouchersByCode()">
                             <i class="fa fa-check"></i>
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade w-100" id="checkoutDataFormAlert" tabindex="-1" aria-labelledby="checkoutDataFormAlertLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title">Warning</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center d-flex">
+                    <div class="card text-center  w-100 border-0">
+                        <div class="card-body p-2">
+                            <h5 class="text-danger">{{ __('general.please_fill_in_the_form') }}</h5>
+                            <button class="btn btn-sm btn-outline-dark mt-3" type="button"
+                                data-bs-dismiss="modal">
+                                Okay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal fade w-100" id="checkoutDataConfirm" tabindex="-1" aria-labelledby="checkoutDataConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="card-title">{{ __('general.confirm') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body justify-content-center d-flex">
+                    <div class="card text-center  w-100 border-0">
+                        <div class="card-body p-2">
+                            <h6 class="text-muted">{{ __('general.confirm_payment_question') }}</h6>
+
+                            <button class="btn btn-sm btn-outline-dark mt-3" type="button"
+                                data-bs-dismiss="modal">
+                                {{ __('general.recheck') }}
+                            </button>
+
+                            <button class="btn btn-sm btn-outline-dark finish mt-3" type="button" onclick="pay()">
+                                {{ __('general.continue_finish_payment') }}
+                            </button>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -617,7 +668,7 @@
                         }
 
                     } else {
-                        alert(json.error_message);
+                        $('#checkoutDataFormAlert').modal('show');
                     }
                     // window.location.href = '/checkout#step4';
                     // location.reload();
@@ -1059,7 +1110,12 @@
             });
         }
 
-        function paid() {
+        function validateInputs() {
+            $('#checkoutDataConfirm').modal('show');
+        }
+
+        function pay() {
+
             // var collectedInputs = collectInputValues();
             // var validated = validateObject(collectedInputs);
             // console.log(collectedInputs);

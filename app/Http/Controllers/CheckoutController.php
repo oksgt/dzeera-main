@@ -95,8 +95,8 @@ class CheckoutController extends Controller
         $checkout_session = [
             'last_step' => $lastStep,
             'step_1' => [
-                'name' => (isset($request->cust_name)) ? $request->cust_name : '',
-                'email' => (isset($request->cust_email)) ? $request->cust_email : '',
+                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
                 'phone' => (isset($request->cust_phone)) ? $request->cust_phone : '',
                 'address' => (isset($request->cust_address)) ? $request->cust_address : '',
             ],
@@ -447,13 +447,51 @@ class CheckoutController extends Controller
     //     ]);
     // }
 
+    private function CheckoutSessionCheck($checkout_session)
+    {
+        if (isset($checkout_session) && !empty($checkout_session)) {
+            // Initialize a flag to track if any field is empty
+            $hasEmptyField = false;
+
+            // Check the values for each key in the array
+            foreach ($checkout_session as $step => $stepData) {
+                if (is_array($stepData)) {
+                    foreach ($stepData as $key => $value) {
+                        if (empty($value)) {
+                            $hasEmptyField = true;
+                            return [
+                                'status' => false,
+                                'message' => "Alert: The value for the key '$key' in the '$step' step is empty."
+                            ];
+                        }
+                    }
+                } else if (empty($stepData)) {
+                    $hasEmptyField = true;
+                    return [
+                        'status' => false,
+                        'message' => "Alert: The value for the key '$step' is empty."
+                    ];
+                }
+            }
+
+            if (!$hasEmptyField) {
+                return [
+                    'status' => true,
+                    'message' => 'All fields are filled.'
+                ];
+            }
+        } else {
+            return [
+                'status' => false,
+                'message' => 'Checkout data is empty'
+            ];
+        }
+    }
+
     public function checkout_finish(Request $request)
     {
         $data = $request->all();
         $checkout_session = session()->get('checkout_session');
-
-        // dump($checkout_session);
-        // dump($data);
 
         $validator = Validator::make($data, [
             'voucher' => 'required|string',
@@ -497,7 +535,18 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
 
-        try {
+        // try {
+
+            // Check if the $checkout_session array is set and not empty
+            $CheckoutSessionCheck = $this->CheckoutSessionCheck($checkout_session);
+            // dd($checkout_session);
+            if(!$CheckoutSessionCheck) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $CheckoutSessionCheck['message']
+                ]);
+            }
+
             $transaction = new Transaction();
             $transaction->user_id = auth()->user()->id;
             $transaction->trans_number = substr(uniqid(), -6);
@@ -665,6 +714,7 @@ class CheckoutController extends Controller
             // Delete cart data from carts table
             Cart::where('user_id', auth()->user()->id)->delete();
 
+            Session::forget('voucher');
             // Commit the transaction
             DB::commit();
 
@@ -677,15 +727,15 @@ class CheckoutController extends Controller
                 ],
                 'message' => 'Ok'
             ]);
-        } catch (\Exception $e) {
-            // Rollback the transaction if an error occurred
-            DB::rollback();
+        // } catch (\Exception $e) {
+        //     // Rollback the transaction if an error occurred
+        //     DB::rollback();
 
-            return response()->json([
-                'status' => false,
-                'message' => 'An error occurred while finishing checkout: ' . $e->getMessage(),
-            ]);
-        }
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'An error occurred while finishing checkout: ' . $e->getMessage(),
+        //     ]);
+        // }
 
         //send email notication to user
 
@@ -776,5 +826,32 @@ class CheckoutController extends Controller
     public function thankYou(Request $request)
     {
         echo 'Thank you for shopping with us!';
+    }
+
+    public function finishPaymentGateway(Request $request)
+    {
+        // Get the parameter values from the URL
+        $order_id = $request->input('order_id');
+        $status_code = $request->input('status_code');
+        $transaction_status = $request->input('transaction_status');
+
+    }
+
+    public function unfinishPaymentGateway(Request $request)
+    {
+        // Get the parameter values from the URL
+        $order_id = $request->input('order_id');
+        $status_code = $request->input('status_code');
+        $transaction_status = $request->input('transaction_status');
+
+    }
+
+    public function errorPaymentGateway(Request $request)
+    {
+        // Get the parameter values from the URL
+        $order_id = $request->input('order_id');
+        $status_code = $request->input('status_code');
+        $transaction_status = $request->input('transaction_status');
+
     }
 }

@@ -61,6 +61,9 @@ Route::get('/{brandslug?}/{categoryslug?}/', [HomeController::class, 'ProductByC
 
 Route::post('/checkout-data-session', [CheckoutController::class, 'setCheckoutSession']);
 
+Route::post('/finish-payment-gateway', [HomeController::class, 'finishPaymentGateway']);
+Route::post('/unfinish-payment-gateway', [HomeController::class, 'unfinishPaymentGateway']);
+Route::post('/error-payment-gateway', [HomeController::class, 'errorPaymentGateway']);
 
 // Protected routes
 Route::middleware(['auth'])->group(function () {

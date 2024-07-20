@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\BannerImage;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\City;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -871,6 +872,7 @@ class HomeController extends Controller
         } else {
             $brand = Brand::where('main_brand', 1)->first();
         }
+
         $brand_id = $brand->id;
         session(['active-brand' => $brand->id]);
         session(['active-brand-name' => strtolower($brand->brand_name)]);
@@ -1323,11 +1325,11 @@ class HomeController extends Controller
             $transactions[$key]['payment_status_code'] = '200';
             $transactions[$key]['payment_status']      = $transactions[$key]['trans_status'];
 
-            if($transactions[$key]['payment_method'] == 'Merchant'){
+            if ($transactions[$key]['payment_method'] == 'Merchant') {
                 $paymentResponse = $this->getTransactionStatus($transactions[$key]['trans_number']);
-                if($paymentResponse){
+                if ($paymentResponse) {
                     $transactions[$key]['payment_status_code'] = $paymentResponse->status_code;
-                    if($paymentResponse->status_code == 404){
+                    if ($paymentResponse->status_code == 404) {
                         $transactions[$key]['payment_status']  = 'Not Found';
                     } else {
                         $transactions[$key]['payment_status']  = $paymentResponse->transaction_status;
@@ -1335,11 +1337,11 @@ class HomeController extends Controller
                 }
             }
 
-            if($transactions[$key]['payment_status'] == 'expire'){
+            if ($transactions[$key]['payment_status'] == 'expire') {
                 $transactions[$key]['payment_status'] = 'Expired';
-            } else if ($transactions[$key]['payment_status'] == 'cancel'){
+            } else if ($transactions[$key]['payment_status'] == 'cancel') {
                 $transactions[$key]['payment_status'] = 'Cancelled';
-            } else if ($transactions[$key]['payment_status'] == 'capture' || $transactions[$key]['payment_status'] == 'settlement'){
+            } else if ($transactions[$key]['payment_status'] == 'capture' || $transactions[$key]['payment_status'] == 'settlement') {
                 $transactions[$key]['payment_status'] = 'Success';
             }
         }
@@ -1347,7 +1349,8 @@ class HomeController extends Controller
         return view('my_order', compact('transactions'));
     }
 
-    public function getTransactionStatus($id){
+    public function getTransactionStatus($id)
+    {
         $client = new Client();
         $options = [
             'Accept' => 'application/json',
@@ -1376,8 +1379,26 @@ class HomeController extends Controller
             ->where('user_id', Auth::user()->id)
             ->first();
 
-        // dd($transaction)''
+        $province_name = "";
+        $city_name = "";
 
+        $province = DB::select("select name from provinces where id = ?", [$transaction->province]);
+        if ($province) {
+            $province_name = $province[0]->name;
+        }
+
+        $transaction->province_name = $province_name;
+
+        $city = DB::table('cities')
+            ->where('province_id', $transaction->province)
+            ->where('city_id', $transaction->city)
+            ->first();
+
+        if ($city) {
+            $city_name = $city->name;
+        }
+
+        $transaction->city_name = $city_name;
 
         if (!$transaction) {
             return redirect()->route('home');
@@ -1405,10 +1426,31 @@ class HomeController extends Controller
             $voucher = [];
         }
 
+        if ($transaction['payment_method'] == 'Merchant') {
+            $paymentResponse = $this->getTransactionStatus($transaction['trans_number']);
+            if ($paymentResponse) {
+                $transaction['payment_status_code'] = $paymentResponse->status_code;
+                if ($paymentResponse->status_code == 404) {
+                    $transaction['payment_status']  = 'Not Found';
+                } else {
+                    $transaction['payment_status']  = $paymentResponse->transaction_status;
+                }
+            }
+        }
+
+        if ($transaction['payment_status'] == 'expire') {
+            $transaction['payment_status'] = 'Expired';
+        } else if ($transaction['payment_status'] == 'cancel') {
+            $transaction['payment_status'] = 'Cancelled';
+        } else if ($transaction['payment_status'] == 'capture' || $transaction['payment_status'] == 'settlement') {
+            $transaction['payment_status'] = 'Success';
+        }
+        // dd($transaction);
         return view('my-order-details', ['transaction' => $transaction, 'trans_detail' => $trans_detail, 'voucher' => $voucher]);
     }
 
-    public function aboutUs($brandslug){
+    public function aboutUs($brandslug)
+    {
         $brand = Brand::where('slug', $brandslug)->first();
         $brand_id = $brand->id;
         $brand_name = $brand->brand_name;

@@ -72,5 +72,11 @@ return [
     'choose_city' => 'Choose City',
     'myOrder' => 'My Order',
     'order_cancel' => 'Your order has been canceled due to reached the maximum time limit',
-    'cancelled' => 'Cancelled'
+    'cancelled' => 'Cancelled',
+    'confirm' => 'Confirm',
+    'confirm_payment_question' => 'Are you sure you want to continue?',
+    'recheck' => 'Check Again',
+    'continue_finish_payment' => 'Continue Payment',
+    'please_fill_in_the_form' => 'Please fill in the form correctly',
+    'payment_success' => 'Payment Success',
 ];
