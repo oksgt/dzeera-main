@@ -834,7 +834,7 @@ class CheckoutController extends Controller
         $order_id = $request->input('order_id');
         $status_code = $request->input('status_code');
         $transaction_status = $request->input('transaction_status');
-
+        redirect()->route('my-order');
     }
 
     public function unfinishPaymentGateway(Request $request)
@@ -843,7 +843,7 @@ class CheckoutController extends Controller
         $order_id = $request->input('order_id');
         $status_code = $request->input('status_code');
         $transaction_status = $request->input('transaction_status');
-
+        redirect()->route('my-order');
     }
 
     public function errorPaymentGateway(Request $request)
@@ -852,6 +852,6 @@ class CheckoutController extends Controller
         $order_id = $request->input('order_id');
         $status_code = $request->input('status_code');
         $transaction_status = $request->input('transaction_status');
-
+        redirect()->route('my-order');
     }
 }
